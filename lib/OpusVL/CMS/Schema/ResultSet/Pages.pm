@@ -32,12 +32,28 @@ use Moose;
 extends 'DBIx::Class::ResultSet';
 
 =head2 toplevel
+
 Returns the top level resultset of pages.
+
 =cut
+
 sub toplevel
 {
 	my $self = shift;
 	return $self->search( { parent_id => ''	} );
+}
+
+=head2 published
+
+Returns all published (i.e. live) pages
+
+=cut
+
+sub published
+{
+	my $self = shift;
+    
+    return $self->search({ status => 'published' });
 }
 
 ##

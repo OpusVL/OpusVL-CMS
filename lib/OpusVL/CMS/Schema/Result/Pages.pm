@@ -51,6 +51,11 @@ __PACKAGE__->add_columns(
         data_type => "text",
         is_nullable => 0,
     },
+    "status" => {
+        data_type     => "text",
+        is_nullable   => 0,
+        default_value => 'published',
+    },
     "parent_id" => {
         data_type   => "integer",
         is_nullable => 1,
@@ -261,6 +266,32 @@ sub tags
 	my %tags = merge( $self->page_tags, $self->cascaded_tags );
 
 	return \%tags;
+}
+
+=head2 publish
+
+=cut
+
+sub publish
+{
+    my $self = shift;
+    
+    $self->update({status => 'published'});
+    
+    # FIXME: publish all attachments as well
+}
+
+=head2 remove
+
+=cut
+
+sub remove
+{
+    my $self = shift;
+    
+    $self->update({status => 'deleted'});
+    
+    # FIXME: remove all attachments as well
 }
 
 ##
