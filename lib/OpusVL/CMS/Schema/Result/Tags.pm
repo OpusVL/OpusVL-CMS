@@ -69,12 +69,14 @@ __PACKAGE__->belongs_to(
 # Accessors - 
 ###########################################################################################
 
-=head2 tags
- Merges the pages tags with all thoughs that have been cascaded.
-=cut
-sub tags {
-	my $self = shift;
-	my $tags = merge( $self->page_tags, $self->cascaded_tags,);
+sub pages {
+    my $self = shift;
+    
+    if ($self->group->cascade) {
+        return map {$_->page, $_->page->all_children} $self->page_tags->all;
+    } else {
+        return map {$_->page} $self->page_tags->all;
+    }
 }
 
 ##
