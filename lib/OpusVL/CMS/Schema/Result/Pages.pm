@@ -151,6 +151,21 @@ sub head
 	return $tree[0];
 }
 
+=head2 decendants
+
+=cut
+
+sub decendants
+{
+    my $self = shift;
+    
+    if (my @kids = $self->children->all) {
+        return $self, map {$_->decendants} @kids;
+    } else {
+        return $self;
+    }
+}
+
 =head2 content
 
 =cut
