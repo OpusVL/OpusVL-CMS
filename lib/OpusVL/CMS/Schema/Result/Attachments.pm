@@ -55,6 +55,11 @@ __PACKAGE__->add_columns(
         data_type   => "text",
         is_nullable => 0,
     },
+    "priority" => {
+        data_type     => "integer",
+        default_value => 50,
+        is_nullable   => 0,
+    },
 );
 
 __PACKAGE__->set_primary_key("id");
