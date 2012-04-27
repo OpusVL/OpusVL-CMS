@@ -45,6 +45,11 @@ __PACKAGE__->add_columns(
         data_type   => "serial",
         is_nullable => 0,
     },
+    "status" => {
+        data_type     => "text",
+        is_nullable   => 0,
+        default_value => 'published',
+    },
     "name" => {
         data_type   => "text",
         is_nullable => 0,
@@ -69,6 +74,20 @@ sub set_content {
     my ($self, $content) = @_;
     
     $self->create_related('element_contents', {data => $content});
+}
+
+sub publish {
+    my $self = shift;
+    
+    $self->update({status => 'published'});
+}
+
+sub remove {
+    my $self = shift;
+    
+    $self->update({status => 'deleted'});
+    
+    # FIXME: remove all page / template links to the element as well
 }
 
 ##
