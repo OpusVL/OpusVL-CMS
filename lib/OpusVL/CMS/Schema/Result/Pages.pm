@@ -164,7 +164,7 @@ sub decendants
 {
     my $self = shift;
     
-    if (my @kids = $self->children->all) {
+    if (my @kids = $self->children) {
         return $self, map {$_->decendants} @kids;
     } else {
         return $self;
