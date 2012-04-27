@@ -39,6 +39,11 @@ __PACKAGE__->add_columns(
         data_type   => "serial",
         is_nullable => 0,
     },
+    "status" => {
+        data_type     => "text",
+        is_nullable   => 0,
+        default_value => 'published',
+    },
     "filename" => {
         data_type   => "text",
         is_nullable => 0,
@@ -72,6 +77,18 @@ sub set_content {
     my ($self, $content) = @_;
     
     $self->create_related('asset_data', {data => $content});
+}
+
+sub publish {
+    my $self = shift;
+    
+    $self->update({status => 'published'});
+}
+
+sub remove {
+    my $self = shift;
+    
+    $self->update({status => 'deleted'});
 }
 
 ##
