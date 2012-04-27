@@ -263,9 +263,9 @@ sub tags
 {
 	my $self = shift;
 
-	my %tags = merge( $self->page_tags, $self->cascaded_tags );
+	my $tags = merge( $self->page_tags, $self->cascaded_tags );
 
-	return \%tags;
+	return $tags;
 }
 
 =head2 publish
