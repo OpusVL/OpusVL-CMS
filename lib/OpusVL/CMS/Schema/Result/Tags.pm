@@ -79,5 +79,11 @@ sub pages {
     }
 }
 
+sub tagged_pages {
+    my $self = shift;
+    
+    return sort {$b->priority <=> $a->priority} map {$_->page} $self->page_tags->all;
+}
+
 ##
 1;

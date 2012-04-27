@@ -61,6 +61,11 @@ __PACKAGE__->has_many(
     { "foreign.group_id" => "self.id" },
 );
 
+sub tagged_pages {
+    my $self = shift;
+    
+    return sort {$b->priority <=> $a->priority} map {$_->tagged_pages} $self->tags->all;
+}
 
 ##
 1;
