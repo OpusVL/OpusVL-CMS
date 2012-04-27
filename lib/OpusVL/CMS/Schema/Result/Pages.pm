@@ -294,5 +294,16 @@ sub remove
     # FIXME: remove all attachments as well
 }
 
+=head2 children
+
+=cut
+
+around 'children' => sub {
+    my $orig = shift;
+    my $self = shift;
+    
+    return sort {$b->priority <=> $a->priority} $self->$orig(@_);
+};
+
 ##
 1;
