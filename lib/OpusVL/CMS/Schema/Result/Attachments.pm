@@ -29,6 +29,7 @@ with the development project.
 
 
 use DBIx::Class;
+use DateTime;
 use Moose;
 extends 'DBIx::Class';
 
@@ -42,6 +43,11 @@ __PACKAGE__->add_columns(
     "page_id" => {
         data_type   => "integer",
         is_nullable => 0,
+    },
+    "status" => {
+        data_type     => "text",
+        is_nullable   => 0,
+        default_value => 'published',
     },
     "filename" => {
         data_type   => "text",
@@ -58,6 +64,16 @@ __PACKAGE__->add_columns(
     "priority" => {
         data_type     => "integer",
         default_value => 50,
+        is_nullable   => 0,
+    },
+    "created" => {
+        data_type     => "timestamp without time zone",
+        default_value => \"now()",
+        is_nullable   => 0,
+    },
+    "updated" => {
+        data_type     => "timestamp without time zone",
+        default_value => \"now()",
         is_nullable   => 0,
     },
 );
@@ -93,8 +109,23 @@ sub content {
 sub set_content {
     my ($self, $data) = @_;
     
-    return $self->create_related('att_data', {data => $data});
+    $self->create_related('att_data', {data => $data});
+    $self->update({updated => DateTime->now()});
 }
 
-##
+sub publish
+{
+    my $self = shift;
+    
+    $self->update({status => 'published'});
+}
+
+sub remove
+{
+    my $self = shift;
+    
+    $self->update({status => 'deleted'});
+}
+
+
 1;
