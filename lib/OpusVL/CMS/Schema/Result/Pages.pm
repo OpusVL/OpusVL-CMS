@@ -116,6 +116,12 @@ __PACKAGE__->has_many(
     { "foreign.page_id" => "self.id" },
 );
 
+__PACKAGE__->has_many(
+    "aliases",
+    "OpusVL::CMS::Schema::Result::Aliases",
+    { "foreign.page_id" => "self.id" },
+);
+
 __PACKAGE__->belongs_to(
     "template",
     "OpusVL::CMS::Schema::Result::Templates",
