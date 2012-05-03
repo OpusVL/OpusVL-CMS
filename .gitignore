@@ -11,3 +11,8 @@ cover_db
 pod2htm*.tmp
 OpusVL-CMS-*
 .DS_Store
+
+inc/
+MANIFEST.bak
+META.yml
+MYMETA.yml
