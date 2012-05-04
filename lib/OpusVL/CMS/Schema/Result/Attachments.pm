@@ -88,9 +88,9 @@ __PACKAGE__->belongs_to(
 );
 
 __PACKAGE__->has_many(
-    "tags",
+    "tag_links",
     "OpusVL::CMS::Schema::Result::AttachmentTags",
-    { "foreign.page_id" => "self.id" },
+    { "foreign.attachment_id" => "self.id" },
 );
 
 __PACKAGE__->has_many(
@@ -125,6 +125,26 @@ sub remove
     my $self = shift;
     
     $self->update({status => 'deleted'});
+}
+
+sub tags
+{
+    my $self = shift;
+    
+    my %att_tags;
+    foreach my $att_tag ($self->search_related('tag_links')) {
+        my $tag   = $att_tag->tag;
+        my $group = $tag->group;
+        
+        if ( $group->multiple ) {
+            push @{$att_tags{$group->name}}, $tag->name;
+        }
+        else {
+            $att_tags{$group->name} = $tag->name;
+        }
+    }
+
+    return \%att_tags;
 }
 
 
