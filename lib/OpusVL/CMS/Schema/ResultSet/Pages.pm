@@ -40,7 +40,7 @@ Returns the top level resultset of pages.
 sub toplevel
 {
 	my $self = shift;
-	return $self->search( { parent_id => ''	} );
+	return $self->search({ parent_id => undef });
 }
 
 =head2 published
