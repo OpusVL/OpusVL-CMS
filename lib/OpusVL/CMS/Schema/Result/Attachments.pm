@@ -88,9 +88,10 @@ __PACKAGE__->belongs_to(
 );
 
 __PACKAGE__->has_many(
-    "tag_links",
-    "OpusVL::CMS::Schema::Result::AttachmentTags",
-    { "foreign.attachment_id" => "self.id" },
+    'attribute_values',
+    'OpusVL::CMS::Schema::Result::PageAttributeData',
+    {'foreign.page_id' => 'self.id'},
+    {cascade_delete => 0}
 );
 
 __PACKAGE__->has_many(
@@ -127,25 +128,51 @@ sub remove
     $self->update({status => 'deleted'});
 }
 
-sub tags
+=head2 attribute
+
+=cut
+
+sub attribute
 {
-    my $self = shift;
+    my ($self, $field) = @_;
     
-    my %att_tags;
-    foreach my $att_tag ($self->search_related('tag_links')) {
-        my $tag   = $att_tag->tag;
-        my $group = $tag->group;
-        
-        if ( $group->multiple ) {
-            push @{$att_tags{$group->name}}, $tag->name;
-        }
-        else {
-            $att_tags{$group->name} = $tag->name;
-        }
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('AttachmentAttributeDetails')->find({code => $field});
     }
 
-    return \%att_tags;
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    return undef unless $current_value;
+    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->value;
 }
 
+=head2 update_attribute
+
+=cut
+
+sub update_attribute
+{
+    my ($self, $field, $value) = @_;
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $data = {};
+    if($field->type eq 'date')
+    {
+        $data->{date_value} = $value;
+    }
+    else
+    {
+        $data->{value} = $value;
+    }
+    if($current_value)
+    {
+        $current_value->update($data);
+    }
+    else
+    {
+        $data->{field_id} = $field->id;
+        $self->create_related('attribute_values', $data);
+    }
+}
 
 1;

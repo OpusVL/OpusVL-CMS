@@ -111,9 +111,10 @@ __PACKAGE__->has_many(
 );
 
 __PACKAGE__->has_many(
-    "pagetags",
-    "OpusVL::CMS::Schema::Result::PageTags",
-    { "foreign.page_id" => "self.id" },
+    'attribute_values',
+    'OpusVL::CMS::Schema::Result::PageAttributeData',
+    {'foreign.page_id' => 'self.id'},
+    {cascade_delete => 0}
 );
 
 __PACKAGE__->has_many(
@@ -200,80 +201,6 @@ sub set_content
     $self->update({updated => DateTime->now()});
 }
 
-=head2 cascaded_tags
-
-=cut
-
-sub cascaded_tags
-{
-	my $self = shift;
-	my @tree = $self->tree;
-	pop @tree;
-
-	my %tags;
-	foreach my $page (@tree)
-	{
-		#foreach my $page_tag ($page->pagetags)
-		foreach my $page_tag ($page->search_related('pagetags'))
-		{
-			my $tag   = $page_tag->tag;
-			my $group = $tag->group;
-			if ( $group->cascade )
-			{
-				if ( $group->multiple )
-				{
-					push @{$tags{$group->name}}, $tag->name;
-				}
-				else
-				{
-					$tags{$group->name} = $tag->name;
-				}
-			}
-		}
-	}
-
-	return \%tags;
-}
-
-=head2 page_tags
-
-=cut
-
-sub page_tags
-{
-	my $self = shift;
-
-	#my %page_tags = $self->search_related( 'pagetags' );
-    
-    my %page_tags;
-    foreach my $page_tag ($self->search_related('pagetags')) {
-        my $tag   = $page_tag->tag;
-        my $group = $tag->group;
-        
-        if ( $group->multiple ) {
-            push @{$page_tags{$group->name}}, $tag->name;
-        }
-        else {
-            $page_tags{$group->name} = $tag->name;
-        }
-    }
-
-	return \%page_tags;
-}
-
-=head2 tags
-
-=cut
-
-sub tags
-{
-	my $self = shift;
-
-	my $tags = merge( $self->page_tags, $self->cascaded_tags );
-
-	return $tags;
-}
-
 =head2 publish
 
 =cut
@@ -305,11 +232,93 @@ sub remove
 =cut
 
 around 'children' => sub {
-    my $orig = shift;
-    my $self = shift;
-    
-    return sort {$b->priority <=> $a->priority} $self->$orig(@_);
+    my ($orig, $self, $query, $options) = @_;
+
+    return $self->$orig()->published->attribute_search($query, $options);
 };
+
+=head2 attachments
+
+=cut
+
+around 'attachments' => sub {
+    my ($orig, $self, $query, $options) = @_;
+
+    return $self->$orig()->published->attribute_search($query, $options);
+};
+
+=head2 update_attribute
+
+=cut
+
+sub update_attribute
+{
+    my ($self, $field, $value) = @_;
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $data = {};
+    if($field->type eq 'date')
+    {
+        $data->{date_value} = $value;
+    }
+    else
+    {
+        $data->{value} = $value;
+    }
+    if($current_value)
+    {
+        $current_value->update($data);
+    }
+    else
+    {
+        $data->{field_id} = $field->id;
+        $self->create_related('attribute_values', $data);
+    }
+}
+
+=head2 attribute
+
+=cut
+
+sub page_attribute
+{
+    my ($self, $field) = @_;
+    
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+    }
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    return undef unless $current_value;
+    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->value;
+}
+
+sub cascaded_attribute
+{
+    my ($self, $field) = @_;
+    
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+    }
+    
+    if ($field->cascade) {
+        foreach my $page (reverse $self->tree) {
+            if (my $value = $page->page_attribute($field)) {
+                return $value;
+            }
+        }
+    }
+    
+    return undef;
+}
+
+sub attribute
+{
+    my ($self, $field) = @_;
+    
+    return $self->page_attribute($field) || $self->cascaded_attribute($field);
+}
 
 ##
 1;
