@@ -89,8 +89,8 @@ __PACKAGE__->belongs_to(
 
 __PACKAGE__->has_many(
     'attribute_values',
-    'OpusVL::CMS::Schema::Result::PageAttributeData',
-    {'foreign.page_id' => 'self.id'},
+    'OpusVL::CMS::Schema::Result::AttachmentAttributeData',
+    {'foreign.attachment_id' => 'self.id'},
     {cascade_delete => 0}
 );
 
