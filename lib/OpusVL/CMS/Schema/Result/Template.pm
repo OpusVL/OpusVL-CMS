@@ -1,12 +1,12 @@
 use utf8;
-package OpusVL::CMS::Schema::Result::PageAttributeData;
+package OpusVL::CMS::Schema::Result::Template;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-OpusVL::CMS::Schema::Result::PageAttributeData
+OpusVL::CMS::Schema::Result::Template
 
 =cut
 
@@ -27,11 +27,11 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<page_attribute_data>
+=head1 TABLE: C<templates>
 
 =cut
 
-__PACKAGE__->table("page_attribute_data");
+__PACKAGE__->table("templates");
 
 =head1 ACCESSORS
 
@@ -40,25 +40,14 @@ __PACKAGE__->table("page_attribute_data");
   data_type: 'integer'
   is_auto_increment: 1
   is_nullable: 0
-  sequence: 'page_attribute_data_id_seq'
+  sequence: 'templates_id_seq'
 
-=head2 value
+=head2 name
 
   data_type: 'text'
-  is_nullable: 1
-
-=head2 date_value
-
-  data_type: 'date'
-  is_nullable: 1
-
-=head2 field_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
   is_nullable: 0
 
-=head2 page_id
+=head2 site
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -72,15 +61,11 @@ __PACKAGE__->add_columns(
     data_type         => "integer",
     is_auto_increment => 1,
     is_nullable       => 0,
-    sequence          => "page_attribute_data_id_seq",
+    sequence          => "templates_id_seq",
   },
-  "value",
-  { data_type => "text", is_nullable => 1 },
-  "date_value",
-  { data_type => "date", is_nullable => 1 },
-  "field_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "page_id",
+  "name",
+  { data_type => "text", is_nullable => 0 },
+  "site",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -98,39 +83,54 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 field
+=head2 pages
 
-Type: belongs_to
-
-Related object: L<OpusVL::CMS::Schema::Result::PageAttributeDetail>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "field",
-  "OpusVL::CMS::Schema::Result::PageAttributeDetail",
-  { id => "field_id" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
-);
-
-=head2 page
-
-Type: belongs_to
+Type: has_many
 
 Related object: L<OpusVL::CMS::Schema::Result::Page>
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "page",
+__PACKAGE__->has_many(
+  "pages",
   "OpusVL::CMS::Schema::Result::Page",
-  { id => "page_id" },
+  { "foreign.template_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 site
+
+Type: belongs_to
+
+Related object: L<OpusVL::CMS::Schema::Result::Site>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "site",
+  "OpusVL::CMS::Schema::Result::Site",
+  { id => "site" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+);
+
+=head2 template_contents
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::TemplateContent>
+
+=cut
+
+__PACKAGE__->has_many(
+  "template_contents",
+  "OpusVL::CMS::Schema::Result::TemplateContent",
+  { "foreign.template_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:zDpuMOil4grCq4zs+h9RdQ
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HxqA0aUOCiO/fOinWZIe5A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

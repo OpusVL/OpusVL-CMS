@@ -1,12 +1,12 @@
 use utf8;
-package OpusVL::CMS::Schema::Result::AttachmentAttributeData;
+package OpusVL::CMS::Schema::Result::Asset;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-OpusVL::CMS::Schema::Result::AttachmentAttributeData
+OpusVL::CMS::Schema::Result::Asset
 
 =cut
 
@@ -27,11 +27,11 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<attachment_attribute_data>
+=head1 TABLE: C<assets>
 
 =cut
 
-__PACKAGE__->table("attachment_attribute_data");
+__PACKAGE__->table("assets");
 
 =head1 ACCESSORS
 
@@ -40,25 +40,30 @@ __PACKAGE__->table("attachment_attribute_data");
   data_type: 'integer'
   is_auto_increment: 1
   is_nullable: 0
-  sequence: 'attachment_attribute_data_id_seq'
+  sequence: 'assets_id_seq'
 
-=head2 value
+=head2 status
+
+  data_type: 'text'
+  default_value: 'published'
+  is_nullable: 0
+
+=head2 filename
+
+  data_type: 'text'
+  is_nullable: 0
+
+=head2 description
 
   data_type: 'text'
   is_nullable: 1
 
-=head2 date_value
+=head2 mime_type
 
-  data_type: 'date'
-  is_nullable: 1
-
-=head2 field_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
+  data_type: 'text'
   is_nullable: 0
 
-=head2 attachment_id
+=head2 site
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -72,15 +77,17 @@ __PACKAGE__->add_columns(
     data_type         => "integer",
     is_auto_increment => 1,
     is_nullable       => 0,
-    sequence          => "attachment_attribute_data_id_seq",
+    sequence          => "assets_id_seq",
   },
-  "value",
+  "status",
+  { data_type => "text", default_value => "published", is_nullable => 0 },
+  "filename",
+  { data_type => "text", is_nullable => 0 },
+  "description",
   { data_type => "text", is_nullable => 1 },
-  "date_value",
-  { data_type => "date", is_nullable => 1 },
-  "field_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "attachment_id",
+  "mime_type",
+  { data_type => "text", is_nullable => 0 },
+  "site",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
@@ -98,39 +105,39 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 attachment
+=head2 asset_datas
 
-Type: belongs_to
+Type: has_many
 
-Related object: L<OpusVL::CMS::Schema::Result::Attachment>
+Related object: L<OpusVL::CMS::Schema::Result::AssetData>
 
 =cut
 
-__PACKAGE__->belongs_to(
-  "attachment",
-  "OpusVL::CMS::Schema::Result::Attachment",
-  { id => "attachment_id" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+__PACKAGE__->has_many(
+  "asset_datas",
+  "OpusVL::CMS::Schema::Result::AssetData",
+  { "foreign.asset_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 field
+=head2 site
 
 Type: belongs_to
 
-Related object: L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>
+Related object: L<OpusVL::CMS::Schema::Result::Site>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "field",
-  "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
-  { id => "field_id" },
+  "site",
+  "OpusVL::CMS::Schema::Result::Site",
+  { id => "site" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:A79ZU9xAVx1a4QDlSYfNWA
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:civfYlahwBqBDSi3bGCXdg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

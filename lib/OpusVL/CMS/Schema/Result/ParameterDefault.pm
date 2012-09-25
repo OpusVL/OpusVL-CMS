@@ -1,12 +1,12 @@
 use utf8;
-package OpusVL::CMS::Schema::Result::AssetData;
+package OpusVL::CMS::Schema::Result::ParameterDefault;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-OpusVL::CMS::Schema::Result::AssetData
+OpusVL::CMS::Schema::Result::ParameterDefault
 
 =cut
 
@@ -27,11 +27,11 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<asset_data>
+=head1 TABLE: C<parameter_defaults>
 
 =cut
 
-__PACKAGE__->table("asset_data");
+__PACKAGE__->table("parameter_defaults");
 
 =head1 ACCESSORS
 
@@ -40,9 +40,9 @@ __PACKAGE__->table("asset_data");
   data_type: 'integer'
   is_auto_increment: 1
   is_nullable: 0
-  sequence: 'asset_data_id_seq'
+  sequence: 'parameter_defaults_id_seq'
 
-=head2 asset_id
+=head2 parameter_id
 
   data_type: 'integer'
   is_foreign_key: 1
@@ -50,15 +50,8 @@ __PACKAGE__->table("asset_data");
 
 =head2 data
 
-  data_type: 'bytea'
-  is_nullable: 0
-
-=head2 created
-
-  data_type: 'timestamp'
-  default_value: current_timestamp
-  is_nullable: 0
-  original: {default_value => \"now()"}
+  data_type: 'text'
+  is_nullable: 1
 
 =cut
 
@@ -68,19 +61,12 @@ __PACKAGE__->add_columns(
     data_type         => "integer",
     is_auto_increment => 1,
     is_nullable       => 0,
-    sequence          => "asset_data_id_seq",
+    sequence          => "parameter_defaults_id_seq",
   },
-  "asset_id",
+  "parameter_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "data",
-  { data_type => "bytea", is_nullable => 0 },
-  "created",
-  {
-    data_type     => "timestamp",
-    default_value => \"current_timestamp",
-    is_nullable   => 0,
-    original      => { default_value => \"now()" },
-  },
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -97,24 +83,24 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 asset
+=head2 parameter
 
 Type: belongs_to
 
-Related object: L<OpusVL::CMS::Schema::Result::Asset>
+Related object: L<OpusVL::CMS::Schema::Result::Parameter>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "asset",
-  "OpusVL::CMS::Schema::Result::Asset",
-  { id => "asset_id" },
+  "parameter",
+  "OpusVL::CMS::Schema::Result::Parameter",
+  { id => "parameter_id" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:J2ZBeak2oW41QhpQsmM5rg
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZHCw7e8K4YPekmPlXvW6+g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
