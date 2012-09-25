@@ -74,8 +74,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 80, is_nullable => 0 },
   "secure",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
-  "domain",
+  "master_domain",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "domain",
+  { data_type => "varchar", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -103,7 +105,7 @@ Related object: L<OpusVL::CMS::Schema::Result::MasterDomain>
 __PACKAGE__->belongs_to(
   "domain",
   "OpusVL::CMS::Schema::Result::MasterDomain",
-  { id => "domain" },
+  { id => "master_domain" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 

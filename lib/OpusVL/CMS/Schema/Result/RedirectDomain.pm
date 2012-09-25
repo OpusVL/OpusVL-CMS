@@ -65,8 +65,10 @@ __PACKAGE__->add_columns(
     is_nullable       => 0,
     sequence          => "redirect_domains_id_seq",
   },
-  "domain",
+  "master_domain",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "domain",
+  { data_type => "varchar", is_nullable => 0 },
   "status",
   {
     data_type => "enum",
@@ -101,7 +103,7 @@ Related object: L<OpusVL::CMS::Schema::Result::MasterDomain>
 __PACKAGE__->belongs_to(
   "domain",
   "OpusVL::CMS::Schema::Result::MasterDomain",
-  { id => "domain" },
+  { id => "master_domain" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
