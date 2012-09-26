@@ -95,7 +95,7 @@ Related object: L<OpusVL::CMS::Schema::Result::AlternateDomain>
 __PACKAGE__->has_many(
   "alternate_domains",
   "OpusVL::CMS::Schema::Result::AlternateDomain",
-  { "foreign.domain" => "self.id" },
+  { "foreign.master_domain" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
@@ -110,7 +110,7 @@ Related object: L<OpusVL::CMS::Schema::Result::RedirectDomain>
 __PACKAGE__->has_many(
   "redirect_domains",
   "OpusVL::CMS::Schema::Result::RedirectDomain",
-  { "foreign.domain" => "self.id" },
+  { "foreign.master_domain" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 

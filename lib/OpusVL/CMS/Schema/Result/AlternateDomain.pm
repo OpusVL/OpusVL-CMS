@@ -103,7 +103,7 @@ Related object: L<OpusVL::CMS::Schema::Result::MasterDomain>
 =cut
 
 __PACKAGE__->belongs_to(
-  "domain",
+  "master_domain",
   "OpusVL::CMS::Schema::Result::MasterDomain",
   { id => "master_domain" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
