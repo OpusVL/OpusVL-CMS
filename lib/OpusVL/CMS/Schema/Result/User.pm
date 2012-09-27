@@ -199,6 +199,12 @@ __PACKAGE__->many_to_many("roles", "users_roles", "role");
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pNhqdR//Ryae51urmuwbZw
 
+sub sites {
+    my $self   = shift;
+    my $schema = $self->result_source->schema;
+
+    my $sites  = $self->sites_users;
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

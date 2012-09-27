@@ -133,6 +133,8 @@ __PACKAGE__->belongs_to(
   "OpusVL::CMS::Schema::Result::Site",
   { id => "site" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  "global",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 
