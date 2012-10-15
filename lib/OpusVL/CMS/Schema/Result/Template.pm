@@ -135,5 +135,17 @@ __PACKAGE__->has_many(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HxqA0aUOCiO/fOinWZIe5A
 
 
+sub content {
+    my $self = shift;
+
+    return $self->search_related( 'template_contents', { }, { order_by => { -desc => 'created' } } )->first->data;
+}
+
+sub set_content {
+    my ($self, $content) = @_;
+
+    $self->create_related('template_contents', {data => $content});
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

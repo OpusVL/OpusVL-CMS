@@ -75,8 +75,10 @@ sub content {
 
 sub set_content {
     my ($self, $content) = @_;
-    
-    $self->create_related('asset_data', {data => $content});
+   
+    if ($content) { 
+        $self->create_related('asset_data', {data => $content});
+    }
 }
 
 sub publish {

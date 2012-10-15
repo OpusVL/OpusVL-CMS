@@ -114,7 +114,7 @@ Related object: L<OpusVL::CMS::Schema::Result::PageAttributeData>
 =cut
 
 __PACKAGE__->has_many(
-  "page_attribute_datas",
+  "values",
   "OpusVL::CMS::Schema::Result::PageAttributeData",
   { "foreign.field_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -129,7 +129,7 @@ Related object: L<OpusVL::CMS::Schema::Result::PageAttributeValue>
 =cut
 
 __PACKAGE__->has_many(
-  "page_attribute_values",
+  "field_values",
   "OpusVL::CMS::Schema::Result::PageAttributeValue",
   { "foreign.field_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -139,6 +139,20 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AfWP+iCIWZWJN5TLhXXwug
 
+
+sub form_options
+{
+    my $self = shift;
+    my @all = map { [ $_->value, $_->value ] } $self->field_values->all;
+    return \@all;
+}
+
+sub valid_option
+{
+    my $self = shift;
+    my $value = shift;
+    return $self->field_values->find({ value => $value });
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

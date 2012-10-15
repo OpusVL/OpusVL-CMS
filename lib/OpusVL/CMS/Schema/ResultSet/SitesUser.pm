@@ -1,12 +1,12 @@
-package OpusVL::CMS::Schema::ResultSet::Elements;
+package OpusVL::CMS::Schema::ResultSet::SitesUser;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Elements -
+OpusVL::CMS::Schema::ResultSet::SitesUser -
 
 =head1 DESCRIPTION
 
-Accessors for the Elements of the CMS
+Accessors for the SitesUser of the CMS
 
 =head1 METHODS
 
@@ -31,19 +31,6 @@ with the development project.
 use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
-
-=head2 published
-
-Returns all published (i.e. live) pages
-
-=cut
-
-sub published
-{
-    my $self = shift;
-    
-    return $self->search({ status => 'published' });
-}
 
 ##
 1;

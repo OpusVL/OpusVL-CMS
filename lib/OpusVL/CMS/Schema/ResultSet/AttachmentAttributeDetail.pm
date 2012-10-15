@@ -1,4 +1,4 @@
-package OpusVL::CMS::Schema::ResultSet::PageAttributeDetails;
+package OpusVL::CMS::Schema::ResultSet::AttachmentAttributeDetail;
 
 use Moose;
 extends 'DBIx::Class::ResultSet';

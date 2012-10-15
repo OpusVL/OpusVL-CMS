@@ -10,10 +10,12 @@ OpusVL::CMS::Schema::Result::Page
 
 =cut
 
-use strict;
-use warnings;
+use DBIx::Class;
+use Hash::Merge qw/merge/;
+use Moose;
+extends 'DBIx::Class';
 
-use base 'DBIx::Class::Core';
+__PACKAGE__->load_components("Tree::AdjacencyList", "InflateColumn::DateTime", "Core");
 
 =head1 COMPONENTS LOADED
 
@@ -24,8 +26,6 @@ use base 'DBIx::Class::Core';
 =back
 
 =cut
-
-__PACKAGE__->load_components("InflateColumn::DateTime");
 
 =head1 TABLE: C<pages>
 
@@ -147,6 +147,10 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { default_value => \"now()" },
   },
+  "site",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "created_by",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -171,6 +175,13 @@ Related object: L<OpusVL::CMS::Schema::Result::Alias>
 
 =cut
 
+__PACKAGE__->belongs_to(
+  "site",
+  "OpusVL::CMS::Schema::Result::Site",
+  { id => "site" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+);
+
 __PACKAGE__->has_many(
   "aliases",
   "OpusVL::CMS::Schema::Result::Alias",
@@ -191,6 +202,26 @@ __PACKAGE__->has_many(
   "OpusVL::CMS::Schema::Result::Attachment",
   { "foreign.page_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 created_by
+
+Type: belongs_to
+
+Related object: L<OpusVL::CMS::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "created_by",
+  "OpusVL::CMS::Schema::Result::User",
+  { id => "created_by" },
+  {
+    is_deferrable => 1,
+    join_type     => "LEFT",
+    on_delete     => "CASCADE",
+    on_update     => "CASCADE",
+  },
 );
 
 =head2 page_attribute_datas
@@ -219,6 +250,21 @@ Related object: L<OpusVL::CMS::Schema::Result::PageContent>
 __PACKAGE__->has_many(
   "page_contents",
   "OpusVL::CMS::Schema::Result::PageContent",
+  { "foreign.page_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 page_drafts
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageDraft>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_drafts",
+  "OpusVL::CMS::Schema::Result::PageDraft",
   { "foreign.page_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -293,10 +339,209 @@ __PACKAGE__->belongs_to(
   },
 );
 
+__PACKAGE__->parent_column('parent_id');
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6YoYkiRXCQN+clv2uac/Wg
 
+
+####################################################################################
+# Accessors - 
+####################################################################################
+
+=head2 tree
+
+=cut
+
+sub tree
+{
+    my @tree = shift;
+
+    while ( my $parent = $tree[0]->parent )
+    {
+        unshift @tree,$parent;
+    }
+
+    return @tree;
+}
+
+=head2 head
+
+=cut
+
+sub head
+{
+    my $self = shift;
+    my @tree = $self->tree;
+    return $tree[0];
+}
+
+=head2 decendants
+
+=cut
+
+sub decendants
+{
+    my $self = shift;
+    
+    if (my @kids = $self->children) {
+        return $self, map {$_->decendants} @kids;
+    } else {
+        return $self;
+    }
+}
+
+=head2 content
+
+=cut
+
+sub content
+{
+    my $self = shift;
+
+    return $self->search_related( 'page_contents', { status => 'Published' }, { order_by => { -desc => 'created' } } )->first->body;
+}
+
+=head2 set_content
+
+=cut
+
+sub set_content
+{
+    my ($self, $content) = @_;
+    
+    $self->create_related('page_contents', {body => $content});
+    $self->update({updated => DateTime->now()});
+}
+
+=head2 publish
+
+=cut
+
+sub publish
+{
+    my $self = shift;
+    
+    $self->update({status => 'published'});
+    
+    # FIXME: publish all attachments as well
+}
+
+=head2 remove
+
+=cut
+
+sub remove
+{
+    my $self = shift;
+    
+    $self->update({status => 'deleted'});
+    
+    # FIXME: remove all attachments as well
+}
+
+=head2 children
+
+=cut
+
+around 'children' => sub {
+    my ($orig, $self, $query, $options) = @_;
+
+    return $self->$orig()->published->attribute_search($query, $options);
+};
+
+=head2 attachments
+
+=cut
+
+around 'attachments' => sub {
+    my ($orig, $self, $query, $options) = @_;
+
+    return $self->$orig()->published->attribute_search($query, $options);
+};
+
+=head2 update_attribute
+
+=cut
+
+sub update_attribute
+{
+    my ($self, $field, $value) = @_;
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $data = {};
+    if($field->type eq 'date')
+    {
+        $data->{date_value} = $value;
+    }
+    else
+    {
+        $data->{value} = $value;
+    }
+    if($current_value)
+    {
+        $current_value->update($data);
+    }
+    else
+    {
+        $data->{field_id} = $field->id;
+        $self->create_related('attribute_values', $data);
+    }
+}
+
+=head2 attribute
+
+=cut
+
+sub page_attribute
+{
+    my ($self, $field) = @_;
+    
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+    }
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    return undef unless $current_value;
+    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->value;
+}
+
+sub cascaded_attribute
+{
+    my ($self, $field) = @_;
+    
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+    }
+    
+    if ($field->cascade) {
+        foreach my $page (reverse $self->tree) {
+            if (my $value = $page->page_attribute($field)) {
+                return $value;
+            }
+        }
+    }
+    
+    return undef;
+}
+
+sub attribute
+{
+    my ($self, $field) = @_;
+    
+    return $self->page_attribute($field) || $self->cascaded_attribute($field);
+}
+
+sub get_last_draft {
+    my $self = shift;
+    return $self->search_related('page_drafts', {}, {
+        rows => 1,
+        order_by => { -desc => 'id' }
+    })->first;
+}
+
+##
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

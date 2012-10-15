@@ -89,6 +89,8 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "site",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "global",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -133,13 +135,47 @@ __PACKAGE__->belongs_to(
   "OpusVL::CMS::Schema::Result::Site",
   { id => "site" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
-  "global",
-  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:civfYlahwBqBDSi3bGCXdg
+
+sub content {
+    my $self = shift;
+
+    return $self->search_related( 'asset_datas', {}, { order_by => { -desc => 'created' } } )->first->data;
+}
+
+sub available {
+    my $self = shift;
+    return $self->search({
+        -or => [
+            status => 'published',
+            global => 1,
+        ],
+    });
+}
+
+sub set_content {
+    my ($self, $content) = @_;
+
+    if ($content) {
+        $self->create_related('asset_datas', {data => $content});
+    }
+}
+
+sub publish {
+    my $self = shift;
+
+    $self->update({status => 'published'});
+}
+
+sub remove {
+    my $self = shift;
+
+    $self->update({status => 'deleted'});
+}
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

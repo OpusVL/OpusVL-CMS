@@ -133,6 +133,21 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:n6U50BZml/R3+h32rpVQiQ
 
+sub alternates {
+    my $self   = shift;
+    my $schema = $self->result_source->schema;
+    return $schema->resultset('AlternateDomain')
+        ->search_rs({ master_domain => $self->id });
+}
+
+sub redirect {
+    my $self   = shift;
+    my $schema = $self->result_source->schema;
+    my $redirects = $schema->resultset('RedirectDomain')
+        ->search({ master_domain => $self->id });
+    
+    return $redirects->count > 0 ? $redirects->first : 0;
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

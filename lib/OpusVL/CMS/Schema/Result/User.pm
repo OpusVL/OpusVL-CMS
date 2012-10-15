@@ -125,6 +125,21 @@ __PACKAGE__->add_unique_constraint("user_index", ["username"]);
 
 =head1 RELATIONS
 
+=head2 page_drafts
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageDraft>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_drafts",
+  "OpusVL::CMS::Schema::Result::PageDraft",
+  { "foreign.created_by" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 sites_users
 
 Type: has_many

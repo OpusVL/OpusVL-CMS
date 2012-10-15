@@ -1,8 +1,8 @@
-package OpusVL::CMS::Schema::ResultSet::Assets;
+package OpusVL::CMS::Schema::ResultSet::Element;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Assets -
+OpusVL::CMS::Schema::ResultSet::Elements -
 
 =head1 DESCRIPTION
 
@@ -10,7 +10,7 @@ Accessors for the Elements of the CMS
 
 =head1 METHODS
 
-published - returns all published (live) assets
+published - returns all published (live) elements
 
 =head1 BUGS
 
@@ -34,7 +34,7 @@ extends 'DBIx::Class::ResultSet';
 
 =head2 published
 
-Returns all published (i.e. live) assets
+Returns all published (i.e. live) pages
 
 =cut
 

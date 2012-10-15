@@ -128,5 +128,32 @@ __PACKAGE__->belongs_to(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B0+YPvqxW3nZfG02IyYOsg
 
 
+sub content {
+    my $self = shift;
+
+    return $self->search_related( 'element_contents', { }, { order_by => { -desc => 'created' } } )->first->data;
+}
+
+sub set_content {
+    my ($self, $content) = @_;
+
+    $self->create_related('element_contents', {data => $content});
+}
+
+sub publish {
+    my $self = shift;
+
+    $self->update({status => 'published'});
+}
+
+sub remove {
+    my $self = shift;
+
+    $self->update({status => 'deleted'});
+
+    # FIXME: remove all page / template links to the element as well
+}
+
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

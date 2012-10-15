@@ -1,4 +1,4 @@
-package OpusVL::CMS::Schema::ResultSet::Pages;
+package OpusVL::CMS::Schema::ResultSet::Page;
 
 =head1 NAME
 
