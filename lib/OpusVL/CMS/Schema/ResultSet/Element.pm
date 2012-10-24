@@ -32,6 +32,16 @@ use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
 
+sub available {
+    my $self = shift;
+    return $self->search({
+        -or => [
+            status => 'published',
+            global => 1,
+        ],
+    });
+}
+
 =head2 published
 
 Returns all published (i.e. live) pages

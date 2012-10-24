@@ -10,9 +10,6 @@ OpusVL::CMS::Schema::Result::User
 
 =cut
 
-use strict;
-use warnings;
-
 use base 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
@@ -125,6 +122,36 @@ __PACKAGE__->add_unique_constraint("user_index", ["username"]);
 
 =head1 RELATIONS
 
+=head2 page_users
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_users",
+  "OpusVL::CMS::Schema::Result::PageUser",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 element_users
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::ElementUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "element_users",
+  "OpusVL::CMS::Schema::Result::ElementUser",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 page_drafts
 
 Type: has_many
@@ -219,6 +246,19 @@ sub sites {
     my $schema = $self->result_source->schema;
 
     my $sites  = $self->sites_users;
+}
+
+sub can_edit_page {
+    my ($self, $page_id) = @_;
+    return 1;
+    my $schema = $self->result_source->schema;
+    my $page_users = $schema->resultset('PageUser');
+    #die "Searching for " . $self->id . " and $page_id in page_users";
+    if (my $userpage = $page_users->find({ user_id => $self->id, page_id => $page_id })) {
+        return 1;
+    }
+
+    return 0;
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

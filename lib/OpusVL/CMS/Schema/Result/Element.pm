@@ -93,6 +93,34 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::ElementUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "element_users",
+  "OpusVL::CMS::Schema::Result::ElementUser",
+  { "foreign.element_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 element_attributes
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::ElementAttribute>
+
+=cut
+
+__PACKAGE__->has_many(
+  "element_attributes",
+  "OpusVL::CMS::Schema::Result::ElementAttribute",
+  { "foreign.element_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 element_contents
 
 Type: has_many
@@ -154,6 +182,17 @@ sub remove {
     # FIXME: remove all page / template links to the element as well
 }
 
+sub tt_get_attributes {
+    my $self = shift;
+    return [ $self->element_attributes->all ];
+
+sub allows_user {
+    my ($self, $user_id) = @_;
+    if ($self->element_users->find({ user_id => $user_id })) { return 1; }
+
+    return 0;
+}
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

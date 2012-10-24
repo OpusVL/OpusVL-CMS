@@ -167,6 +167,21 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=head2 page_users
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_users",
+  "OpusVL::CMS::Schema::Result::PageUser",
+  { "foreign.page_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 aliases
 
 Type: has_many
@@ -233,7 +248,8 @@ Related object: L<OpusVL::CMS::Schema::Result::PageAttributeData>
 =cut
 
 __PACKAGE__->has_many(
-  "page_attribute_datas",
+  #"page_attribute_datas",
+  "attribute_values",
   "OpusVL::CMS::Schema::Result::PageAttributeData",
   { "foreign.page_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -539,6 +555,13 @@ sub get_last_draft {
         rows => 1,
         order_by => { -desc => 'id' }
     })->first;
+}
+
+sub allows_user {
+    my ($self, $user_id) = @_;
+    if ($self->page_users->find({ user_id => $user_id })) { return 1; }
+    
+    return 0;
 }
 
 ##

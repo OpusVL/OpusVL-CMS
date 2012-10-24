@@ -147,16 +147,6 @@ sub content {
     return $self->search_related( 'asset_datas', {}, { order_by => { -desc => 'created' } } )->first->data;
 }
 
-sub available {
-    my $self = shift;
-    return $self->search({
-        -or => [
-            status => 'published',
-            global => 1,
-        ],
-    });
-}
-
 sub set_content {
     my ($self, $content) = @_;
 
