@@ -122,6 +122,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 asset_users
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::AssetUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "asset_users",
+  "OpusVL::CMS::Schema::Result::AssetUser",
+  { "foreign.asset_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 site
 
 Type: belongs_to

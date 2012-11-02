@@ -151,6 +151,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "created_by",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
+  "blog",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "note_changes",
+  { data_type => "text", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -381,6 +385,20 @@ sub tree
     return @tree;
 }
 
+sub get_parents {
+    my $self = shift;
+    
+    my $page = $self;
+    my @parents = ( $page );
+    while( my $parent = $page->parent ) {
+        push @parents, $parent;
+        $page = $parent;
+    }
+
+    @parents = reverse @parents;
+    return \@parents;
+}
+
 =head2 head
 
 =cut
@@ -416,6 +434,11 @@ sub content
     my $self = shift;
 
     return $self->search_related( 'page_contents', { status => 'Published' }, { order_by => { -desc => 'created' } } )->first->body;
+}
+
+sub get_page_content {
+    my $self = shift;
+    return $self->search_related( 'page_contents', { status => 'Published' }, { order_by => { -desc => 'created' } } )->first;
 }
 
 =head2 set_content

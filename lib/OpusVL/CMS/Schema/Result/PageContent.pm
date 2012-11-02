@@ -124,6 +124,38 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:j1EPkcO0pfZAT7j7UCMxgQ
 
+sub title {
+    my $self = shift;
+    return $self->page->title;
+}
+
+sub set_title {
+    my ($self, $title) = shift;
+    my $row = $self->first;
+    $row->update({ title => $title });
+}
+
+sub url {
+    my $self = shift;
+    return $self->page->url;
+}
+
+sub set_url {
+    my ($self, $url) = shift;
+    my $row = $self->first;
+    $row->update({ url => $url });
+}
+
+sub breadcrumb {
+    my $self = shift;
+    return $self->page->breadcrumb;
+}
+
+sub set_breadcrumb {
+    my ($self, $breadcrumb) = shift;
+    my $row = $self->first;
+    $row->update({ breadcrumb => $breadcrumb });
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

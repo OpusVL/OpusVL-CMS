@@ -32,5 +32,17 @@ use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
 
+sub pages {
+    # FIXME: This could be done using DBIx::Class natively..
+    my $self = shift;
+    my @pages;
+    while(my $site = $self->next) {
+        push @pages, $site->page;
+    }
+
+    return @pages;
+}
+
 ##
+
 1;

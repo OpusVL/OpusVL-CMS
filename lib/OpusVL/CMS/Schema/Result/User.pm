@@ -122,6 +122,21 @@ __PACKAGE__->add_unique_constraint("user_index", ["username"]);
 
 =head1 RELATIONS
 
+=head2 asset_users
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::AssetUser>
+
+=cut
+
+__PACKAGE__->has_many(
+  "asset_users",
+  "OpusVL::CMS::Schema::Result::AssetUser",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 page_users
 
 Type: has_many
