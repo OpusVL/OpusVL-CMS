@@ -165,7 +165,7 @@ Related object: L<OpusVL::CMS::Schema::Result::AttachmentData>
 =cut
 
 __PACKAGE__->has_many(
-  "attachment_datas",
+  "att_data",
   "OpusVL::CMS::Schema::Result::AttachmentData",
   { "foreign.att_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -205,6 +205,79 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Oth62DSimHUi4Wg5sBuF3g
 
+sub content {
+    my $self = shift;
+
+    return $self->search_related( 'att_data', { }, { order_by => { -desc => 'created' } } )->first->data;
+}
+
+sub set_content {
+    my ($self, $data) = @_;
+
+    $self->create_related('att_data', {data => $data});
+    $self->update({updated => DateTime->now()});
+}
+
+sub publish
+{
+    my $self = shift;
+
+    $self->update({status => 'published'});
+}
+
+sub remove
+{
+    my $self = shift;
+
+    $self->update({status => 'deleted'});
+}
+
+=head2 attribute
+
+=cut
+
+sub attribute
+{
+    my ($self, $field) = @_;
+
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('AttachmentAttributeDetails')->find({code => $field});
+    }
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    return undef unless $current_value;
+    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->value;
+}
+
+=head2 update_attribute
+
+=cut
+
+sub update_attribute
+{
+    my ($self, $field, $value) = @_;
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $data = {};
+    if($field->type eq 'date')
+    {
+        $data->{date_value} = $value;
+    }
+    else
+    {
+        $data->{value} = $value;
+    }
+    if($current_value)
+    {
+        $current_value->update($data);
+    }
+    else
+    {
+        $data->{field_id} = $field->id;
+        $self->create_related('attribute_values', $data);
+    }
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

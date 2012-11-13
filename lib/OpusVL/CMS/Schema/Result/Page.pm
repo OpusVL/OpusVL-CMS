@@ -587,6 +587,11 @@ sub allows_user {
     return 0;
 }
 
+sub get_attachments {
+    my $self = shift;
+    return [ $self->search_related('attachments', { status => 'published' })->all ];
+}
+
 ##
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
