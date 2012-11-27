@@ -33,12 +33,13 @@ use Moose;
 extends 'DBIx::Class::ResultSet';
 
 sub available {
-    my $self = shift;
+    my ($self, $site_id) = @_;
     return $self->search({
-        -or => [
-            status => 'published',
-            global => 1,
-        ],
+         status => 'published',
+         -or => [
+             site => $site_id,
+             global => 1,
+         ],
     });
 }
 

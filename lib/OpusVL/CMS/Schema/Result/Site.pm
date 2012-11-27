@@ -60,6 +60,13 @@ __PACKAGE__->add_columns(
   },
   "name",
   { data_type => "varchar", is_nullable => 0, size => 140 },
+  "status",
+  {
+    data_type     => "text",
+    default_value => "active",
+    is_nullable   => 0,
+    original      => { data_type => "varchar" },
+  },
 );
 
 =head1 PRIMARY KEY

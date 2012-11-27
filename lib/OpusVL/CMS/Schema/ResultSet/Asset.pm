@@ -38,14 +38,15 @@ Returns all published, or global assets
 
 =cut
 
-sub available {                                                                                                                                                                                         
-    my $self = shift;                                                                                                                                                                                   
-    return $self->search({                                                                                                                                                                              
-        -or => [                                                                                                                                                                                        
-            status => 'published',                                                                                                                                                                      
-            global => 1,                                                                                                                                                                                
-        ],                                                                                                                                                                                              
-    });                                                                                                                                                                                                 
+sub available {
+    my ($self, $site_id) = @_;
+    return $self->search({
+         status => 'published',
+         -or => [
+             site => $site_id,
+             global => 1,
+         ],
+    });
 }
 
 =head2 published
