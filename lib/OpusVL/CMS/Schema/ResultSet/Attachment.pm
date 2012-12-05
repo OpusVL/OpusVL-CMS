@@ -1,12 +1,12 @@
-package OpusVL::CMS::Schema::ResultSet::Attachments;
+package OpusVL::CMS::Schema::ResultSet::Attachment;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Attachments -
+OpusVL::CMS::Schema::ResultSet::Attachment -
 
 =head1 DESCRIPTION
 
-Accessors for the Attachments of the SimpleCMS
+Accessors for the Attachment of the SimpleCMS
 
 =head1 METHODS
 
@@ -73,7 +73,7 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        foreach my $field ($self->result_source->schema->resultset('AttachmentAttributeDetails')->active->all) {
+        foreach my $field ($self->result_source->schema->resultset('AttachmentAttributeDetail')->active->all) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;
                 my $alias = 'attribute_values';

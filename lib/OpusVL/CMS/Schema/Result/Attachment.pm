@@ -150,7 +150,7 @@ Related object: L<OpusVL::CMS::Schema::Result::AttachmentAttributeData>
 =cut
 
 __PACKAGE__->has_many(
-  "attachment_attribute_datas",
+  "attribute_values",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeData",
   { "foreign.attachment_id" => "self.id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -241,7 +241,7 @@ sub attribute
     my ($self, $field) = @_;
 
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('AttachmentAttributeDetails')->find({code => $field});
+        $field = $self->result_source->schema->resultset('AttachmentAttributeDetail')->find({code => $field});
     }
 
     my $current_value = $self->find_related('attribute_values', { field_id => $field->id });

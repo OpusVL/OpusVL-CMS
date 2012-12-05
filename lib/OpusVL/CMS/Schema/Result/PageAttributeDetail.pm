@@ -154,5 +154,11 @@ sub valid_option
     return $self->field_values->find({ value => $value });
 }
 
+sub active
+{
+    my $self = shift;
+    return $self->search({ active => 1 });
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

@@ -83,7 +83,7 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        foreach my $field ($self->result_source->schema->resultset('PageAttributeDetails')->active->all) {
+        foreach my $field ($self->result_source->schema->resultset('PageAttributeDetail')->active->all) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;
                 my $alias = 'attribute_values';
