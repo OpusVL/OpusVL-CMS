@@ -279,5 +279,17 @@ sub update_attribute
     }
 }
 
+sub gallery_full_size_image {
+    my $self = shift;
+    if ($self->attribute('type') eq 'Gallery - Thumbnail') {
+        return $self->find_related('attribute_values', {
+            code => 'gallery_image_id',
+            type => 'Gallery - Full size',
+        });
+    }
+    
+    return undef;
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
