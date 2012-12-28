@@ -121,6 +121,21 @@ Related object: L<OpusVL::CMS::Schema::Result::MasterDomain>
 
 =cut
 
+=head2 forms
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::Form>
+
+=cut
+
+__PACKAGE__->has_many(
+  "forms",
+  "OpusVL::CMS::Schema::Result::Form",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 __PACKAGE__->has_many(
   "master_domains",
   "OpusVL::CMS::Schema::Result::MasterDomain",

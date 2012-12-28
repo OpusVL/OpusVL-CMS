@@ -8,6 +8,8 @@ license  'perl';
 requires 'DBIx::Class::Tree::AdjacencyList';
 build_requires 'Test::More';
 requires 'DBIx::Class::Helper::ResultSet::SetOperations';
+requires 'Email::MIME';
+requires 'Email::Sender::Simple';
 
 auto_install;
 

@@ -186,6 +186,13 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+__PACKAGE__->has_many(
+  "forms_submit_fields",
+  "OpusVL::CMS::Schema::Result::FormsSubmitField",
+  { "foreign.redirect" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 aliases
 
 Type: has_many
