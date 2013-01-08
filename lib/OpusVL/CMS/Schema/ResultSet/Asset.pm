@@ -28,6 +28,7 @@ with the development project.
 =cut
 ###########################################################################################
 
+use feature 'switch';
 use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
@@ -63,4 +64,41 @@ sub published
 }
 
 ##
+
+sub attribute_search {
+    my ($self, $query, $options) = @_;
+
+    $query   //= {};
+    $options //= {};
+
+    if (scalar keys %$query) {
+        my $attribute_query;
+        my @page_ids;
+        my $join_count = 0;
+        foreach my $field ($self->result_source->schema->resultset('AssetAttributeDetail')->active->all) {
+            if (my $value = delete $query->{$field->code}) {
+                $join_count++;
+                my $alias = 'attribute_values';
+                push @{$options->{join}}, $alias;
+
+                if ($join_count > 1) {
+                    $alias .= "_$join_count";
+                }
+
+                $query->{"$alias.field_id"} = $field->id;
+                $query->{"$alias.value"}    = $value;
+            }
+        }
+    }
+
+    given (delete $options->{sort}) {
+        when ('updated') { $options->{order_by} = {'-desc' => 'updated'} }
+        when ('newest')  { $options->{order_by} = {'-desc' => 'created'} }
+        when ('oldest')  { $options->{order_by} = {'-asc'  => 'created'} }
+        default          { $options->{order_by} = {'-asc' => 'priority'} }
+    }
+
+    return $self->search($query, $options);
+}
+
 1;

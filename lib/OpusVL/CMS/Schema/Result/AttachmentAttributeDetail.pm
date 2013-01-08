@@ -31,6 +31,9 @@ __PACKAGE__->add_columns(
         is_nullable => 0,
         default_value => 1,
     },
+    "site_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+
 );
 
 __PACKAGE__->set_primary_key("id");
@@ -45,6 +48,26 @@ __PACKAGE__->has_many(
   "values",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeData",
   { "foreign.field_id" => "self.id" },
+);
+
+=head2 site
+
+Type: belongs_to
+
+Related object: L<OpusVL::CMS::Schema::Result::Site>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "site",
+  "OpusVL::CMS::Schema::Result::Site",
+  { id => "site_id" },
+  {
+    is_deferrable => 1,
+    join_type     => "LEFT",
+    on_delete     => "CASCADE",
+    on_update     => "CASCADE",
+  },
 );
 
 sub form_options

@@ -506,6 +506,11 @@ around 'attachments' => sub {
     return $self->$orig()->published->attribute_search($query, $options);
 };
 
+sub assets {
+    my ($self, $query, $options) = @_;
+    return $self->result_source->schema->resultset('Asset')->attribute_search($query, $options);
+}
+
 =head2 update_attribute
 
 =cut

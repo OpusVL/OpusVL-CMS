@@ -107,6 +107,38 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=cut
+
+=head2 asset_attribute_datas
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::AssetAttributeData>
+
+=cut
+
+__PACKAGE__->has_many(
+  "attribute_values",
+  "OpusVL::CMS::Schema::Result::AssetAttributeData",
+  { "foreign.asset_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+sub attribute
+{
+    my ($self, $field) = @_;
+
+    unless (ref $field) {
+        $field = $self->result_source->schema->resultset('AssetAttributeDetail')->find({code => $field});
+    }
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    return undef unless $current_value;
+    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->value;
+}
+
+
 =head2 asset_datas
 
 Type: has_many
@@ -182,6 +214,30 @@ sub remove {
     $self->update({status => 'deleted'});
 }
 
+sub update_attribute
+{
+    my ($self, $field, $value) = @_;
+
+    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $data = {};
+    if($field->type eq 'date')
+    {
+        $data->{date_value} = $value;
+    }
+    else
+    {
+        $data->{value} = $value;
+    }
+    if($current_value)
+    {
+        $current_value->update($data);
+    }
+    else
+    {
+        $data->{field_id} = $field->id;
+        $self->create_related('attribute_values', $data);
+    }
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

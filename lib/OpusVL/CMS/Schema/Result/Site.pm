@@ -203,6 +203,36 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 page_attribute_details
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageAttributeDetail>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_attribute_details",
+  "OpusVL::CMS::Schema::Result::PageAttributeDetail",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 attachment_attribute_details
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>
+
+=cut
+
+__PACKAGE__->has_many(
+  "attachment_attribute_details",
+  "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cFs5vMHOaxkMtvUEiz51dQ
 
