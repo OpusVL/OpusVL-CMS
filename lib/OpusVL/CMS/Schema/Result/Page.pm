@@ -549,7 +549,7 @@ sub page_attribute
     my ($self, $field) = @_;
     
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+        $field = $self->result_source->schema->resultset('PageAttributeDetail')->find({code => $field});
     }
 
     my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
@@ -563,7 +563,7 @@ sub cascaded_attribute
     my ($self, $field) = @_;
     
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('PageAttributeDetails')->find({code => $field});
+        $field = $self->result_source->schema->resultset('PageAttributeDetail')->find({code => $field});
     }
     
     if ($field->cascade) {

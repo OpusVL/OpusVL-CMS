@@ -91,6 +91,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "global",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "priority",
+  { data_type => "integer", default_value => 10, is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
