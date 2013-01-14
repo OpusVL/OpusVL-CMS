@@ -503,7 +503,7 @@ around 'children' => sub {
 around 'attachments' => sub {
     my ($orig, $self, $query, $options) = @_;
 
-    return $self->$orig()->published->attribute_search($query, $options);
+    return $self->$orig()->published->attribute_search($self->site->id, $query, $options);
 };
 
 sub assets {
@@ -547,34 +547,47 @@ sub update_attribute
 sub page_attribute
 {
     my ($self, $field) = @_;
-    
+    my $site = $self->site;
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('PageAttributeDetail')->find({code => $field});
+        $field = $site->page_attribute_details->search({code => $field})->first;
     }
 
-    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
-    return undef unless $current_value;
-    return $current_value->date_value if($field->type eq 'date');
-    return $current_value->value;
+    if ($field) {
+      my $current_value = $self->search_related('attribute_values', { field_id => $field->id })->first;
+      return undef unless $current_value;
+      return $current_value->date_value if($field->type eq 'date');
+      return $current_value->value;
+    }
+    else {
+      warn "Field not set in page_attribute";
+      return undef;
+    }
 }
 
 sub cascaded_attribute
 {
     my ($self, $field) = @_;
     
+    my $site = $self->site;
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('PageAttributeDetail')->find({code => $field});
+        $field = $site->page_attribute_details->search({code => $field})->first;
     }
     
-    if ($field->cascade) {
-        foreach my $page (reverse $self->tree) {
-            if (my $value = $page->page_attribute($field)) {
-                return $value;
-            }
-        }
+    if ($field) {
+      if ($field->cascade) {
+          foreach my $page (reverse $self->tree) {
+              if (my $value = $page->page_attribute($field)) {
+                  return $value;
+              }
+          }
+      }
+      
+      return undef;
     }
-    
-    return undef;
+    else {
+      warn "Field not set in cascaded_attribute";
+      return undef;
+    }
 }
 
 sub attribute
