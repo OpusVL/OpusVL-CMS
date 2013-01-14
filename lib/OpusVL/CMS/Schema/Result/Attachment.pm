@@ -256,7 +256,7 @@ sub attribute
 
 sub update_attribute
 {
-    my ($self, $field, $value) = @_;
+    my ($self, $site, $field, $value) = @_;
 
     my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
     my $data = {};
