@@ -239,12 +239,12 @@ sub remove
 sub attribute
 {
     my ($self, $field) = @_;
-
+    my $site = $self->page->site;
     unless (ref $field) {
-        $field = $self->result_source->schema->resultset('AttachmentAttributeDetail')->find({code => $field});
+        $field = $site->attachment_attribute_details->search({code => $field})->first;
     }
 
-    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+    my $current_value = $self->search_related('attribute_values', { field_id => $field->id })->first;
     return undef unless $current_value;
     return $current_value->date_value if($field->type eq 'date');
     return $current_value->value;

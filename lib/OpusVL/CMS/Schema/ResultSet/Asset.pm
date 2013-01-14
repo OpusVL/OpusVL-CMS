@@ -89,7 +89,7 @@ sub attribute_search {
                 $query->{"$alias.value"}    = $value;
             }
         }
-    }
+    } else { return {}; }
 
     given (delete $options->{sort}) {
         when ('updated') { $options->{order_by} = {'-desc' => 'updated'} }

@@ -74,7 +74,9 @@ Searches pages by attribute, e.g.
 =cut
 
 sub attribute_search {
-    my ($self, $query, $options) = @_;
+    my $self    = shift;
+    my $site_id = shift;
+    my ($query, $options) = @_;
 
     $query   //= {};
     $options //= {};
@@ -83,7 +85,9 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        foreach my $field ($self->result_source->schema->resultset('PageAttributeDetail')->active->all) {
+        my @resultset  = $self->result_source->schema->resultset('PageAttributeDetail')
+            ->search({ site_id => $site_id })->active->all;
+        foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;
                 my $alias = 'attribute_values';
