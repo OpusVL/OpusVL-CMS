@@ -236,6 +236,10 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cFs5vMHOaxkMtvUEiz51dQ
 
+sub master_domain {
+    my $self = shift;
+    return $self->master_domains->first;
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
