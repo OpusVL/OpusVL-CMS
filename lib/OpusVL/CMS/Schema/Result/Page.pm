@@ -12,6 +12,7 @@ OpusVL::CMS::Schema::Result::Page
 
 use DBIx::Class;
 use Hash::Merge qw/merge/;
+use DateTime;
 use Moose;
 extends 'DBIx::Class';
 
@@ -493,7 +494,7 @@ sub remove
 around 'children' => sub {
     my ($orig, $self, $query, $options) = @_;
 
-    return $self->$orig()->published->attribute_search($query, $options);
+    return $self->$orig()->published->attribute_search($self->site->id, $query, $options);
 };
 
 =head2 attachments
@@ -615,6 +616,10 @@ sub allows_user {
 sub get_attachments {
     my $self = shift;
     return [ $self->search_related('attachments', { status => 'published' })->all ];
+}
+
+sub date {
+    return DateTime->now;
 }
 
 ##
