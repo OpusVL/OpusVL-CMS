@@ -197,6 +197,21 @@ sub field {
                 $build_row .= $field->label . "</div></div>";
             }
             
+            elsif (/Select/) {
+                my $fields = $field->fields;
+                $build_row .= q{<div class="contact_row">};
+                $build_row .= q{<div class="contact_label"></div>};
+                $build_row .= q{<div class="contact_field">};
+                $build_row .= qq{<select name="$name"><option></option>};
+                my @opts    = split /\*,\*/, $fields;
+                for my $opt (@opts) {
+                    my ($name, $val) = split /\*!\*/, $opt;
+                    $build_row .= qq{<option value="$val">$name</option>};
+                }
+                $build_row  .= qq{</select></div><div class="label_text" style="float:left;width:350px">};
+                $build_row .= $field->label . "</div></div>";
+            }
+
             elsif (/Submit/) {
                 $build_row .= qq{<div class="contact_row" style="padding-top:10px;" >
                     <div class="contact_label">
