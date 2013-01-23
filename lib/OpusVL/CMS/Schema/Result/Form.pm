@@ -279,7 +279,7 @@ sub email {
         ],
         attributes => {
           encoding => 'quoted-printable',
-          charset  => 'ISO-8859-1',
+          charset  => 'UTF-8',
         },
         body_str => $body,
     );
