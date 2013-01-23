@@ -270,7 +270,6 @@ sub email {
             $body .= $field->label . ": " . $content->content . "\n";
         }   
     }
-    $body .= "\nCheers,\nThe Form Builder\n";
     my $message = Email::MIME->create(
         header_str => [
           From    => 'formbuilder@example.com',
