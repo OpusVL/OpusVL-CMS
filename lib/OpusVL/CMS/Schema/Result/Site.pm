@@ -83,6 +83,15 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
+=cut
+
+__PACKAGE__->has_many(
+  "asset_attributes",
+  "OpusVL::CMS::Schema::Result::AssetAttributeDetail",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 assets
 
 Type: has_many
