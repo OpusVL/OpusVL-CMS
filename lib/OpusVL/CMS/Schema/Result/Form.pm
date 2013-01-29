@@ -202,7 +202,7 @@ sub field {
                 $build_row .= q{<div class="contact_row">};
                 $build_row .= q{<div class="contact_label"></div>};
                 $build_row .= q{<div class="contact_field">};
-                $build_row .= qq{<select name="$name"><option></option>};
+                $build_row .= qq{<select name="$name">};
                 my @opts    = split /\*,\*/, $fields;
                 for my $opt (@opts) {
                     my ($name, $val) = split /\*!\*/, $opt;
