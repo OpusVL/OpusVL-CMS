@@ -1,0 +1,18 @@
+2013-30-01 - 0.31
+
+CREATE TABLE default_attributes (
+    id SERIAL PRIMARY KEY NOT NULL,
+    code VARCHAR NOT NULL,
+    name VARCHAR NOT NULL,
+    value VARCHAR NULL,
+    type VARCHAR NOT NULL,
+    field_type VARCHAR NULL
+);
+
+CREATE TABLE default_attribute_values (
+    id SERIAL PRIMARY KEY NOT NULL,
+    value VARCHAR NOT NULL,
+    field_id INTEGER REFERENCES default_attributes(id) NOT NULL
+);
+
+--
