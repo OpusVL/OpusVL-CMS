@@ -315,5 +315,17 @@ sub validate {
   return @errors;
 }
 
+sub redirect_page {
+  my $self   = shift;
+  my $submit = $self->forms_submit_fields->first;
+  return $submit ? $submit->redirect : undef;
+}
+
+sub fields {
+  my $self = shift;
+  my @fields = $self->search_related('forms_fields', undef, { order_by => { -asc => 'priority' } })->all;
+  return \@fields;
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
