@@ -327,5 +327,10 @@ sub fields {
   return \@fields;
 }
 
+sub submit_button {
+  my $self = shift;
+  return $self->forms_submit_fields->first;
+}
+
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
