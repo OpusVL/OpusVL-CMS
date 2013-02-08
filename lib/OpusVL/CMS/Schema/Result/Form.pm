@@ -83,6 +83,18 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     original    => { data_type => "varchar" },
   },
+  "mail_to",
+  {
+    data_type   => "text",
+    is_nullable => 1,
+    original    => { data_type => "varchar" },
+  },
+  "mail_from",
+  {
+    data_type   => "text",
+    is_nullable => 1,
+    original    => { data_type => "varchar" },
+  },
 );
 
 =head1 PRIMARY KEY
@@ -272,8 +284,8 @@ sub email {
     }
     my $message = Email::MIME->create(
         header_str => [
-          From    => 'formbuilder@example.com',
-          To      =>  $self->owner->email,
+          From    => $self->mail_from||'formbuilder@example.com',
+          To      =>  $self->mail_to||$self->owner->email,
           Subject => 'Form submitted',
         ],
         attributes => {
