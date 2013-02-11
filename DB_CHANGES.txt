@@ -1,3 +1,10 @@
+2013-11-02 - 0.36
+
+ALTER TABLE forms ADD COLUMN mail_to VARCHAR;
+ALTER TABLE forms ADD COLUMN mail_from VARCHAR;
+
+--
+
 2013-30-01 - 0.31
 
 CREATE TABLE default_attributes (
