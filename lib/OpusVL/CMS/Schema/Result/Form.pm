@@ -180,12 +180,20 @@ sub field {
     my $build_row;
     if (my $field = $self->forms_fields->search({ name => $name })->first) {
         my $name;
+        my $constraint;
+        if ($field->constraint) {
+            $constraint = $field->constraint->constraint->type;
+        }
+
+        my $label = $constraint && $constraint eq 'required' ?
+            $field->label . " <font color=\"red\">*</font>" : $field->label;
+
         for ($field->type->type) {
             $name = $field->name; 
             if (/Text$/) {
                 $build_row .= q{<div class="contact_row">};
                 $build_row .= q{<div class="contact_label label_text">};
-                $build_row .= $field->label . ":</div>";
+                $build_row .= $label . ":</div>";
                 $build_row .= q{<div class="contact_field">};
                 $build_row .= qq{<input class="contact_input" type="text" value="" name="$name" />};
                 $build_row .= q{</div></div>};
@@ -194,7 +202,7 @@ sub field {
             elsif (/Textarea$/) {
                 $build_row .= q{<div class="contact_row" style="height:220px">};
                 $build_row .= q{<div class="contact_label label_text">};                                                           
-                $build_row .= $field->label . ":</div>";                                                                           
+                $build_row .= $label . ":</div>";                                                                           
                 $build_row .= q{<div class="contact_field">};                                                                      
                 $build_row .= qq{<textarea class="contact_input" name="$name" style="height:200px"></textarea>};                               
                 $build_row .= q{</div></div>};                                                                                     
@@ -206,7 +214,7 @@ sub field {
                 $build_row .= q{<div class="contact_field">};
                 $build_row .= qq{<input type="checkbox" name="$name"></div>};
                 $build_row .= qq{<div class="label_text" style="float:left;width:350px">};
-                $build_row .= $field->label . "</div></div>";
+                $build_row .= $label . "</div></div>";
             }
             
             elsif (/Select/) {
@@ -221,7 +229,7 @@ sub field {
                     $build_row .= qq{<option value="$val">$name</option>};
                 }
                 $build_row  .= qq{</select></div><div class="label_text" style="float:left;width:350px">};
-                $build_row .= $field->label . "</div></div>";
+                $build_row .= $label . "</div></div>";
             }
 
             elsif (/Submit/) {
