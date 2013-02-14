@@ -14,10 +14,6 @@ published - returns all published (live) elements
 
 =head1 BUGS
 
-=head1 AUTHOR
-
-OpusVL - JJ
-
 =head1 COPYRIGHT & LICENSE
 
 Copyright 2012 OpusVL.
@@ -44,5 +40,16 @@ sub pages {
 }
 
 ##
+
+sub sites {
+  my ($self, $user_id) = @_;
+  my @sites;
+
+  for my $site ($self->search({ user_id => $user_id })->all) {
+    push @sites, $site->site;
+  }
+
+  return @sites;
+}
 
 1;
