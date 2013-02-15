@@ -123,7 +123,7 @@ __PACKAGE__->has_many(
   "forms_fields",
   "OpusVL::CMS::Schema::Result::FormsField",
   { "foreign.form_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 forms_submit_fields
@@ -138,7 +138,7 @@ __PACKAGE__->has_many(
   "forms_submit_fields",
   "OpusVL::CMS::Schema::Result::FormsSubmitField",
   { "foreign.form_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 owner

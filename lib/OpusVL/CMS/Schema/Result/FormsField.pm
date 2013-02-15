@@ -139,7 +139,7 @@ __PACKAGE__->has_many(
   "forms_contents",
   "OpusVL::CMS::Schema::Result::FormsContent",
   { "foreign.field_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 type
@@ -169,7 +169,7 @@ __PACKAGE__->has_many(
   "forms_fields_constraints",
   "OpusVL::CMS::Schema::Result::FormsFieldsConstraint",
   { "foreign.field_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-12-19 14:22:25

@@ -142,7 +142,7 @@ __PACKAGE__->has_many(
   "forms",
   "OpusVL::CMS::Schema::Result::Form",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 __PACKAGE__->has_many(
@@ -164,7 +164,7 @@ __PACKAGE__->has_many(
   "sites_users",
   "OpusVL::CMS::Schema::Result::SitesUser",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 templates
@@ -179,7 +179,7 @@ __PACKAGE__->has_many(
   "templates",
   "OpusVL::CMS::Schema::Result::Template",
   { "foreign.site" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 site_attributes
@@ -194,7 +194,7 @@ __PACKAGE__->has_many(
   "site_attributes",
   "OpusVL::CMS::Schema::Result::SiteAttribute",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 pages
@@ -209,7 +209,7 @@ __PACKAGE__->has_many(
   "pages",
   "OpusVL::CMS::Schema::Result::Page",
   { "foreign.site" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 page_attribute_details
@@ -224,7 +224,7 @@ __PACKAGE__->has_many(
   "page_attribute_details",
   "OpusVL::CMS::Schema::Result::PageAttributeDetail",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 attachment_attribute_details
@@ -239,7 +239,7 @@ __PACKAGE__->has_many(
   "attachment_attribute_details",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
@@ -248,6 +248,14 @@ __PACKAGE__->has_many(
 sub master_domain {
     my $self = shift;
     return $self->master_domains->first;
+}
+
+sub clone {
+  my $self = shift;
+
+  # clone the actual site
+  my $new_site = $self->copy({ name => $self->name . " (Clone)" });
+  return $new_site if $new_site;
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

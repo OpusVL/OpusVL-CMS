@@ -97,7 +97,7 @@ __PACKAGE__->has_many(
   "forms_fields",
   "OpusVL::CMS::Schema::Result::FormsField",
   { "foreign.type" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 
