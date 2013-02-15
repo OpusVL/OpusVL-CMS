@@ -120,7 +120,7 @@ __PACKAGE__->has_many(
   "values",
   "OpusVL::CMS::Schema::Result::PageAttributeData",
   { "foreign.field_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 page_attribute_values
@@ -135,7 +135,7 @@ __PACKAGE__->has_many(
   "field_values",
   "OpusVL::CMS::Schema::Result::PageAttributeValue",
   { "foreign.field_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 site

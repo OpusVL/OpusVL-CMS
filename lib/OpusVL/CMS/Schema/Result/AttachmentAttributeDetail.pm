@@ -42,12 +42,14 @@ __PACKAGE__->has_many(
   "field_values",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeValue",
   { "foreign.field_id" => "self.id" },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 __PACKAGE__->has_many(
   "values",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeData",
   { "foreign.field_id" => "self.id" },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 site

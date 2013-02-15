@@ -184,14 +184,14 @@ __PACKAGE__->has_many(
   "page_users",
   "OpusVL::CMS::Schema::Result::PageUser",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 __PACKAGE__->has_many(
   "forms_submit_fields",
   "OpusVL::CMS::Schema::Result::FormsSubmitField",
   { "foreign.redirect" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 aliases
@@ -264,7 +264,7 @@ __PACKAGE__->has_many(
   "attribute_values",
   "OpusVL::CMS::Schema::Result::PageAttributeData",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 page_contents
@@ -279,7 +279,7 @@ __PACKAGE__->has_many(
   "page_contents",
   "OpusVL::CMS::Schema::Result::PageContent",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 page_drafts
@@ -309,7 +309,7 @@ __PACKAGE__->has_many(
   "page_tags",
   "OpusVL::CMS::Schema::Result::PageTag",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 pages
@@ -324,7 +324,7 @@ __PACKAGE__->has_many(
   "pages",
   "OpusVL::CMS::Schema::Result::Page",
   { "foreign.parent_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 parent
