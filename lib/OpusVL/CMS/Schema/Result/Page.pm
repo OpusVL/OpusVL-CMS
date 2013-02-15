@@ -213,7 +213,7 @@ __PACKAGE__->has_many(
   "aliases",
   "OpusVL::CMS::Schema::Result::Alias",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 attachments
@@ -228,7 +228,7 @@ __PACKAGE__->has_many(
   "attachments",
   "OpusVL::CMS::Schema::Result::Attachment",
   { "foreign.page_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 created_by
