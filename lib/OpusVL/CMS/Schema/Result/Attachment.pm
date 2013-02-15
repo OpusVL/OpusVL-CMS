@@ -153,7 +153,7 @@ __PACKAGE__->has_many(
   "attribute_values",
   "OpusVL::CMS::Schema::Result::AttachmentAttributeData",
   { "foreign.attachment_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 attachment_datas
@@ -168,7 +168,7 @@ __PACKAGE__->has_many(
   "att_data",
   "OpusVL::CMS::Schema::Result::AttachmentData",
   { "foreign.att_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 attachment_tags
@@ -183,7 +183,7 @@ __PACKAGE__->has_many(
   "attachment_tags",
   "OpusVL::CMS::Schema::Result::AttachmentTag",
   { "foreign.attachment_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 page
