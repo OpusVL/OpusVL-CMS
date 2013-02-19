@@ -209,7 +209,7 @@ __PACKAGE__->has_many(
   "pages",
   "OpusVL::CMS::Schema::Result::Page",
   { "foreign.site" => "self.id" },
-  { cascade_copy => 1, cascade_delete => 0 },
+  { cascade_copy => 0, cascade_delete => 0 },
 );
 
 =head2 page_attribute_details
@@ -250,12 +250,35 @@ sub master_domain {
     return $self->master_domains->first;
 }
 
+sub _recurse_children {
+  my ($self, $site, $kid, $copy_kid) = @_;
+  for my $child ($kid->children->all) {
+    my $cloned_child = $child->copy({ parent_id => $copy_kid->id, site => $site->id });
+    $site->_recurse_children($site, $child, $cloned_child)
+      if $child->children->count > 0;
+  }
+}
+
 sub clone {
   my $self = shift;
 
   # clone the actual site
   my $new_site = $self->copy({ name => $self->name . " (Clone)" });
-  return $new_site if $new_site;
+  if ($new_site) {
+    for my $page ($self->pages->toplevel->all) {
+      my $new_page = $page->copy({ site => $new_site->id });
+
+      if ($page->children->count > 0) {
+        for my $child ($page->children->all) {
+          my $cloned_child = $child->copy({ parent_id => $new_page->id, site => $new_site->id });
+          $self->_recurse_children($new_site, $child, $cloned_child)
+            if $child->children->count > 0;
+        }
+      }
+    }
+
+    return $new_site;
+  }
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
