@@ -370,6 +370,13 @@ __PACKAGE__->belongs_to(
 
 __PACKAGE__->parent_column('parent_id');
 
+__PACKAGE__->has_many(
+  "children",
+  "OpusVL::CMS::Schema::Result::Page",
+  { "foreign.parent_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 __PACKAGE__->add_unique_constraint([ 'url', 'site' ]);
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:6YoYkiRXCQN+clv2uac/Wg
