@@ -134,10 +134,12 @@ sub attribute
         $field = $self->result_source->schema->resultset('AssetAttributeDetail')->find({code => $field});
     }
 
-    my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
-    return undef unless $current_value;
-    return $current_value->date_value if($field->type eq 'date');
-    return $current_value->value;
+    if ($field) {
+      my $current_value = $self->find_related('attribute_values', { field_id => $field->id });
+      return undef unless $current_value;
+      return $current_value->date_value if($field->type eq 'date');
+      return $current_value->value;
+    }
 }
 
 
