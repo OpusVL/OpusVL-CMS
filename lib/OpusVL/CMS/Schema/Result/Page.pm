@@ -630,7 +630,7 @@ sub get_attachments {
 sub date {
     my ($self, %opts) = @_;
     %opts = () if not %opts;
-    return DateTime->new(%opts)->now;
+    return DateTime->now(%opts)->now;
 }
 
 ##
