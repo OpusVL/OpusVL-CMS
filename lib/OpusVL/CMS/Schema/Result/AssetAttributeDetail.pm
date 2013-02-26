@@ -177,7 +177,7 @@ __PACKAGE__->belongs_to(
 sub form_options
 {
     my $self = shift;
-    my @all = map { [ $_->value, $_->value ] } $self->field_values->all;
+    my @all = sort { $a->[0] cmp $b->[0] } map { [ $_->value, $_->value ] } $self->field_values->all;
     return \@all;
 }
 
