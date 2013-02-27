@@ -518,7 +518,7 @@ around 'attachments' => sub {
 
 sub assets {
     my ($self, $query, $options) = @_;
-    return $self->result_source->schema->resultset('Asset')->attribute_search($query, $options);
+    return $self->result_source->schema->resultset('Asset')->available($self->site->id)->attribute_search($query, $options);
 }
 
 =head2 update_attribute
