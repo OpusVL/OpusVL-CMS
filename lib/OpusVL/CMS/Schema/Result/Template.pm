@@ -127,7 +127,7 @@ __PACKAGE__->has_many(
   "template_contents",
   "OpusVL::CMS::Schema::Result::TemplateContent",
   { "foreign.template_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 
