@@ -185,13 +185,13 @@ sub remove {
 sub tt_get_attributes {
     my $self = shift;
     return [ $self->element_attributes->all ];
+}
 
 sub allows_user {
     my ($self, $user_id) = @_;
     if ($self->element_users->find({ user_id => $user_id })) { return 1; }
 
     return 0;
-}
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
