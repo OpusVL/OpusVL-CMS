@@ -93,6 +93,12 @@ __PACKAGE__->add_columns(
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
   "priority",
   { data_type => "integer", default_value => 10, is_nullable => 1 },
+  "slug",
+  {
+    data_type   => "text",
+    is_nullable => 0,
+    original    => { data_type => "varchar" },
+  },
 );
 
 =head1 PRIMARY KEY
