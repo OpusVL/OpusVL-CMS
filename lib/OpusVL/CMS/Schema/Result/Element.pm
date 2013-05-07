@@ -77,6 +77,12 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "global",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "slug",
+  {
+    data_type   => "text",
+    is_nullable => 0,
+    original    => { data_type => "varchar" },
+  },
 );
 
 =head1 PRIMARY KEY
@@ -185,6 +191,7 @@ sub remove {
 sub tt_get_attributes {
     my $self = shift;
     return [ $self->element_attributes->all ];
+}
 
 sub allows_user {
     my ($self, $user_id) = @_;
@@ -192,7 +199,10 @@ sub allows_user {
 
     return 0;
 }
-}
 
+sub is_slug_available {
+    my ($self, $slug) = @_;
+    return $self->find({ slug => $slug });
+}
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

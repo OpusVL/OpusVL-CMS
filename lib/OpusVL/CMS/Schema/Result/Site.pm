@@ -253,7 +253,11 @@ sub master_domain {
 sub _recurse_children {
   my ($self, $site, $kid, $copy_kid) = @_;
   for my $child ($kid->children->all) {
-    my $cloned_child = $child->copy({ parent_id => $copy_kid->id, site => $site->id });
+    my $cloned_child = $child->copy({
+      template_id => $site->templates->search({ name => $child->template->name })->first->id,
+      parent_id => $copy_kid->id,
+      site => $site->id
+    });
     $site->_recurse_children($site, $child, $cloned_child)
       if $child->children->count > 0;
   }
@@ -266,11 +270,18 @@ sub clone {
   my $new_site = $self->copy({ name => $self->name . " (Clone)" });
   if ($new_site) {
     for my $page ($self->pages->toplevel->all) {
-      my $new_page = $page->copy({ site => $new_site->id });
+      my $new_page = $page->copy({
+        site => $new_site->id,
+        template_id => $new_site->templates->search({ name => $page->template->name })->first->id
+      });
 
       if ($page->children->count > 0) {
         for my $child ($page->children->all) {
-          my $cloned_child = $child->copy({ parent_id => $new_page->id, site => $new_site->id });
+          my $cloned_child = $child->copy({
+            template_id => $new_site->templates->search({ name => $child->template->name })->first->id,
+            parent_id => $new_page->id,
+            site => $new_site->id,
+          });
           $self->_recurse_children($new_site, $child, $cloned_child)
             if $child->children->count > 0;
         }
