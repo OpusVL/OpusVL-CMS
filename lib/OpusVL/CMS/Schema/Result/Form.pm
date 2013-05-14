@@ -223,7 +223,7 @@ sub field {
                 $build_row .= q{<div class="contact_label"></div>};
                 $build_row .= q{<div class="contact_field">};
                 $build_row .= qq{<select name="$name">};
-                my @opts    = split /\*,\*/, $fields;
+                my @opts    = sort { $a cmp $b } split /\*,\*/, $fields;
                 for my $opt (@opts) {
                     my ($name, $val) = split /\*!\*/, $opt;
                     $build_row .= qq{<option value="$val">$name</option>};
@@ -343,8 +343,7 @@ sub redirect_page {
 
 sub fields {
   my $self = shift;
-  my @fields = sort { $a->[0] cmp $b->[0] } map { [ $_->value, $_->value ] } 
-    $self->search_related('forms_fields', undef, { order_by => { -asc => 'priority' } })->all;
+  my @fields = $self->search_related('forms_fields', undef, { order_by => { -asc => 'priority' } })->all;
   return \@fields;
 }
 
