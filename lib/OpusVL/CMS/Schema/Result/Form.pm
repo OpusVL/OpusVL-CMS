@@ -343,7 +343,8 @@ sub redirect_page {
 
 sub fields {
   my $self = shift;
-  my @fields = $self->search_related('forms_fields', undef, { order_by => { -asc => 'priority' } })->all;
+  my @fields = sort { $a->[0] cmp $b->[0] } map { [ $_->value, $_->value ] } 
+    $self->search_related('forms_fields', undef, { order_by => { -asc => 'priority' } })->all;
   return \@fields;
 }
 
