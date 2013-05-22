@@ -11,6 +11,7 @@ requires 'DBIx::Class::Helper::ResultSet::SetOperations';
 requires 'Email::MIME';
 requires 'MooseX::NonMoose';
 requires 'Email::Sender::Simple';
+requires 'Sort::Naturally';
 
 auto_install;
 
