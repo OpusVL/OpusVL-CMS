@@ -16,6 +16,7 @@ use feature 'switch';
 
 use base 'DBIx::Class::Core';
 
+use Sort::Naturally;
 use Email::MIME;
 use Email::Sender::Simple qw(sendmail);
 =head1 COMPONENTS LOADED
@@ -223,7 +224,8 @@ sub field {
                 $build_row .= q{<div class="contact_label"></div>};
                 $build_row .= q{<div class="contact_field">};
                 $build_row .= qq{<select name="$name">};
-                my @opts    = sort { $a cmp $b } split /\*,\*/, $fields;
+                #my @opts    = sort { $a cmp $b } split /\*,\*/, $fields;
+                my @opts    = nsort split /\*,\*/, $fields;
                 for my $opt (@opts) {
                     my ($name, $val) = split /\*!\*/, $opt;
                     $build_row .= qq{<option value="$val">$name</option>};
