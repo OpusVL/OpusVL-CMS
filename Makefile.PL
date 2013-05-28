@@ -12,7 +12,7 @@ requires 'Email::MIME';
 requires 'MooseX::NonMoose';
 requires 'Email::Sender::Simple';
 requires 'Sort::Naturally';
-
+requires 'Captcha::reCAPTCHA';
 auto_install;
 
 WriteAll;
