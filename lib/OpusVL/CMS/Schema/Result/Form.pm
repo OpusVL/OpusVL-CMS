@@ -10,15 +10,21 @@ OpusVL::CMS::Schema::Result::Form
 
 =cut
 
-use strict;
-use warnings;
+use Moose;
 use feature 'switch';
 
-use base 'DBIx::Class::Core';
+extends 'DBIx::Class::Core';
 
 use Sort::Naturally;
+use Captcha::reCAPTCHA;
 use Email::MIME;
 use Email::Sender::Simple qw(sendmail);
+
+has 'recaptcha_object' => (
+    is      => 'rw',
+    default => sub { Captcha::reCAPTCHA->new }
+);
+
 =head1 COMPONENTS LOADED
 
 =over 4
@@ -91,6 +97,20 @@ __PACKAGE__->add_columns(
     original    => { data_type => "varchar" },
   },
   "mail_from",
+  {
+    data_type   => "text",
+    is_nullable => 1,
+    original    => { data_type => "varchar" },
+  },
+  "recaptcha",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "recaptcha_public_key",
+  {
+    data_type   => "text",
+    is_nullable => 1,
+    original    => { data_type => "varchar" },
+  },
+  "recaptcha_private_key",
   {
     data_type   => "text",
     is_nullable => 1,
@@ -235,6 +255,11 @@ sub field {
             }
 
             elsif (/Submit/) {
+                if ($self->recaptcha) {
+                    $self->recaptcha_object( Captcha::reCAPTCHA->new );
+                    $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
+                }
+                
                 $build_row .= qq{<div class="contact_row" style="padding-top:10px;" >
                     <div class="contact_label">
                     </div>
@@ -310,8 +335,27 @@ sub email {
 }
 
 sub validate {
-  my ($self, $params) = @_;
+  my ($self, $params, $remote_addr) = @_;
   my @errors;
+  if ($self->recaptcha) {
+    $self->recaptcha_object( Captcha::reCAPTCHA->new );
+    my $result = $self->recaptcha_object->check_answer(
+     $self->recaptcha_private_key, $remote_addr,
+      $params->{recaptcha_challenge_field}, $params->{recaptcha_response_field}
+    );
+   
+    if ($result->{error} and $result->{error} eq "invalid-site-private-key") {
+      push @errors,
+        "The private key sent was invalid";
+    }
+    else {
+      if (not $result->{is_valid}) {
+        push @errors,
+          "You did not enter the words in the reCAPTCHA correctly";
+      }
+    }
+  }
+ 
   for my $field ($self->forms_fields->all) {
     my $field_name  = $field->name;
     my $field_label = $field->label;
