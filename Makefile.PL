@@ -13,6 +13,7 @@ requires 'MooseX::NonMoose';
 requires 'Email::Sender::Simple';
 requires 'Sort::Naturally';
 requires 'Captcha::reCAPTCHA';
+requires 'DateTime::Format::Pg';
 auto_install;
 
 WriteAll;
