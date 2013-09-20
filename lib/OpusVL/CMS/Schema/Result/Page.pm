@@ -626,7 +626,17 @@ sub allows_user {
 
 sub attachment {
     my ($self) = shift;
-    return $self->search_related('attachments', { status => 'published' })->first;
+    my $attachment = $self->search_related(
+        'attachments',
+        { status => 'published' }
+    )->first;
+
+    if ($attachment) {
+        return "/_attachment/"
+            . $attachment->id
+            . "/"
+            . $attachment->filename;
+    }
 }
 
 sub get_attachments {
