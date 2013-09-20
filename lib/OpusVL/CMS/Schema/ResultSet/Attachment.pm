@@ -100,7 +100,12 @@ sub attribute_search {
         default          { $options->{order_by} = {'-asc' => 'priority'} }
     }
     
-    return $self->search($query, $options);
+    if (delete $options->{rs_only}) {
+        return $self->search_rs($query, $options);
+    }
+    else {
+        return $self->search($query, $options);
+    }
 }
 
 ##
