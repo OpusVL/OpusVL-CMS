@@ -624,6 +624,11 @@ sub allows_user {
     return 0;
 }
 
+sub attachment {
+    my ($self) = shift;
+    return $self->search_related('attachments', { status => 'published' })->first;
+}
+
 sub get_attachments {
     my $self = shift;
     return [ $self->search_related('attachments', { status => 'published' })->all ];
