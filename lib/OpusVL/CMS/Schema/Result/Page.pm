@@ -640,14 +640,49 @@ sub attachment {
 }
 
 sub get_attachments {
-    my $self = shift;
-    return [ $self->search_related('attachments', { status => 'published' })->all ];
+    my ($self, $options) = @_;
+    #return [ $self->search_related('attachments', { status => 'published' })->all ];
+    return [ $self->result_source->schema->resultset('Page')
+        ->search_related('attachments', 
+            { "attachments.status" => 'published',
+              "me.id"           => $self->id
+            }
+        )
+        ->attribute_search(
+            $self->site->id,
+            {
+                "me.id" => $self->id,
+            },
+            $options,
+        )->all
+    ];
 }
 
 sub date {
     my ($self, %opts) = @_;
     %opts = () if not %opts;
     return DateTime->now(%opts);
+}
+
+sub blog_image {
+    my ($self, $type) = @_;
+    my $query = { status => 'published' };
+    $query->{description} = (defined $type and $type eq 'thumb') ?
+        { '=', 'thumb' } : { '!=', 'thumb' };
+ 
+    my $attachment = $self->search_related(
+        'attachments',
+        $query,
+        { rows => 1 }
+    )->first;
+    
+    if ($attachment) {
+        return "/_attachment/"
+            . $attachment->id
+            . "/"
+            . $attachment->filename;
+    }
+
 }
 
 ##
