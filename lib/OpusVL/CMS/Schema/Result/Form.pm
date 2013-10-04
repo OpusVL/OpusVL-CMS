@@ -116,6 +116,11 @@ __PACKAGE__->add_columns(
     is_nullable => 1,
     original    => { data_type => "varchar" },
   },
+  "ssl",
+  {
+    data_type => "boolean",
+    is_nullable => 1,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -197,7 +202,8 @@ __PACKAGE__->belongs_to(
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZAqjnYC9B9vZhqJ99NuZAA
 
 sub field {
-    my ($self, $name) = @_;
+    my ($self, $name, $options) = @_;
+    $options //= {};
     my $build_row;
     if (my $field = $self->forms_fields->search({ name => $name })->first) {
         my $name;
@@ -257,7 +263,17 @@ sub field {
             elsif (/Submit/) {
                 if ($self->recaptcha) {
                     $self->recaptcha_object( Captcha::reCAPTCHA->new );
-                    $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
+                    if ($self->ssl) {
+                        $build_row .= $self->recaptcha_object->get_html(
+                            $self->recaptcha_public_key,
+                            undef,
+                            1,
+                            {}
+                        );
+                    }
+                    else {
+                        $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
+                    }
                 }
                 
                 $build_row .= qq{<div class="contact_row" style="padding-top:10px;" >
@@ -277,6 +293,7 @@ sub field {
 
 sub render {
     my $self = shift;
+    my $options = shift;
     my $name = $self->name;
     my $html;
     $html .= qq{
@@ -287,6 +304,8 @@ sub render {
     };
 
     $html .= '<input type="hidden" name="form_id" value="' . $self->id . '" />';
+    
+    $options //= {};
     for my $field ($self->forms_fields->search(undef, { order_by => { -asc => 'priority' } })->all) {
         $html .= $self->field($field->name);
     }
