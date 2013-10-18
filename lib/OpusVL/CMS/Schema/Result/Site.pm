@@ -270,9 +270,12 @@ sub clone {
   my $new_site = $self->copy({ name => $self->name . " (Clone)" });
   if ($new_site) {
     for my $page ($self->pages->toplevel->all) {
+      my $template = $page->template->copy({ site => $new_site->id });
+
       my $new_page = $page->copy({
         site => $new_site->id,
-        template_id => $new_site->templates->search({ name => $page->template->name })->first->id
+        template_id => $template->id,
+        #template_id => $new_site->templates->search({ name => $page->template->name })->first->id
       });
 
       if ($page->children->count > 0) {
