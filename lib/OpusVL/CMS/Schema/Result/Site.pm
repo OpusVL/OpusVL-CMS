@@ -252,9 +252,16 @@ sub master_domain {
 
 sub _recurse_children {
   my ($self, $site, $kid, $copy_kid) = @_;
+  my $template;
   for my $child ($kid->children->all) {
+    if ($child->template->global) {
+      $template = $child->template;
+    }
+    else {
+      $template = $child->template->copy({ site => $site->id });
+    }
     my $cloned_child = $child->copy({
-      template_id => $site->templates->search({ name => $child->template->name })->first->id,
+      template_id => $template->id,
       parent_id => $copy_kid->id,
       site => $site->id
     });
@@ -263,14 +270,31 @@ sub _recurse_children {
   }
 }
 
+sub find_or_clone_template {
+  my ($self, $page, $site) = @_;
+  my $template;
+  if ($page->template->global) {
+    return $page->template;
+  }
+
+  if ($template = $site->templates->search({ name => $page->template->name })->first) {
+    return $template;
+  }
+  else {
+    $template = $page->template->copy({ site => $site->id });
+    return $template;
+  }
+}
+
 sub clone {
   my $self = shift;
 
   # clone the actual site
+  my $template;
   my $new_site = $self->copy({ name => $self->name . " (Clone)" });
   if ($new_site) {
     for my $page ($self->pages->toplevel->all) {
-      my $template = $page->template->copy({ site => $new_site->id });
+      $template = $self->find_or_clone_template($page, $new_site);
 
       my $new_page = $page->copy({
         site => $new_site->id,
@@ -280,8 +304,10 @@ sub clone {
 
       if ($page->children->count > 0) {
         for my $child ($page->children->all) {
+          $template = $self->find_or_clone_template($child, $new_site);
+
           my $cloned_child = $child->copy({
-            template_id => $new_site->templates->search({ name => $child->template->name })->first->id,
+            template_id => $template->id, 
             parent_id => $new_page->id,
             site => $new_site->id,
           });
@@ -290,7 +316,6 @@ sub clone {
         }
       }
     }
-
     return $new_site;
   }
 }
