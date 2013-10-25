@@ -132,7 +132,7 @@ __PACKAGE__->has_many(
   "values",
   "OpusVL::CMS::Schema::Result::AssetAttributeData",
   { "foreign.field_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 asset_attribute_values

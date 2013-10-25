@@ -286,6 +286,14 @@ sub find_or_clone_template {
   }
 }
 
+sub clone_assets {
+    my ($self, $new_site) = @_;
+    my $assets = $self->assets->search({ global => 0 });
+    for my $asset ($assets->all) {
+        my $new_asset = $asset->copy({ site => $new_site->id });
+    }
+}
+
 sub clone {
   my $self = shift;
 
@@ -293,6 +301,7 @@ sub clone {
   my $template;
   my $new_site = $self->copy({ name => $self->name . " (Clone)" });
   if ($new_site) {
+    $self->clone_assets($new_site);
     for my $page ($self->pages->toplevel->all) {
       $template = $self->find_or_clone_template($page, $new_site);
 
