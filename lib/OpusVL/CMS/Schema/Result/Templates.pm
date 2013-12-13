@@ -69,7 +69,7 @@ __PACKAGE__->has_many(
 sub content {
     my $self = shift;
 
-    return $self->search_related( 'template_contents', { }, { order_by => { -desc => 'created' } } )->first->data;
+    return $self->search_related( 'template_contents', { }, { order_by => { -desc => 'created' }, rows => 1 } )->first->data;
 }
 
 sub set_content {

@@ -186,7 +186,7 @@ sub content
 {
 	my $self = shift;
 
-	return $self->search_related( 'contents', { status => 'Published' }, { order_by => { -desc => 'created' } } )->first->body;
+	return $self->search_related( 'contents', { status => 'Published' }, { order_by => { -desc => 'created' }, rows => 1 } )->first->body;
 }
 
 =head2 set_content

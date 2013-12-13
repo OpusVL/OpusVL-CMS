@@ -158,7 +158,7 @@ sub create_draft {
 sub content {
     my $self = shift;
  
-   return $self->search_related( 'page_drafts_contents', {}, { order_by => { -desc => 'created' } } )->first->body;
+   return $self->search_related( 'page_drafts_contents', {}, { order_by => { -desc => 'created' }, rows => 1 } )->first->body;
 }
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
