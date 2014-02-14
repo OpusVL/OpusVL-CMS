@@ -201,10 +201,11 @@ __PACKAGE__->belongs_to(
 sub content {
     my $self = shift;
 
-    return $self->search_related( 'asset_datas', {}, { 
+    my $asset_data = $self->search_related( 'asset_datas', {}, { 
         order_by => { -desc => 'created' },
         rows => 1,
-    } )->first->data;
+    } )->first;
+    return $asset_data ? $asset_data->data : "";
 }
 
 sub set_content {
