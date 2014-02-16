@@ -15,6 +15,13 @@ requires 'Sort::Naturally';
 requires 'Captcha::reCAPTCHA';
 requires 'DateTime::Format::Pg';
 auto_install;
+resources (
+    repository => {
+        url => 'ssh://git/srv/git/OpusVL-CMS',
+        type => 'git',
+    },
+);
+
 
 WriteAll;
 
