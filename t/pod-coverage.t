@@ -2,6 +2,10 @@ use strict;
 use warnings;
 use Test::More;
 
+unless ($ENV{POD_COVERAGE_TESTS}) {
+    plan skip_all => "Set POD_COVERAGE_TESTS to 1, to run the POD coverage tests";
+}
+
 # Ensure a recent version of Test::Pod::Coverage
 my $min_tpc = 1.08;
 eval "use Test::Pod::Coverage $min_tpc";
