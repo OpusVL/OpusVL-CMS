@@ -161,7 +161,7 @@ __PACKAGE__->has_many(
   "asset_datas",
   "OpusVL::CMS::Schema::Result::AssetData",
   { "foreign.asset_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 asset_users
