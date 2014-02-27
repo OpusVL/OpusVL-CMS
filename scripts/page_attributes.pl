@@ -13,63 +13,26 @@ my ($database, $username, $password) = @ARGV;
 my $schema = OpusVL::CMS::Schema->connect("dbi:Pg:dbname=${database}", $username, $password);
 
 my @page_attributes = (
-    'main_menu' => {
-        code    => 'main_menu',
-        name    => 'Main Menu',
-        type    => 'boolean',
-    },
-    'gallery_album_title' => {
-        code => 'gallery_album_title',
-        name => 'Gallery Album Title',
+    'mobile_review_text' => {
+        code => 'mobile_review_text',
+        name => 'Mobile Review Text',
         type => 'text',
     },
-    'quick_link' => {
-        code => 'quick_link',
-        name => 'Quick Links',
+    'mobile_review_name' => {
+        code => 'mobile_review_name',   
+        name => 'mobile_review_name',
+        type => 'text',
+    },
+    'mobile_show_in_navmenu' => {
+        code => 'mobile_show_in_navmenu',
+        name => 'Mobile - Show in Navigational Menu?',
         type => 'boolean',
     },
-    'corporate_site_top_menu' => {
-        'corporate_site_top_menu',
-        name => 'Corporate Site Top Menu',
-        type => 'boolean',
-    },
-    'corporate_link_panel_square_colour' => {
-        code => 'corporate_link_panel_square_colour',
-        name => 'Corporate Links Panel Square Colour',
-        type => 'select',
-        values => ['Blue', 'Grey', 'Orange', 'Green', 'Teal', 'Grey Light', 'Grey Dark'],
-    },
-    'title' => {
-        code => 'title',
-        name => 'Title',
+    'mobile_icon' => {
+        code => 'mobile_icon',
+        name => 'Mobile - Icon',
         type => 'text',
     },
-    'top_menu' => {
-        code => 'top_menu',
-        name => 'Top Menu',
-        type => 'boolean',
-    },
-    'corporate_page_style' => {
-        code => 'corporate_page_style',
-        name => 'Corporate Page Style',
-        type => 'select',
-        values => ['Blue', 'Orange', 'Red'],
-    },
-    'quick_links' => {
-        code => 'quick_links',
-        name => 'Quick Links',
-        type => 'select',
-    },
-    'portfolio_set' => {
-        code => 'portfolio_set',
-        name => 'Portfolio Set',
-        type => 'text',
-    },
-    'carousel_set' => {
-        code => 'carousel_set',
-        name => 'Carousel Set',
-        type => 'text',
-    }
 );
     
 # iterate over each site
