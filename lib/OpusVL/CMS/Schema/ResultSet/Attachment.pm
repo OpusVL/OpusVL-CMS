@@ -108,5 +108,16 @@ sub attribute_search {
     }
 }
 
+sub available {
+    my ($self, $site_id) = @_;
+    my $me = $self->current_source_alias;
+    return $self->search({
+         "$me.status" => 'published',
+         'page.site' => $site_id,
+    }, {
+        join => ['page']
+    });
+}
+
 ##
 1;
