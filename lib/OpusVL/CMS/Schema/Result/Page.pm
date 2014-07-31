@@ -692,7 +692,7 @@ sub blog_featured {
     $align = $align eq 'center' ? 'text-align: center' : "float: ${align}";
 
     # first make sure we have a blog
-    if ($self->blog) {
+    if ($self->parent->blog) {
         # are we using a youtube video first of all?
         if (my $youtube_id = $self->attribute('blog_featured_video')) {
             return qq{
