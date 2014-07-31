@@ -696,18 +696,20 @@ sub blog_featured {
         # are we using a youtube video first of all?
         if (my $youtube_id = $self->attribute('blog_featured_video')) {
             return qq{
-                <a href="//www.youtube.com/watch?v=$youtube_id" style="$align">
+                <div style="$align">
+                <a href="//www.youtube.com/watch?v=$youtube_id">
                     <img class="responsive-img" src="//img.youtube.com/vi/$youtube_id/default.jpg">
                 </a>
+                </div>
             };
         }
         else {
-            my $atts = $self->attachments({ blog_featured_image => { '!=', '=', '' } });
+            my $atts = $self->attachments({ blog_featured_image => { '!=' => undef } });
             if ($atts->count > 0) {
                 my $imgsrc = $atts->first->slug;
                 return qq{
                     <div style="$align">
-                        <img class="responsive-img" src="$imgsrc">
+                        <img style="max-width:100%" class="responsive-img" src="/_attachment/$imgsrc/$imgsrc">
                     </div>
                 };
             }
