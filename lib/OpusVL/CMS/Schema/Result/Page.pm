@@ -697,7 +697,7 @@ sub blog_featured {
         if (my $youtube_id = $self->attribute('blog_featured_video')) {
             return qq{
                 <div style="$align">
-                <a href="//www.youtube.com/watch?v=$youtube_id">
+                <a href="//www.youtube.com/watch?v=$youtube_id" rel="prettyPhoto">
                     <img class="responsive-img" src="//img.youtube.com/vi/$youtube_id/default.jpg">
                 </a>
                 </div>
