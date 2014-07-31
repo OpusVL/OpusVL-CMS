@@ -685,6 +685,36 @@ sub blog_image {
 
 }
 
+sub blog_featured {
+    my ($self, $align) = @_;
+    $align //= 'center';
+
+    $align = $align eq 'center' ? 'text-align: center' : "float: ${align}";
+
+    # first make sure we have a blog
+    if ($self->blog) {
+        # are we using a youtube video first of all?
+        if (my $youtube_id = $self->attribute('blog_featured_video')) {
+            return qq{
+                <a href="//www.youtube.com/watch?v=$youtube_id" style="$align">
+                    <img class="responsive-img" src="//img.youtube.com/vi/$youtube_id/default.jpg">
+                </a>
+            };
+        }
+        else {
+            my $atts = $self->attachments({ blog_featured_image => { '!=', '=', '' } });
+            if ($atts->count > 0) {
+                my $imgsrc = $atts->first->slug;
+                return qq{
+                    <div style="$align">
+                        <img class="responsive-img" src="$imgsrc">
+                    </div>
+                };
+            }
+        }
+    }
+}
+
 ##
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
