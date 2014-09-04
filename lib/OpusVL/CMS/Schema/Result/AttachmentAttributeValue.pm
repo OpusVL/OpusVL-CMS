@@ -18,6 +18,11 @@ __PACKAGE__->add_columns(
         data_type   => 'text',
         is_nullable => 1,
     },
+    priority => {
+        data_type   => 'text',
+        is_nullable => 1,
+        default_value => 50,
+    },
     'field_id' => {
         data_type => 'integer',
         is_nullable => 0,
