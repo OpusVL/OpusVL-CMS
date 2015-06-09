@@ -91,11 +91,13 @@ sub attribute_search {
         }
     } else { return {}; }
 
+    my $me = $self->current_source_alias;
+
     given (delete $options->{sort}) {
-        when ('updated') { $options->{order_by} = {'-desc' => 'updated'} }
-        when ('newest')  { $options->{order_by} = {'-desc' => 'created'} }
-        when ('oldest')  { $options->{order_by} = {'-asc'  => 'created'} }
-        default          { $options->{order_by} = {'-asc' => 'priority'} }
+        when ('updated') { $options->{order_by} = {'-desc' => "$me.updated"} }
+        when ('newest')  { $options->{order_by} = {'-desc' => "$me.created"} }
+        when ('oldest')  { $options->{order_by} = {'-asc'  => "$me.created"} }
+        default          { $options->{order_by} = {'-asc' => "$me.priority"} }
     }
 
     return $self->search($query, $options);
