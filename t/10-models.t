@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
-use lib 'lib';
+use Dir::Self;
+use lib __DIR__.'/lib';
 
 use Test::Most;
 use Moose::Util qw/ensure_all_roles/;
