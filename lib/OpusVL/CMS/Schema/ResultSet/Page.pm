@@ -82,7 +82,7 @@ sub attribute_search {
     $options //= {};
     
     # we want published pages only!
-    my $rs = $self->search_rs({ status => 'published' });
+    my $rs = $self->search_rs({ status => { '!=', 'deleted' } });
 
     if (scalar keys %$query) {
         my $attribute_query;
