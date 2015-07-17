@@ -649,7 +649,9 @@ sub attachment {
 
 sub get_attachments {
     my ($self, $options) = @_;
-    #return [ $self->search_related('attachments', { status => 'published' })->all ];
+
+    my $attribute_query = delete $options->{query} // {};
+
     return [ $self->result_source->schema->resultset('Page')
         ->search_related('attachments', 
             { "attachments.status" => 'published',
@@ -660,6 +662,7 @@ sub get_attachments {
             $self->site->id,
             {
                 "me.id" => $self->id,
+                %$attribute_query
             },
             $options,
         )->all
