@@ -217,47 +217,41 @@ sub field {
 
         for ($field->type->type) {
             $name = $field->name; 
+            my $label_id = $label;
+            $label_id =~ s/\W+//g;
             if (/Text$/) {
-                $build_row .= q{<div class="contact_row">};
-                $build_row .= q{<div class="contact_label label_text">};
-                $build_row .= $label . ":</div>";
-                $build_row .= q{<div class="contact_field">};
-                $build_row .= qq{<input class="contact_input" type="text" value="" name="$name" />};
-                $build_row .= q{</div></div>};
+                $build_row .= q{<div class="form-group">};
+                $build_row .= qq{<label for="${label_id}">${label}</label>};
+                $build_row .= qq{<input class="form-control" id="${label_id} type="text" value="" name="${name}">};
+                $build_row .= q{</div>};
             }
             
             elsif (/Textarea$/) {
-                $build_row .= q{<div class="contact_row" style="height:220px">};
-                $build_row .= q{<div class="contact_label label_text">};                                                           
-                $build_row .= $label . ":</div>";                                                                           
-                $build_row .= q{<div class="contact_field">};                                                                      
-                $build_row .= qq{<textarea class="contact_input" name="$name" style="height:200px"></textarea>};                               
-                $build_row .= q{</div></div>};                                                                                     
+                $build_row .= q{<div class="form-group">};
+                $build_row .= qq{<label for="${label_id}">${label}</label>};
+                $build_row .= qq{<textarea class="form-control" id="${label_id}" name="${name}"></textarea>};                               
+                $build_row .= q{</div>};                                                                                     
             }
 
             elsif (/Checkbox/) {
-                $build_row .= q{<div class="contact_row">};
-                $build_row .= q{<div class="contact_label"></div>};
-                $build_row .= q{<div class="contact_field">};
-                $build_row .= qq{<input type="checkbox" name="$name"></div>};
-                $build_row .= qq{<div class="label_text" style="float:left;width:350px">};
-                $build_row .= $label . "</div></div>";
+                $build_row .= q{<div class="checkbox">};
+                $build_row .= qq{<label>};
+                $build_row .= qq{<input type="checkbox" name="$name"> ${label}};
+                $build_row .= "</label></div>";
             }
             
             elsif (/Select/) {
                 my $fields = $field->fields;
-                $build_row .= q{<div class="contact_row">};
-                $build_row .= q{<div class="contact_label"></div>};
-                $build_row .= q{<div class="contact_field">};
-                $build_row .= qq{<select name="$name">};
+                $build_row .= q{<div class="form-group">};
+                $build_row .= qq{<label for="${label_id}">${label}</label>};
+                $build_row .= qq{<select id="${label_id}" name="${name}" class="form-control">};
                 #my @opts    = sort { $a cmp $b } split /\*,\*/, $fields;
                 my @opts    = nsort split /\*,\*/, $fields;
                 for my $opt (@opts) {
                     my ($name, $val) = split /\*!\*/, $opt;
                     $build_row .= qq{<option value="$val">$name</option>};
                 }
-                $build_row  .= qq{</select></div><div class="label_text" style="float:left;width:350px">};
-                $build_row .= $label . "</div></div>";
+                $build_row .= q{</select></div>}; 
             }
 
             elsif (/Submit/) {
@@ -276,13 +270,10 @@ sub field {
                     }
                 }
                 
-                $build_row .= qq{<div class="contact_row" style="padding-top:10px;" >
-                    <div class="contact_label">
+                $build_row .= qq{
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit" name="${name}">${name}</button>
                     </div>
-                    <div class="contact_field">
-                        <input type="submit" name="$name" value="$name" />
-                    </div>
-                </div>
                 };
             }
 
@@ -297,10 +288,7 @@ sub render {
     my $name = $self->name;
     my $html;
     $html .= qq{
-        <div class="contact_form" ><h2>$name</h2>
-            <div style="padding-top:10px;" >
-
-                <form method="post" id="contact_form" >
+                <form method="post" id="contact-form" class="form">
     };
 
     $html .= '<input type="hidden" name="form_id" value="' . $self->id . '" />';
@@ -309,7 +297,7 @@ sub render {
     for my $field ($self->forms_fields->search(undef, { order_by => { -asc => 'priority' } })->all) {
         $html .= $self->field($field->name);
     }
-    $html .= "</form></div></div>";
+    $html .= "</form>";
 
     return $html;
 }
