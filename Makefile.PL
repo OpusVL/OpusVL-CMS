@@ -8,7 +8,7 @@ license  'perl';
 test_requires 'Dir::Self';
 
 requires 'DBIx::Class::Tree::AdjacencyList';
-build_requires 'Test::More';
+build_requires 'Test::Most';
 requires 'DBIx::Class::Helper::ResultSet::SetOperations';
 requires 'Email::MIME';
 requires 'MooseX::NonMoose';
