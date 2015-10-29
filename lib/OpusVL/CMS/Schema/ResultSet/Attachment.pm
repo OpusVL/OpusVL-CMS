@@ -97,7 +97,7 @@ sub attribute_search {
         when ('updated') { $options->{order_by} = {'-desc' => 'updated'} }
         when ('newest')  { $options->{order_by} = {'-desc' => 'created'} }
         when ('oldest')  { $options->{order_by} = {'-asc'  => 'created'} }
-        default          { $options->{order_by} = {'-asc' => 'priority'} }
+        default          { $options->{order_by} = {'-asc' => 'me.priority'} }
     }
     
     if (delete $options->{rs_only}) {
