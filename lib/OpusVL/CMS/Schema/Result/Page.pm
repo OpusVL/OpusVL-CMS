@@ -43,6 +43,12 @@ __PACKAGE__->table("pages");
   is_nullable: 0
   sequence: 'pages_id_seq'
 
+=head2 markup_type
+
+  data_type: 'text'
+  is_nullable: 0
+  default_value: Standard
+
 =head2 url
 
   data_type: 'text'
@@ -158,6 +164,8 @@ __PACKAGE__->add_columns(
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
   "note_changes",
   { data_type => "text", is_nullable => 1 },
+  "markup_type",
+  { data_type => "text", is_nullable => 1, original => { default_value => "Standard" } },
 );
 
 =head1 PRIMARY KEY
@@ -641,7 +649,9 @@ sub attachment {
 
 sub get_attachments {
     my ($self, $options) = @_;
-    #return [ $self->search_related('attachments', { status => 'published' })->all ];
+
+    my $attribute_query = delete $options->{query} // {};
+
     return [ $self->result_source->schema->resultset('Page')
         ->search_related('attachments', 
             { "attachments.status" => 'published',
@@ -652,6 +662,7 @@ sub get_attachments {
             $self->site->id,
             {
                 "me.id" => $self->id,
+                %$attribute_query
             },
             $options,
         )->all

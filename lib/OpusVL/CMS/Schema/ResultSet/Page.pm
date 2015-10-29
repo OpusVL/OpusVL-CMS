@@ -81,11 +81,14 @@ sub attribute_search {
     $query   //= {};
     $options //= {};
     
+    # we want published pages only!
+    my $rs = $self->search_rs({ status => { '!=', 'deleted' } });
+
     if (scalar keys %$query) {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        my @resultset  = $self->result_source->schema->resultset('PageAttributeDetail')
+        my @resultset  = $rs->result_source->schema->resultset('PageAttributeDetail')
             ->search({ site_id => $site_id })->active->all;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
@@ -102,19 +105,22 @@ sub attribute_search {
             }
         }
     }
+
+    my $me = $self->current_source_alias;
     
     given (delete $options->{sort}) {
-        when ('updated') { $options->{order_by} = {'-desc' => 'updated'} }
-        when ('newest')  { $options->{order_by} = {'-desc' => 'created'} }
-        when ('oldest')  { $options->{order_by} = {'-asc'  => 'created'} }
-        default          { $options->{order_by} = {'-asc' => 'priority'} } # -desc ?
+        when ('alphabetical') { $options->{order_by} = {'-asc' => "$me.h1"} }
+        when ('updated') { $options->{order_by} = {'-desc' => "$me.updated"} }
+        when ('newest')  { $options->{order_by} = {'-desc' => "$me.created"} }
+        when ('oldest')  { $options->{order_by} = {'-asc'  => "$me.created"} }
+        default          { $options->{order_by} = {'-asc' => "$me.priority"} } # -desc ?
     }
     
     if (delete $options->{rs_only}) {
-        return $self->search_rs($query, $options);
+        return $rs->search_rs($query, $options);
     }
     else {
-        return $self->search($query, $options);
+        return $rs->search($query, $options);
     }
 }
 
