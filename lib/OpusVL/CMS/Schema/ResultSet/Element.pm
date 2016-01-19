@@ -2,7 +2,7 @@ package OpusVL::CMS::Schema::ResultSet::Element;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Elements -
+OpusVL::CMS::Schema::ResultSet::Element -
 
 =head1 DESCRIPTION
 

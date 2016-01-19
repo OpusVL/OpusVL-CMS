@@ -2,7 +2,7 @@ package OpusVL::CMS::Schema::ResultSet::Asset;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Assets -
+OpusVL::CMS::Schema::ResultSet::Asset -
 
 =head1 DESCRIPTION
 

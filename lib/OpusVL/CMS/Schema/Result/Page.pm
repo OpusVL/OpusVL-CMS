@@ -476,7 +476,7 @@ sub set_content
 {
     my ($self, $content) = @_;
     
-    $self->create_related('page_contents', {body => $content});
+    $self->create_related('page_contents', {body => $content, status => 'Published'});
     $self->update({updated => DateTime->now()});
 }
 

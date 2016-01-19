@@ -2,7 +2,7 @@ package OpusVL::CMS::Schema::ResultSet::Page;
 
 =head1 NAME
 
-OpusVL::CMS::Schema::ResultSet::Pages -
+OpusVL::CMS::Schema::ResultSet::Page -
 
 =head1 DESCRIPTION
 
@@ -81,11 +81,14 @@ sub attribute_search {
     $query   //= {};
     $options //= {};
     
+    # we want published pages only!
+    my $rs = $self->search_rs({ status => { '!=', 'deleted' } });
+
     if (scalar keys %$query) {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        my @resultset  = $self->result_source->schema->resultset('PageAttributeDetail')
+        my @resultset  = $rs->result_source->schema->resultset('PageAttributeDetail')
             ->search({ site_id => $site_id })->active->all;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
@@ -114,10 +117,10 @@ sub attribute_search {
     }
     
     if (delete $options->{rs_only}) {
-        return $self->search_rs($query, $options);
+        return $rs->search_rs($query, $options);
     }
     else {
-        return $self->search($query, $options);
+        return $rs->search($query, $options);
     }
 }
 
