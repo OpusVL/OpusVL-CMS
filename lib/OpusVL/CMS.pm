@@ -97,14 +97,27 @@ L<http://search.cpan.org/dist/OpusVL-CMS/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2012 Jon Allen (JJ).
+Copyright 2012 OpusVL
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
-See http://dev.perl.org/licenses/ for more information.
+If you require assistance, support, or further development of this software, please contact OpusVL using the details below:
 
+=over 4
+
+=item *
+
+Telephone: +44 (0)1788 298 410
+
+=item *
+
+Email: community@opusvl.com
+
+=item *
+
+Web: L<http://opusvl.com>
+
+=back
 
 =cut
 
