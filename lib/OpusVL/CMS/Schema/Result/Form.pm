@@ -212,8 +212,7 @@ sub field {
             $constraint = $field->constraint->constraint->type;
         }
 
-        my $label = $constraint && $constraint eq 'required' ?
-            $field->label . " <font color=\"red\">*</font>" : $field->label;
+        my $label = $field->label; 
 
         for ($field->type->type) {
             $name = $field->name; 
