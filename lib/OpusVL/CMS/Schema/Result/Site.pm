@@ -294,6 +294,13 @@ sub clone_assets {
     }
 }
 
+sub attribute {
+    my ($self, $code) = @_;
+    if (my $attr = $self->site_attributes->find({ code => $code })) {
+        return $attr->value;
+    }
+}
+
 sub clone {
   my $self = shift;
 
@@ -329,5 +336,9 @@ sub clone {
   }
 }
 
+sub attachments {
+    my ($self) = @_;
+    return $self->search_related('pages')->published->search_related('attachments')
+}
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
