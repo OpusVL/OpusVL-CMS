@@ -34,7 +34,7 @@ use Moose;
 BEGIN { extends qw/DBIx::Class::Schema/; }
 __PACKAGE__->load_namespaces;
 
-with 'OpusVL::AppKit::RolesFor::Schema::DataInitialisation';
+with 'OpusVL::DBIC::Helper::RolesFor::Schema::DataInitialisation';
 with 'OpusVL::AppKit::RolesFor::Schema::AppKitAuthDB';
 __PACKAGE__->merge_authdb;
 __PACKAGE__->meta->make_immutable;

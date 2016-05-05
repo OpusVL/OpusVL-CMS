@@ -9,7 +9,7 @@ use OpusVL::CMS::Schema;
 
 ensure_all_roles(
     "OpusVL::CMS::Schema" =>
-        "OpusVL::AppKit::RolesFor::Schema::DataInitialisation",
+        "OpusVL::DBIC::Helper::RolesFor::Schema::DataInitialisation",
 );
 
 ensure_all_roles(
