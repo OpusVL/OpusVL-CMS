@@ -16,7 +16,7 @@ requires 'Email::Sender::Simple';
 requires 'Sort::Naturally';
 requires 'Captcha::reCAPTCHA';
 requires 'DateTime::Format::Pg';
-requires 'OpusVL::AppKit';
+requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 auto_install;
 resources (
