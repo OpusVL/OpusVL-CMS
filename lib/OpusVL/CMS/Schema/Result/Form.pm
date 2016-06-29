@@ -12,6 +12,7 @@ OpusVL::CMS::Schema::Result::Form
 
 use Moose;
 use feature 'switch';
+use experimental 'switch';
 
 extends 'DBIx::Class::Core';
 

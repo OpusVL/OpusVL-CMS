@@ -18,6 +18,7 @@ requires 'Captcha::reCAPTCHA';
 requires 'DateTime::Format::Pg';
 requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
+requires 'experimental';
 auto_install;
 resources (
     repository => {

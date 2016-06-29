@@ -28,10 +28,10 @@ with the development project.
 =cut
 ###########################################################################################
 
-use feature 'switch';
 use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
+use experimental 'switch';
 
 =head2 available
 
