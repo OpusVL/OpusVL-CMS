@@ -12,19 +12,6 @@ Accessors for the Attachment of the SimpleCMS
 
 published - returns all publiched (live) attachments.
 
-=head1 BUGS
-
-=head1 AUTHOR
-
-OpusVL - JJ
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2012 OpusVL.
-
-This sofware is licensed according to the "IP Assignment Schedule" provided
-with the development project.
-
 =cut
 
 ###########################################################################################

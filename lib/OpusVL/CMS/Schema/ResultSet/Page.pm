@@ -12,18 +12,6 @@ Accessors for the Pages of the SimpleCMS
 
 toplevel - returns the top level record to the pages tree.
 
-=head1 BUGS
-
-=head1 AUTHOR
-
-OpusVL - Nuria
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2009 the above author(s).
-
-This sofware is free software, and is licensed under the same terms as perl itself.
-
 =cut
 ###########################################################################################
 

@@ -14,16 +14,6 @@ Base CMS schema
 
 =head1 BUGS
 
-=head1 AUTHOR
-
-Jon Allen (JJ) - jj@opusvl.com
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright (C) 2012 OpusVL
-
-This software is licensed according to the "IP Assignment Schedule" provided
-with the development project.
 
 =cut
 
