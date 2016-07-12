@@ -26,6 +26,7 @@ sub pages {
     # FIXME: This could be done using DBIx::Class natively..
     my $self = shift;
     my @pages;
+    # WAT?
     while(my $site = $self->next) {
         push @pages, $site->page;
     }
@@ -35,15 +36,29 @@ sub pages {
 
 ##
 
-sub sites {
-  my ($self, $user_id) = @_;
-  my @sites;
-
-  for my $site ($self->search({ user_id => $user_id })->all) {
-    push @sites, $site->site;
-  }
-
-  return @sites;
+sub sites 
+{
+    my $self = shift;
+    return $self->sites_rs(@_)->all;
 }
+
+sub sites_rs
+{
+    my ($self, $user_id) = @_;
+    return $self->search({ user_id => $user_id })->search_related('site');
+}
+
+sub real_sites
+{
+    my ($self, $user_id) = @_;
+    return $self->sites_rs($user_id)->real_sites;
+}
+
+sub profile_sites
+{
+    my ($self, $user_id) = @_;
+    return $self->sites_rs($user_id)->profile_sites;
+}
+
 
 1;
