@@ -68,6 +68,8 @@ __PACKAGE__->add_columns(
     is_nullable   => 0,
     original      => { data_type => "varchar" },
   },
+  "template",
+  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
