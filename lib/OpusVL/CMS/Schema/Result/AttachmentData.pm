@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::AttachmentData;
-our $VERSION="1";
+our $VERSION = '2';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
