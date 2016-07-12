@@ -70,6 +70,8 @@ __PACKAGE__->add_columns(
   },
   "template",
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
+  "profile_site",
+  { data_type => "integer", is_nullable => 1 },
 );
 
 =head1 PRIMARY KEY
@@ -243,6 +245,15 @@ __PACKAGE__->has_many(
   "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
   { "foreign.site_id" => "self.id" },
   { cascade_copy => 1, cascade_delete => 0 },
+);
+
+__PACKAGE__->belongs_to(
+    'profile' => 'OpusVL::CMS::Schema::Result::Site',
+    { id => 'profile_site' },
+    {
+        is_deferrable => 1,
+        join_type     => "LEFT",
+    },
 );
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52

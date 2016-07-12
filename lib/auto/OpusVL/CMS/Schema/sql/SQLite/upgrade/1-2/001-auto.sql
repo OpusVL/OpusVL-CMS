@@ -7,6 +7,14 @@ BEGIN;
 ALTER TABLE sites ADD COLUMN template boolean NOT NULL DEFAULT false;
 
 ;
+ALTER TABLE sites ADD COLUMN profile_site integer;
+
+;
+CREATE INDEX sites_idx_profile_site02 ON sites (profile_site);
+
+;
+
+;
 
 COMMIT;
 

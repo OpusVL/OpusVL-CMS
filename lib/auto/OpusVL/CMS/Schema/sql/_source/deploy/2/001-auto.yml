@@ -4366,6 +4366,19 @@ schema:
           reference_fields: []
           reference_table: ''
           type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - profile_site
+          match_type: ''
+          name: sites_fk_profile_site
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
       fields:
         id:
           data_type: integer
@@ -4388,6 +4401,16 @@ schema:
           order: 2
           size:
             - 140
+        profile_site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: profile_site
+          order: 5
+          size:
+            - 0
         status:
           data_type: text
           default_value: active
@@ -4409,7 +4432,12 @@ schema:
           order: 4
           size:
             - 0
-      indices: []
+      indices:
+        - fields:
+            - profile_site
+          name: sites_idx_profile_site
+          options: []
+          type: NORMAL
       name: sites
       options: []
       order: 47
