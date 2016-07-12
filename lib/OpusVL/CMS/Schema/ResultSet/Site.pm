@@ -32,4 +32,11 @@ sub sort_by_name
     return $self->search(undef, { order_by => 'name' });
 }
 
+sub as_formfu_options
+{
+    my $self = shift;
+    my @options = map {[ $_->id => $_->name ]} $self->all;
+    return \@options;
+}
+
 1;
