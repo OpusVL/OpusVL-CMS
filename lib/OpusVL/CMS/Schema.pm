@@ -22,6 +22,9 @@ Base CMS schema
 use DBIx::Class::Schema;
 use Moose;
 BEGIN { extends qw/DBIx::Class::Schema/; }
+
+our $VERSION = '0.103';
+
 __PACKAGE__->load_namespaces;
 
 with 'OpusVL::DBIC::Helper::RolesFor::Schema::DataInitialisation';
