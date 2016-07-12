@@ -1,4 +1,5 @@
 package OpusVL::CMS::Schema::Result::AttachmentAttributeValue;
+our $VERSION="1";
 
 use 5.010;
 use Moose;

@@ -1,4 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::AttachmentAttributeDetail;
+our $VERSION="1";
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
