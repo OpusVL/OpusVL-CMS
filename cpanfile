@@ -1,6 +1,6 @@
 requires 'Captcha::reCAPTCHA';
 requires 'DateTime::Format::Pg';
-requires 'DBIx::Class::Helper';
+requires 'DBIx::Class::Helpers';
 requires 'DBIx::Class::TimeStamp';
 requires 'DBIx::Class::Tree::AdjacencyList';
 requires 'Email::MIME';
