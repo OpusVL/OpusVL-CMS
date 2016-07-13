@@ -34,12 +34,5 @@ sub published
     return $self->search({ status => 'published' });
 }
 
-sub for_site
-{
-    my $self = shift;
-    my $site = shift;
-    return $self->search({ site => { -in => [ $site->id, $site->profile_site ] }});
-}
-
 ##
 1;

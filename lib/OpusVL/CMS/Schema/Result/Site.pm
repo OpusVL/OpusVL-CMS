@@ -225,10 +225,117 @@ sub all_pages
     if($self->profile_site)
     {
         my $profile_pages = $self->profile->search_related('pages');
-        return $rs->union($profile_pages);
+        my $joined = $rs->union($profile_pages);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
     }
     return $rs;
 }
+
+sub all_elements
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('elements');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('elements');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_templates
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('templates');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('templates');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_assets
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('assets');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('assets');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_attributes
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('attributes');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('attributes');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_site_attributes
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('site_attributes');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('site_attributes');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_attachments
+{
+    my $self = shift;
+    
+    my $rs = $self->attachments;
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->attachments;
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
 
 =head2 page_attribute_details
 

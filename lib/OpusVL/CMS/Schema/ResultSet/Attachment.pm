@@ -107,7 +107,7 @@ sub available {
         "$me.status" => 'published',
         'page.site' => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
     }, {
-        join => ['page', 'site'],
+        join => [{ page => 'site'} ],
         order_by => ['site.profile_site'],
     });
 }
