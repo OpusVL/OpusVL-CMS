@@ -23,9 +23,13 @@ extends 'DBIx::Class::ResultSet';
 sub available {
     my ($self, $site_id) = @_;
     my $schema = $self->result_source->schema;
+    my $me = $self->current_source_alias;
     return $self->search({
-        status => 'published',
+        "$me.status" => 'published',
         site => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
+    }, {
+        join => ['site'],
+        order_by => ['site.profile_site'],
     });
 }
 

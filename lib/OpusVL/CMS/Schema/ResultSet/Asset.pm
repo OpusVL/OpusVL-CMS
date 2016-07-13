@@ -29,10 +29,14 @@ Returns all published, or global assets
 
 sub available {
     my ($self, $site_id) = @_;
+    my $me = $self->current_source_alias;
     my $schema = $self->result_source->schema;
     return $self->search({
-        status => 'published',
+        "$me.status" => 'published',
         site => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
+    }, {
+        join => ['site'],
+        order_by => ['site.profile_site'],
     });
 }
 
