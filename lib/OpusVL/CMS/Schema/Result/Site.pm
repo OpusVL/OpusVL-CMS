@@ -217,6 +217,19 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+sub all_pages
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('pages');
+    if($self->profile_site)
+    {
+        my $profile_pages = $self->profile->search_related('pages');
+        return $rs->union($profile_pages);
+    }
+    return $rs;
+}
+
 =head2 page_attribute_details
 
 Type: has_many

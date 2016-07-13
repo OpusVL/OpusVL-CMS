@@ -20,20 +20,6 @@ use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
 
-=head2 available
-
-Returns all published, or global assets
-
-=cut
-
-sub available {                                                                                                                                                                                         
-    my $self = shift;                                                                                                                                                                                   
-    return $self->search({                                                                                                                                                                              
-        -or => [                                                                                                                                                                                        
-            global => 1,                                                                                                                                                                                
-        ],                                                                                                                                                                                              
-    });                                                                                                                                                                                                 
-}
 
 =head2 published
 
@@ -46,6 +32,13 @@ sub published
     my $self = shift;
     
     return $self->search({ status => 'published' });
+}
+
+sub for_site
+{
+    my $self = shift;
+    my $site = shift;
+    return $self->search({ site => { -in => [ $site->id, $site->profile_site ] }});
 }
 
 ##

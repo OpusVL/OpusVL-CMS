@@ -17,10 +17,13 @@ toplevel - returns the top level record to the pages tree.
 ###########################################################################################
 
 use 5.010;
-use DBIx::Class::ResultSet;
-use Moose;
-extends 'DBIx::Class::ResultSet';
+use strict;
+use warnings;
+use base 'DBIx::Class::ResultSet';
+__PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
+
 use experimental 'switch';
+
 
 =head2 toplevel
 
@@ -78,8 +81,18 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        my @resultset  = $rs->result_source->schema->resultset('PageAttributeDetail')
-            ->search({ site_id => $site_id })->active->all;
+        # FIXME: sort out precedence and stuff.
+        my $schema = $self->result_source->schema;
+        my @resultset  = $schema->resultset('PageAttributeDetail')
+            ->search({ 
+                    site_id => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
+                },
+                {
+                    join => ['site'],
+                    # this ensures that we look at the local site for the attributes
+                    # before the profile site.
+                    order_by => ['site.profile_site']
+                })->active->all;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;

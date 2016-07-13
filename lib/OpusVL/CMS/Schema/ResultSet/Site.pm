@@ -39,4 +39,18 @@ sub as_formfu_options
     return \@options;
 }
 
+sub expand_site_ids
+{
+    my $self = shift;
+    my $site_id = shift;
+    my $site = $self->find({ id => $site_id });
+    my @sites;
+    push @sites, $site_id;
+    if($site->profile_site)
+    {
+        push @sites, $site->profile_site;
+    }
+    return \@sites;
+}
+
 1;

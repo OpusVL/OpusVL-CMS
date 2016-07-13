@@ -29,12 +29,10 @@ Returns all published, or global assets
 
 sub available {
     my ($self, $site_id) = @_;
+    my $schema = $self->result_source->schema;
     return $self->search({
-         status => 'published',
-         -or => [
-             site => $site_id,
-             global => 1,
-         ],
+        status => 'published',
+        site => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
     });
 }
 
@@ -49,6 +47,12 @@ sub published
     my $self = shift;
     
     return $self->search({ status => 'published' });
+}
+
+sub by_id_desc
+{
+    my $self = shift;
+    return $self->search(undef, { order_by => { -desc => 'id' } });
 }
 
 ##
