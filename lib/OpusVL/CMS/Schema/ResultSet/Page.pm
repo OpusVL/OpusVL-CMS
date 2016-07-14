@@ -110,8 +110,6 @@ sub attribute_search {
         }
     }
 
-    my $me = $self->current_source_alias;
-    
     given (delete $options->{sort}) {
         when ('alphabetical') { $options->{order_by} = {'-asc' => "$me.h1"} }
         when ('updated') { $options->{order_by} = {'-desc' => "$me.updated"} }

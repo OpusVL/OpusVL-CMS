@@ -329,7 +329,7 @@ sub all_attachments
         my $profile_items = $self->profile->attachments;
         my $joined = $rs->union($profile_items);
         return $joined->search(undef, {
-            join => 'site',
+            join => { page => 'site' },
             order_by => [ 'site.profile_site' ],
         });
     }
