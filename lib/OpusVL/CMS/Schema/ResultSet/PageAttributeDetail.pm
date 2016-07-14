@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::PageAttributeDetail;
-our $VERSION = '4';
+our $VERSION = '5';
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
