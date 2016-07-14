@@ -19,6 +19,7 @@ published - returns all published (live) elements
 use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
+__PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 
 sub available {
     my ($self, $site_id) = @_;

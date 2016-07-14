@@ -75,7 +75,8 @@ sub attribute_search {
     $options //= {};
     
     # we want published pages only!
-    my $rs = $self->search_rs({ status => { '!=', 'deleted' } });
+    my $me = $self->current_source_alias;
+    my $rs = $self->search_rs({ "$me.status" => { '!=', 'deleted' } });
 
     if (scalar keys %$query) {
         my $attribute_query;

@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 use base 'DBIx::Class::ResultSet';
+__PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 
 sub real_sites
 {

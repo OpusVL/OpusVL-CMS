@@ -21,6 +21,7 @@ use 5.010;
 use DBIx::Class::ResultSet;
 use Moose;
 extends 'DBIx::Class::ResultSet';
+__PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 use experimental 'switch';
 
 =head2 published
