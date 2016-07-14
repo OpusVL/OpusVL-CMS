@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+4         2016-07-14 16:26:27+01:00 Europe/London
+
+        Removed the global fields from the database.
+
 3         2016-07-14 16:15:54+01:00 Europe/London
 
         Added deployment handler migration script to
