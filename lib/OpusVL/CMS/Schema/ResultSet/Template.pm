@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::Template;
-our $VERSION = '2';
+our $VERSION = '3';
 
 =head1 NAME
 
