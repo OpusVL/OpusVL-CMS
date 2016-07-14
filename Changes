@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+3         2016-07-14 16:15:54+01:00 Europe/London
+
+        Added deployment handler migration script to
+        migrate global elements/templates etc. to
+        a new default site profile.
+
 2         2016-07-14 15:14:08+01:00 Europe/London
 
         Added site profiles.
