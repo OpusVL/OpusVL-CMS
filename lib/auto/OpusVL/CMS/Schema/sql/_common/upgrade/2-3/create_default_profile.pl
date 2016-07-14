@@ -13,11 +13,11 @@ sub {
     my $a = $assets->search({ global => 1 })->search_related('site');
     my $e = $elements->search({ global => 1 })->search_related('site');
     my $t = $templates->search({ global => 1 })->search_related('site');
-    my $sites = $a->union($e)->union($t);
-    my @users = $sites->search_related('sites_users')->get_column('user_id')->all;
+    my $s = $a->union($e)->union($t);
+    my @users = $s->search_related('sites_users')->get_column('user_id')->all;
     my @updates = map { { user_id => $_ } } @users;
     # ensure the users that previously access still do.
-    # since we're grouping up the elements from various sites this may
+    # since we're grouping up the elements from various s this may
     # not be precise.
     for my $user (@updates)
     {
