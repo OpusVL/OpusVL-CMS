@@ -76,8 +76,6 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 0 },
   "site",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "global",
-  { data_type => "boolean", default_value => \"false", is_nullable => 0 },
   "slug",
   {
     data_type   => "text",

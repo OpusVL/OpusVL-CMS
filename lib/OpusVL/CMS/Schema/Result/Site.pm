@@ -388,11 +388,11 @@ sub _recurse_children {
   my ($self, $site, $kid, $copy_kid) = @_;
   my $template;
   for my $child ($kid->children->all) {
-    if ($child->template->global) {
-      $template = $child->template;
+    if ($child->template->site->id == $self->id) {
+      $template = $child->template->copy({ site => $site->id });
     }
     else {
-      $template = $child->template->copy({ site => $site->id });
+      $template = $child->template;
     }
     my $cloned_child = $child->copy({
       template_id => $template->id,
@@ -407,7 +407,7 @@ sub _recurse_children {
 sub find_or_clone_template {
   my ($self, $page, $site) = @_;
   my $template;
-  if ($page->template->global) {
+  if ($page->template->site->id != $self->id) {
     return $page->template;
   }
 
@@ -422,7 +422,7 @@ sub find_or_clone_template {
 
 sub clone_assets {
     my ($self, $new_site) = @_;
-    my $assets = $self->assets->search({ global => 0 });
+    my $assets = $self->assets->search();
     for my $asset ($assets->all) {
         my $new_asset = $asset->copy({ site => $new_site->id });
     }
