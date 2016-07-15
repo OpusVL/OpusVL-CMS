@@ -14,7 +14,7 @@ sub {
     my $e = $elements->search({ global => 1 })->search_related('site');
     my $t = $templates->search({ global => 1 })->search_related('site');
     my $s = $a->union($e)->union($t);
-    my @users = $s->search_related('sites_users')->get_column('user_id')->all;
+    my @users = $s->search_related('sites_users')->get_column('user_id')->func('distinct');
     my @updates = map { { user_id => $_ } } @users;
     # ensure the users that previously access still do.
     # since we're grouping up the elements from various s this may
