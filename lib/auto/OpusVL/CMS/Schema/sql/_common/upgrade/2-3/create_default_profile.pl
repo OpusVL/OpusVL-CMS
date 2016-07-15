@@ -23,7 +23,7 @@ sub {
     {
         $profile->create_related('sites_users', $user);
     }
-    $sites->update({ profile_site => $profile->id });
+    $sites->search({ template => 0 })->update({ profile_site => $profile->id });
     for my $rs ($assets, $elements, $templates)
     {
         $rs->search({ global => 1 })->update({ site => $profile->id });
