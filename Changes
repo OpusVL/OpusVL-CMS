@@ -2,32 +2,38 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+  - Updated the profile upgrade script to set the 
+    default profile on all the sites.
+  - Removed the old plugins feature.
+  - Reformatted the changes file a bit.
+
 4         2016-07-14 16:26:27+01:00 Europe/London
 
-        Removed the global fields from the database.
+  - Removed the global fields from the database.
 
 3         2016-07-14 16:15:54+01:00 Europe/London
 
-        Added deployment handler migration script to
-        migrate global elements/templates etc. to
-        a new default site profile.
+  - Added deployment handler migration script to
+    migrate global elements/templates etc. to
+    a new default site profile.
 
 2         2016-07-14 15:14:08+01:00 Europe/London
 
-        Added site profiles.
+  - Added site profiles.
 
 1         2016-07-12 14:04:14+01:00 Europe/London
 
-        Updated to use DeploymentHandler for DB deployment.
+  - Updated to use DeploymentHandler for DB deployment.
 
 0.102     2016-07-11 09:08:51+01:00 Europe/London
 
-        Fixed problem created by conversion to dzil.
+  - Fixed problem created by conversion to dzil.
 
 0.101     2016-07-11 09:05:54+01:00 Europe/London
 
-        Converted to dzil.
+  - Converted to dzil.
 
 0.01    Date/time
-        First version, released on an unsuspecting world.
+
+  - First version, released on an unsuspecting world.
 
