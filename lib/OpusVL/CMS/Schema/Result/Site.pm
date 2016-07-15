@@ -336,6 +336,40 @@ sub all_attachments
     return $rs;
 }
 
+sub all_attachment_attribute_details
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('attachment_attribute_details');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('attachment_attribute_details');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
+sub all_page_attribute_details
+{
+    my $self = shift;
+    
+    my $rs = $self->search_related('page_attribute_details');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('page_attribute_details');
+        my $joined = $rs->union($profile_items);
+        return $joined->search(undef, {
+            join => 'site',
+            order_by => [ 'site.profile_site' ],
+        });
+    }
+    return $rs;
+}
+
 
 =head2 page_attribute_details
 
