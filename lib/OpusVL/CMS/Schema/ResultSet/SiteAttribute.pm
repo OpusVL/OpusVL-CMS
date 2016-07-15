@@ -1,10 +1,14 @@
 package OpusVL::CMS::Schema::ResultSet::SiteAttribute;
 
-use strict;
-use warnings;
+use Moose;
+use MooseX::NonMoose;
+extends 'DBIx::Class::ResultSet';
+with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'code' };
 
-use base 'DBIx::Class::ResultSet';
+sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
+
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 
+__PACKAGE__->meta->make_immutable;
 
 1;

@@ -17,9 +17,12 @@ toplevel - returns the top level record to the pages tree.
 ###########################################################################################
 
 use 5.010;
-use strict;
-use warnings;
-use base 'DBIx::Class::ResultSet';
+use Moose;
+use MooseX::NonMoose;
+extends 'DBIx::Class::ResultSet';
+with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'url' };
+
+sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 
 use experimental 'switch';

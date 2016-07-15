@@ -20,7 +20,10 @@ published - returns all publiched (live) attachments.
 use 5.010;
 use DBIx::Class::ResultSet;
 use Moose;
+use MooseX::NonMoose;
 extends 'DBIx::Class::ResultSet';
+with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'slug' };
+sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 use experimental 'switch';
 

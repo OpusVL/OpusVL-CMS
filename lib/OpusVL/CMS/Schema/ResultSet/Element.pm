@@ -18,8 +18,12 @@ published - returns all published (live) elements
 
 use DBIx::Class::ResultSet;
 use Moose;
+use MooseX::NonMoose;
 extends 'DBIx::Class::ResultSet';
+with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'slug' };
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
+
+sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 
 sub available {
     my ($self, $site_id) = @_;

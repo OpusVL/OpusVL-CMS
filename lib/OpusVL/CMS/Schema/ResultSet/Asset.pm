@@ -18,9 +18,13 @@ published - returns all published (live) assets
 
 use DBIx::Class::ResultSet;
 use Moose;
+use MooseX::NonMoose;
 extends 'DBIx::Class::ResultSet';
+with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'slug' };
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 use experimental 'switch';
+
+sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 
 =head2 available
 
