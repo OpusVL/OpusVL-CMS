@@ -36,8 +36,6 @@ sub initdb
         "Pages/Blogs" => ["Admin"],
         "Pages/Pages - Read Access" => ["Admin"],
         "Pages/Pages - Write Access" => ["Admin"],
-        "Plugins/Plugin - Read Access" => ["Admin"],
-        "Plugins/Plugin - Write Access" => ["Admin"],
         "Search/Search box" => ["Admin"],
         "Sites/Site - Read Access" => ["Admin"],
         "Sites/Site - Write Access" => ["Admin"],
