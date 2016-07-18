@@ -4,6 +4,12 @@
 BEGIN;
 
 ;
+DROP TABLE default_attribute_values;
+
+;
+DROP TABLE default_attributes;
+
+;
 DROP TABLE plugins;
 
 ;

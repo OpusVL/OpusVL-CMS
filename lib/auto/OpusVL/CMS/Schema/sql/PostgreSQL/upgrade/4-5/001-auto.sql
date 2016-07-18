@@ -4,6 +4,12 @@
 BEGIN;
 
 ;
+DROP TABLE default_attribute_values CASCADE;
+
+;
+DROP TABLE default_attributes CASCADE;
+
+;
 DROP TABLE plugins CASCADE;
 
 ;
