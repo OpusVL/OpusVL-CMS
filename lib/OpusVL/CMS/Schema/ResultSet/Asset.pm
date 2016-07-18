@@ -55,7 +55,8 @@ sub published
 {
     my $self = shift;
     
-    return $self->search({ status => 'published' });
+    my $me = $self->current_source_alias;
+    return $self->search({ "$me.status" => 'published' });
 }
 
 sub by_id_desc
