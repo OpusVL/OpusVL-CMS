@@ -16,7 +16,7 @@ sub {
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
 
-    for my $default ($default_attributes->all)
+    for my $attr ($default_attributes->all)
     {
         if ($attr->type eq 'site') {
             $site_attr->find_or_create({
