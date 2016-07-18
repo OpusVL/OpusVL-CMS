@@ -91,13 +91,13 @@ sub {
         $rs->search({ global => 1 })->update({ site => $profile->id });
     }
     # find users with user restrictions.
-    my $restricted = $users->search('users_parameters', {
-            'users_parameters.parameter.parameter' => 'Restricted'
+    my $restricted = $users->search({
+            'parameter.parameter' => 'Restricted'
         },
         {
             join => { users_parameters => 'parameter' }
         }
-    });
+    );
     if($restricted->count > 0)
     {
         # if we have some, create a role for the restricted users.
