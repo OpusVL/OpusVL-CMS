@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+6         2016-07-18 14:01:48+01:00 Europe/London
+
+  - Fixed some ambiguity in one of the queries.
+
 5         2016-07-18 10:51:59+01:00 Europe/London
 
   - Updated the profile upgrade script to set the 
