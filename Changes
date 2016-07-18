@@ -2,9 +2,19 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+5         2016-07-18 10:51:59+01:00 Europe/London
+
   - Updated the profile upgrade script to set the 
     default profile on all the sites.
+  - Migration script updates the restricted users
+    to have a new role instead of a user parameter.
+  - Allow for profile level page/attachment attributes.
+  - Removed old default attributes hidden in database
+    and migrate them over to the profile site when
+    encountered on migration.
   - Removed the old plugins feature.
+  - Updated initial deploy SQL to ensure we get a complete
+    database.
   - Reformatted the changes file a bit.
 
 4         2016-07-14 16:26:27+01:00 Europe/London
