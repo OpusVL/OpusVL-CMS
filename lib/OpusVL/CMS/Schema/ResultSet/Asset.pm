@@ -73,11 +73,15 @@ sub attribute_search {
     $query   //= {};
     $options //= {};
 
-    if (scalar keys %$query) {
-        my $attribute_query;
-        my @page_ids;
+
+    if (%$query) {
+        my $sites = $self->search_related('site');
+        my $profile_sites = $sites->search_related('profile');
+
+        my $active_attributes = $sites->union($profile_sites)->search_related('asset_attributes')->active;
+        my @attributes = $active_attributes->search({ code => { -in => [keys %$query]}})->filter_by_code;
         my $join_count = 0;
-        foreach my $field ($self->result_source->schema->resultset('AssetAttributeDetail')->active->all) {
+        foreach my $field (@attributes) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;
                 my $alias = 'attribute_values';

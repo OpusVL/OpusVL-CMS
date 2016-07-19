@@ -1,7 +1,7 @@
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
-}, 'Page', 'Site', 'Attachment';
+}, 'Page', 'Site', 'Attachment', 'Asset';
 
 ok my $profile = Site->create({ name => 'test' });
 ok my $site = Site->create({ 
@@ -17,6 +17,40 @@ ok my $site = Site->create({
 });
 is $site->attribute('test'), 'test value', 'get site attribute';
 is $site->attribute('test'), 'test value', 'should be cached';
+my $asset_att = $site->create_related('asset_attributes', {
+    code => 'logo',
+    type => 'text',
+    name => 'Logo',
+    active => 1,
+});
+my $profile_asset_att = $profile->create_related('asset_attributes', {
+    code => 'logo',
+    type => 'text',
+    name => 'Original',
+    active => 1,
+});
+my $asset = $site->create_related('assets', {
+    filename => 'some.css',
+    mime_type => 'text/css',
+    slug => 'some.css',
+    attribute_values => [
+        {
+            value => 'blah',
+            field_id => $asset_att->id,
+        }
+    ],
+    asset_datas => [
+        {
+            data => '/* blah */',
+        },
+    ],
+});
+is $asset->attribute('logo'), 'blah';
+my $assets = Asset->attribute_search({
+    logo => 'blah',
+});
+is $assets->count, 1;
+
 
 ok my $profile_attribute = $profile->create_related('page_attribute_details',
     {
