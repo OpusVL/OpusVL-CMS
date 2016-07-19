@@ -14,7 +14,8 @@ OpusVL::CMS::Schema::Result::Site
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
