@@ -12,6 +12,7 @@ requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 requires 'Sort::Naturally';
 requires 'DBIx::Class::DeploymentHandler';
+requires 'DBIx::Class::Report';
 
 on 'test' => sub {
     requires 'Test::Most';

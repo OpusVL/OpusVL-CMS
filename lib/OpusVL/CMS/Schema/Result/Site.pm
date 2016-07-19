@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::Site;
-our $VERSION = '6';
+our $VERSION = '11';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
@@ -14,7 +14,8 @@ OpusVL::CMS::Schema::Result::Site
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
@@ -462,9 +463,16 @@ sub clone_assets {
     }
 }
 
+has _attribute_cache => (is => 'rw', default => sub { {} });
+
 sub attribute {
     my ($self, $code) = @_;
-    if (my $attr = $self->site_attributes->find({ code => $code })) {
+    if(exists $self->_attribute_cache->{$code})
+    {
+        return $self->_attribute_cache->{$code};
+    }
+    if (my $attr = $self->all_site_attributes->search({ code => $code }, { rows => 1 })->first) {
+        $self->_attribute_cache->{$code} = $attr->value;
         return $attr->value;
     }
 }

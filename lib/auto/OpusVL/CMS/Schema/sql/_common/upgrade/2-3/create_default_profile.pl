@@ -1,3 +1,5 @@
+use DBIx::Class::Report;
+
 sub {
     my $schema = shift;
     my $users = $schema->resultset('User');
@@ -5,7 +7,6 @@ sub {
     my $elements = $schema->resultset('Element');
     my $assets = $schema->resultset('Asset');
     my $templates = $schema->resultset('Template');
-    my $default_attributes = $schema->resultset('DefaultAttribute');
     my $profile_info = {
         name => 'Default Profile',
         template => 1,
@@ -16,7 +17,62 @@ sub {
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
 
-    for my $attr ($default_attributes->all)
+    # NOTE: we don't have the resultset any more.
+    # so we create it temporarily for the migration.
+    my $default_attributes = DBIx::Class::Report->new(
+        schema => $schema,
+        sql => q{
+        select a.id, code, name, a.value, type, field_type, array_agg(v.value) as values
+        from default_attributes a
+        left outer join default_attribute_values v on field_id = a.id
+        group by a.id, code, name, a.value, type, field_type
+        },
+        columns => [
+            "id",
+            {
+                data_type         => "integer",
+                is_auto_increment => 1,
+                is_nullable       => 0,
+                sequence          => "default_attributes_id_seq",
+            },
+            "code",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "name",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "value",
+            {
+                data_type   => "text",
+                is_nullable => 1,
+                original    => { data_type => "varchar" },
+            },
+            "type",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "field_type",
+            {
+                data_type   => "text",
+                is_nullable => 1,
+                original    => { data_type => "varchar" },
+            },
+            values => 
+            {
+                data_type => 'text[]',
+                is_nullable => 1,
+            }
+        ]
+    );
+    for my $attr ($default_attributes->fetch)
     {
         if ($attr->type eq 'site') {
             $site_attr->find_or_create({
@@ -38,12 +94,12 @@ sub {
             if ($new_attr) {
                 if ($attr->field_type eq 'select') {
                     # the select field has values
-                    if ($attr->values->count > 0) {
-                        for my $value ($attr->values->all) {
+                    if (@{$attr->values}) {
+                        for my $value (@{$attr->values}) {
                             $new_attr->field_values->find_or_create({
-                                    field_id => $new_attr->id,
-                                    value    => $value->value
-                                });
+                                field_id => $new_attr->id,
+                                value    => $value
+                            });
                         }
                     }
                 }
@@ -60,12 +116,12 @@ sub {
             if ($new_attr) {
                 if ($attr->field_type eq 'select') {
                     # the select field has values
-                    if ($attr->values->count > 0) {
-                        for my $value ($attr->values->all) {
+                    if (@{$attr->values}) {
+                        for my $value (@{$attr->values}) {
                             $new_attr->field_values->find_or_create({
-                                    field_id => $new_attr->id,
-                                    value    => $value->value
-                                });
+                                field_id => $new_attr->id,
+                                value    => $value
+                            });
                         }
                     }
                 }
