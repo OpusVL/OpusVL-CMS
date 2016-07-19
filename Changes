@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+11        2016-07-19 16:46:17+01:00 Europe/London
+
+  - Started testing and refactoring core attachment 
+    related methods to make them more robust and
+    efficient.
+
 10        2016-07-19 14:12:25+01:00 Europe/London
 
   - Starting to try to speed things up.
