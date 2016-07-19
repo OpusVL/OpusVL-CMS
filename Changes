@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+8         2016-07-19 10:45:36+01:00 Europe/London
+
+  - Finished getting the DH script to work with
+    default parameters with a clean install.
+
 7         2016-07-19 10:10:05+01:00 Europe/London
 
   - Updated the DeploymentHandler script to work on
