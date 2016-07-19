@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::ElementAttribute;
-our $VERSION = '8';
+our $VERSION = '9';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
