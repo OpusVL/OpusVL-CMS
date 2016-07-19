@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+14        2016-07-19 21:56:14+01:00 Europe/London
+
+  - Added more tests and refactored more code.
+
 13        2016-07-19 17:27:46+01:00 Europe/London
 
   - Belt and braces attempt at fixing the cache.
