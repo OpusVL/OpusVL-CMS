@@ -11,7 +11,7 @@ __PACKAGE__->table('attachment_attribute_details');
 
 __PACKAGE__->add_columns(
     'id' => {
-        data_type         => "serial",
+        data_type         => "integer",
         is_auto_increment => 1,
         is_nullable       => 0,
     },
