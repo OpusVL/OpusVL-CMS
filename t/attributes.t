@@ -150,7 +150,10 @@ ok my $page2 = $site->create_related('pages', {
 # FIXME: probably want to change this prototype.
 ok my $pages = Page->attribute_search($site, { test => 'a test value'}, {}), 'Setup resultset';
 is $pages->count, 1, 'Correct number of pages';
-is $pages->first->url, '/';
+is $pages->first->url, '/', 'correct page identified';
+
+ok my $att = $page->attribute('test'), 'loaded attribute';
+is $att, 'a test value';
 
 my $a = Attachment->attribute_search($site, {
     test => 'pick me',
