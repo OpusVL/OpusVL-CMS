@@ -140,7 +140,7 @@ sub attribute
     if (ref $field) {
         $search->{field_id} = $field->id
     }
-    else 
+    else
     {
         $search->{'field.code'} = $field;
     }

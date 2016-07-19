@@ -205,6 +205,7 @@ my $a = Attachment->attribute_search($site, {
     test => 'pick me',
 });
 is $a->count, 1;
+is $a->first->attribute('test'), 'pick me';
 
 my $a2 = Attachment->attribute_search($site, {
     wat => 'me',

@@ -246,14 +246,20 @@ sub remove
 sub attribute
 {
     my ($self, $field) = @_;
-    my $site = $self->page->site;
-    unless (ref $field) {
-        $field = $site->attachment_attribute_details->search({code => $field})->first;
+
+    my $search = {};
+    my $args = { prefetch => ['field'] };
+    if (ref $field) {
+        $search->{field_id} = $field->id
+    }
+    else
+    {
+        $search->{'field.code'} = $field;
     }
 
-    my $current_value = $self->search_related('attribute_values', { field_id => $field->id })->first;
+    my $current_value = $self->search_related('attribute_values', $search, $args)->first;
     return undef unless $current_value;
-    return $current_value->date_value if($field->type eq 'date');
+    return $current_value->date_value if($current_value->field->type eq 'date');
     return $current_value->value;
 }
 
