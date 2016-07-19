@@ -1,11 +1,11 @@
 alter table assets add column slug text;
-update assets set slug=id::varchar;
+update assets set slug=id::varchar where slug is null;
 alter table assets alter column slug set NOT NULL;
 alter table attachments add column slug text;
-update attachments set slug=id::varchar;
+update attachments set slug=id::varchar where slug is null;
 alter table attachments alter column slug set NOT NULL;
 alter table elements add column slug text;
-update elements set slug=id::varchar;
+update elements set slug=id::varchar where slug is null;
 alter table elements alter column slug set NOT NULL;
 
 alter table forms add column   mail_to text,
