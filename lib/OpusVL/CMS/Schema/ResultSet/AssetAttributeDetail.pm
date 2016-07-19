@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::AssetAttributeDetail;
-our $VERSION = '12';
+our $VERSION = '13';
 
 use Moose;
 extends 'DBIx::Class::ResultSet';

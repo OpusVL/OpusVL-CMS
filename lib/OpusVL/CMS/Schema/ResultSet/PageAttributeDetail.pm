@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::PageAttributeDetail;
-our $VERSION = '12';
+our $VERSION = '13';
 
 use Moose;
 use MooseX::NonMoose;
