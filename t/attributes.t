@@ -116,8 +116,8 @@ ok my $page2 = $site->create_related('pages', {
 });
 # lets add some attributes.
 # FIXME: probably want to change this prototype.
-ok my $pages = Page->attribute_search($site, { test => 'a test value'}, {});
-is $pages->count, 1;
+ok my $pages = Page->attribute_search($site, { test => 'a test value'}, {}), 'Setup resultset';
+is $pages->count, 1, 'Correct number of pages';
 is $pages->first->url, '/';
 
 my $a = Attachment->attribute_search($site->id, {
