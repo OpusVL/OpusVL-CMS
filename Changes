@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+12        2016-07-19 17:19:03+01:00 Europe/London
+
+  - Fixed bug introduced with site attribute cache.
+
 11        2016-07-19 16:46:17+01:00 Europe/London
 
   - Started testing and refactoring core attachment 
