@@ -3,7 +3,17 @@ use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
 }, 'Page', 'Site';
 
-ok my $site = Site->create({ name => 'test' });
+ok my $profile = Site->create({ name => 'test' });
+ok my $site = Site->create({ name => 'test', profile_site => $profile->id });
+
+ok my $profile_attribute = $profile->create_related('page_attribute_details',
+    {
+        code => 'test',
+        name => 'Original',
+        type => 'text',
+        active => 1,
+    }
+);
 
 ok my $attribute = $site->create_related('page_attribute_details',
     {
