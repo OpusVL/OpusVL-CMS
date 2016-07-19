@@ -468,6 +468,10 @@ has _attribute_cache => (is => 'rw', default => sub { {} });
 
 sub attribute {
     my ($self, $code) = @_;
+    unless($self->_attribute_cache)
+    {
+        $self->_attribute_cache({});
+    }
     if(exists $self->_attribute_cache->{$code})
     {
         return $self->_attribute_cache->{$code};
