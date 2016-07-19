@@ -348,7 +348,7 @@ sub all_attachment_attribute_details
         my $joined = $rs->union($profile_items);
         return $joined->search(undef, {
             join => 'site',
-            order_by => [ 'site.profile_site' ],
+            order_by => [ { -desc => 'site.profile_site' } ],
         });
     }
     return $rs;

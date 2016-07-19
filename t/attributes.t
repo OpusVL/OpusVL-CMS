@@ -14,9 +14,25 @@ ok my $profile_attribute = $profile->create_related('page_attribute_details',
         active => 1,
     }
 );
+ok my $profile_only_attribute = $profile->create_related('page_attribute_details',
+    {
+        code => 'simple',
+        name => 'Simple',
+        type => 'text',
+        active => 1,
+    }
+);
 ok $profile->create_related('attachment_attribute_details',
     {
         code => 'test',
+        name => 'Original',
+        type => 'text',
+        active => 1,
+    }
+);
+ok my $profile_aa = $profile->create_related('attachment_attribute_details',
+    {
+        code => 'wat',
         name => 'Original',
         type => 'text',
         active => 1,
@@ -59,9 +75,13 @@ ok my $page = $site->create_related('pages', {
     ],
     attribute_values => [
         {
+            value => 'not',
+            field_id => $profile_only_attribute->id,
+        },
+        {
             value => 'a test value',
             field_id => $attribute->id,
-        }
+        },
     ],
     attachments => [
         {
@@ -74,6 +94,10 @@ ok my $page = $site->create_related('pages', {
                 }
             ],
             attribute_values => [
+                {
+                    value => 'me',
+                    field_id => $profile_aa->id,
+                },
             ],
         }
     ],
@@ -93,7 +117,11 @@ ok my $page2 = $site->create_related('pages', {
         #{
         #    value => 'a test value',
         #    field_id => $attribute->id,
-        #}
+        #},
+        {
+            value => 'yes',
+            field_id => $profile_only_attribute->id,
+        }
     ],
     attachments => [
         {
@@ -107,9 +135,13 @@ ok my $page2 = $site->create_related('pages', {
             ],
             attribute_values => [
                 {
+                    value => 'not me',
+                    field_id => $profile_aa->id,
+                },
+                {
                     value => 'pick me',
                     field_id => $attachment_attribute->id,
-                }
+                },
             ],
         }
     ],
@@ -120,11 +152,20 @@ ok my $pages = Page->attribute_search($site, { test => 'a test value'}, {}), 'Se
 is $pages->count, 1, 'Correct number of pages';
 is $pages->first->url, '/';
 
-my $a = Attachment->attribute_search($site->id, {
+my $a = Attachment->attribute_search($site, {
     test => 'pick me',
 });
 is $a->count, 1;
-# FIXME: do attachment and asset attribute_search.
 
+my $a2 = Attachment->attribute_search($site, {
+    wat => 'me',
+});
+is $a2->count, 1;
+is $a2->first->slug, 'test.css';
 
+ok my $simple_pages = Page->attribute_search($site, { simple => 'yes'}, {});
+is $simple_pages->count, 1;
+is $simple_pages->first->url, '/about';
+
+# FIXME: do asset attribute_search.
 done_testing;

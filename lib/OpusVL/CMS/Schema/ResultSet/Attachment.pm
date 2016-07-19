@@ -44,7 +44,7 @@ sub published
 
 Searches attachments by attribute, e.g.
 
- my @attachments = $resultset->attribute_search({
+ my @attachments = $resultset->attribute_search($site, {
      type => 'Screenshot',
  }, {
      order_by => 'newest',
@@ -52,13 +52,13 @@ Searches attachments by attribute, e.g.
      page     => 1,
  });
 
- my $attachment = $resultset->attribute_search({homepage_slot => 1})->first;
+ my $attachment = $resultset->attribute_search($site, {homepage_slot => 1})->first;
 
 =cut
 
 sub attribute_search {
-    my $self    = shift;
-    my $site_id = shift;
+    my $self = shift;
+    my $site = shift;
     my ($query, $options) = @_;
 
     $query   //= {};
@@ -68,8 +68,7 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        my @resultset  = $self->result_source->schema->resultset('AttachmentAttributeDetail')
-            ->search({ site_id => $site_id })->active->all;
+        my @resultset = $site->all_attachment_attribute_details->active->search({ code => { -in => [keys %$query] } })->filter_by_code;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;

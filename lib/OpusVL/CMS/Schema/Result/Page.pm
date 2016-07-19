@@ -524,7 +524,7 @@ around 'children' => sub {
 around 'attachments' => sub {
     my ($orig, $self, $query, $options) = @_;
 
-    return $self->$orig()->published->attribute_search($self->site->id, $query, $options);
+    return $self->$orig()->published->attribute_search($self->site, $query, $options);
 };
 
 sub assets {
@@ -653,6 +653,7 @@ sub get_attachments {
 
     my $attribute_query = delete $options->{query} // {};
 
+    # FIXME: come back to this.
     return [ $self->result_source->schema->resultset('Page')
         ->search_related('attachments', 
             { "attachments.status" => 'published',
@@ -660,7 +661,7 @@ sub get_attachments {
             }
         )
         ->attribute_search(
-            $self->site->id,
+            $self->site,
             {
                 "me.id" => $self->id,
                 %$attribute_query
