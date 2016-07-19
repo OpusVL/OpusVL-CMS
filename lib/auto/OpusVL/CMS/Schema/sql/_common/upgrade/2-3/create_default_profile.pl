@@ -1,3 +1,5 @@
+use DBIx::Class::Report;
+
 sub {
     my $schema = shift;
     my $users = $schema->resultset('User');
@@ -5,7 +7,6 @@ sub {
     my $elements = $schema->resultset('Element');
     my $assets = $schema->resultset('Asset');
     my $templates = $schema->resultset('Template');
-    my $default_attributes = $schema->resultset('DefaultAttribute');
     my $profile_info = {
         name => 'Default Profile',
         template => 1,
@@ -16,7 +17,52 @@ sub {
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
 
-    for my $attr ($default_attributes->all)
+    # NOTE: we don't have the resultset any more.
+    # so we create it temporarily for the migration.
+    my $default_attributes = DBIx::Class::Report->new(
+        schema => $schema,
+        sql => 'select id, code, name, value, type, field_type from default_attributes',  
+        columns => [
+            "id",
+            {
+                data_type         => "integer",
+                is_auto_increment => 1,
+                is_nullable       => 0,
+                sequence          => "default_attributes_id_seq",
+            },
+            "code",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "name",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "value",
+            {
+                data_type   => "text",
+                is_nullable => 1,
+                original    => { data_type => "varchar" },
+            },
+            "type",
+            {
+                data_type   => "text",
+                is_nullable => 0,
+                original    => { data_type => "varchar" },
+            },
+            "field_type",
+            {
+                data_type   => "text",
+                is_nullable => 1,
+                original    => { data_type => "varchar" },
+            },
+        ]
+    );
+    for my $attr ($default_attributes->fetch)
     {
         if ($attr->type eq 'site') {
             $site_attr->find_or_create({
