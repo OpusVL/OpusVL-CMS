@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::AlternateDomain;
-our $VERSION = '7';
+our $VERSION = '8';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
