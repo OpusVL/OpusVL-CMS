@@ -576,16 +576,10 @@ sub page_attribute
         $search->{'field.code'} = $field;
     }
 
-    if ($field) {
-      my $current_value = $self->search_related('attribute_values', $search, $args)->first;
-      return undef unless $current_value;
-      return $current_value->date_value if $current_value->field->type eq 'date';
-      return $current_value->value;
-    }
-    else {
-      warn "Field not set in page_attribute";
-      return undef;
-    }
+    my $current_value = $self->search_related('attribute_values', $search, $args)->first;
+    return undef unless $current_value;
+    return $current_value->date_value if $current_value->field->type eq 'date';
+    return $current_value->value;
 }
 
 sub cascaded_attribute
