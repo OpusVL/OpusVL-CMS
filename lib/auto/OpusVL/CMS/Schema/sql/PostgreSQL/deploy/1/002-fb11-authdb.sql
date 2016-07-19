@@ -2,8 +2,8 @@
 CREATE TABLE users_favourites (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    page character varying(255) NOT NULL,
-    name character varying(255)
+    page varchar NOT NULL,
+    name varchar
 );
 
 CREATE SEQUENCE users_favourites_id_seq
