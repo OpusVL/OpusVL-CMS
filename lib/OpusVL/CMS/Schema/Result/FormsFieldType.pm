@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::FormsFieldType;
-our $VERSION = '10';
+our $VERSION = '11';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
