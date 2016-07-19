@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+9         2016-07-19 11:26:07+01:00 Europe/London
+  - Updated old migration scripts to do the full job
+    and to avoid corrupting existing data when the
+    database has already got some of the new structure.
+
 8         2016-07-19 10:45:36+01:00 Europe/London
 
   - Finished getting the DH script to work with
