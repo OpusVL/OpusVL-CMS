@@ -21,7 +21,12 @@ sub {
     # so we create it temporarily for the migration.
     my $default_attributes = DBIx::Class::Report->new(
         schema => $schema,
-        sql => 'select id, code, name, value, type, field_type from default_attributes',  
+        sql => q{
+        select a.id, code, name, a.value, type, field_type, array_agg(v.value) as values
+        from default_attributes a
+        left outer join default_attribute_values v on field_id = a.id
+        group by a.id, code, name, a.value, type, field_type
+        },
         columns => [
             "id",
             {
@@ -60,6 +65,11 @@ sub {
                 is_nullable => 1,
                 original    => { data_type => "varchar" },
             },
+            values => 
+            {
+                data_type => 'text[]',
+                is_nullable => 1,
+            }
         ]
     );
     for my $attr ($default_attributes->fetch)
@@ -84,12 +94,12 @@ sub {
             if ($new_attr) {
                 if ($attr->field_type eq 'select') {
                     # the select field has values
-                    if ($attr->values->count > 0) {
-                        for my $value ($attr->values->all) {
+                    if (@{$attr->values}) {
+                        for my $value (@{$attr->values}) {
                             $new_attr->field_values->find_or_create({
-                                    field_id => $new_attr->id,
-                                    value    => $value->value
-                                });
+                                field_id => $new_attr->id,
+                                value    => $value
+                            });
                         }
                     }
                 }
@@ -106,12 +116,12 @@ sub {
             if ($new_attr) {
                 if ($attr->field_type eq 'select') {
                     # the select field has values
-                    if ($attr->values->count > 0) {
-                        for my $value ($attr->values->all) {
+                    if (@{$attr->values}) {
+                        for my $value (@{$attr->values}) {
                             $new_attr->field_values->find_or_create({
-                                    field_id => $new_attr->id,
-                                    value    => $value->value
-                                });
+                                field_id => $new_attr->id,
+                                value    => $value
+                            });
                         }
                     }
                 }
