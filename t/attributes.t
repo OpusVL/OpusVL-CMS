@@ -4,7 +4,19 @@ use Test::DBIx::Class {
 }, 'Page', 'Site', 'Attachment';
 
 ok my $profile = Site->create({ name => 'test' });
-ok my $site = Site->create({ name => 'test', profile_site => $profile->id });
+ok my $site = Site->create({ 
+    name => 'test', 
+    profile_site => $profile->id, 
+    site_attributes => [
+        {
+            code => 'test',
+            name => 'Test',
+            value => 'test value',
+        },
+    ],
+});
+is $site->attribute('test'), 'test value', 'get site attribute';
+is $site->attribute('test'), 'test value', 'should be cached';
 
 ok my $profile_attribute = $profile->create_related('page_attribute_details',
     {

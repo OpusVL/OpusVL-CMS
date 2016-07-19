@@ -15,6 +15,7 @@ use strict;
 use warnings;
 
 use Moose;
+use MooseX::NonMoose;
 extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
