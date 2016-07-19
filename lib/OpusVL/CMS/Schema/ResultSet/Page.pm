@@ -57,7 +57,7 @@ sub published
 
 Searches pages by attribute, e.g.
 
- my @pages = $resultset->attribute_search({
+ my @pages = $resultset->attribute_search($site, {
      section => 'Applications',
  }, {
      order_by => 'newest',
@@ -65,13 +65,13 @@ Searches pages by attribute, e.g.
      page     => 1,
  });
 
- my $page = $resultset->attribute_search({homepage_slot => 1})->first;
+ my $page = $resultset->attribute_search($site, {homepage_slot => 1})->first;
 
 =cut
 
 sub attribute_search {
     my $self    = shift;
-    my $site_id = shift;
+    my $site = shift;
     my ($query, $options) = @_;
 
     $query   //= {};
@@ -85,18 +85,7 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
-        # FIXME: sort out precedence and stuff.
-        my $schema = $self->result_source->schema;
-        my @resultset  = $schema->resultset('PageAttributeDetail')
-            ->search({ 
-                    site_id => { -in => $schema->resultset('Site')->expand_site_ids($site_id) },
-                },
-                {
-                    join => ['site'],
-                    # this ensures that we look at the local site for the attributes
-                    # before the profile site.
-                    order_by => ['site.profile_site']
-                })->active->all;
+        my @resultset = $site->all_page_attribute_details->active->search({ code => { -in => [keys %$query] } })->filter_by_code;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;

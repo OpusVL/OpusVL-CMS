@@ -514,7 +514,7 @@ sub remove
 around 'children' => sub {
     my ($orig, $self, $query, $options) = @_;
 
-    return $self->$orig()->published->attribute_search($self->site->id, $query, $options);
+    return $self->$orig()->published->attribute_search($self->site, $query, $options);
 };
 
 =head2 attachments
