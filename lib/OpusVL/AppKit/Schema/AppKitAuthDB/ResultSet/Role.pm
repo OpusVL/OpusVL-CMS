@@ -1,5 +1,5 @@
 package OpusVL::AppKit::Schema::AppKitAuthDB::ResultSet::Role;
-our $VERSION = '15';
+our $VERSION = '16';
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
