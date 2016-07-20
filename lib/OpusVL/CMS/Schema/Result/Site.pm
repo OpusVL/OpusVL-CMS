@@ -15,7 +15,6 @@ use strict;
 use warnings;
 
 use Moose;
-use MooseX::NonMoose;
 extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
@@ -219,10 +218,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+has _all_elements_rs_cache => (is => 'rw');
+has _all_pages_rs_cache => (is => 'rw');
+has _all_site_attributes_rs_cache => (is => 'rw');
+has _all_page_attribute_details_rs_cache => (is => 'rw');
+has _all_attachment_attribute_details_rs_cache => (is => 'rw');
+has _all_attachments_rs_cache => (is => 'rw');
+has _all_assets_rs_cache => (is => 'rw');
+has _all_attributes_rs_cache => (is => 'rw');
+has _all_templates_rs_cache => (is => 'rw');
+
 sub all_pages
 {
     my $self = shift;
     
+    return $self->_all_pages_rs_cache if $self->_all_pages_rs_cache;
     my $rs = $self->search_related('pages');
     if($self->profile_site)
     {
@@ -233,13 +243,20 @@ sub all_pages
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_pages_rs_cache($rs);
     return $rs;
+}
+
+sub _build_rs_cache
+{
+    return {};
 }
 
 sub all_elements
 {
     my $self = shift;
     
+    return $self->_all_elements_rs_cache if $self->_all_elements_rs_cache;
     my $rs = $self->search_related('elements');
     if($self->profile_site)
     {
@@ -250,6 +267,7 @@ sub all_elements
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_elements_rs_cache($rs);
     return $rs;
 }
 
@@ -257,6 +275,7 @@ sub all_templates
 {
     my $self = shift;
     
+    return $self->_all_templates_rs_cache if $self->_all_templates_rs_cache;
     my $rs = $self->search_related('templates');
     if($self->profile_site)
     {
@@ -267,6 +286,7 @@ sub all_templates
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_templates_rs_cache($rs);
     return $rs;
 }
 
@@ -274,6 +294,7 @@ sub all_assets
 {
     my $self = shift;
     
+    return $self->_all_assets_rs_cache if $self->_all_assets_rs_cache;
     my $rs = $self->search_related('assets');
     if($self->profile_site)
     {
@@ -284,6 +305,7 @@ sub all_assets
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_elements_rs_cache($rs);
     return $rs;
 }
 
@@ -291,6 +313,7 @@ sub all_attributes
 {
     my $self = shift;
     
+    return $self->_all_attributes_rs_cache if $self->_all_attributes_rs_cache;
     my $rs = $self->search_related('attributes');
     if($self->profile_site)
     {
@@ -301,6 +324,7 @@ sub all_attributes
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_attributes_rs_cache($rs);
     return $rs;
 }
 
@@ -308,6 +332,7 @@ sub all_site_attributes
 {
     my $self = shift;
     
+    return $self->_all_site_attributes_rs_cache if $self->_all_site_attributes_rs_cache;
     my $rs = $self->search_related('site_attributes');
     if($self->profile_site)
     {
@@ -318,6 +343,7 @@ sub all_site_attributes
             order_by => [ 'site.profile_site' ],
         });
     }
+    $self->_all_site_attributes_rs_cache($rs);
     return $rs;
 }
 
@@ -325,6 +351,7 @@ sub all_attachments
 {
     my $self = shift;
     
+    return $self->_all_attachments_rs_cache if $self->_all_attachments_rs_cache;
     my $rs = $self->attachments;
     if($self->profile_site)
     {
@@ -335,6 +362,7 @@ sub all_attachments
             order_by => [ 'site.profile_site' ],
         });
     }
+    return $self->_all_attachments_rs_cache if $self->_all_attachments_rs_cache;
     return $rs;
 }
 
@@ -342,6 +370,7 @@ sub all_attachment_attribute_details
 {
     my $self = shift;
     
+    return $self->_all_attachment_attribute_details_rs_cache if $self->_all_attachment_attribute_details_rs_cache;
     my $rs = $self->search_related('attachment_attribute_details');
     if($self->profile_site)
     {
@@ -352,6 +381,7 @@ sub all_attachment_attribute_details
             order_by => [ { -desc => 'site.profile_site' } ],
         });
     }
+    $self->_all_attachment_attribute_details_rs_cache($rs);
     return $rs;
 }
 
@@ -360,6 +390,7 @@ sub all_page_attribute_details
 {
     my $self = shift;
     
+    return $self->_all_page_attribute_details_rs_cache if $self->_all_page_attribute_details_rs_cache;
     my $rs = $self->search_related('page_attribute_details');
     if($self->profile_site)
     {
@@ -370,6 +401,7 @@ sub all_page_attribute_details
             order_by => [ { -desc => 'site.profile_site' } ],
         });
     }
+    $self->_all_page_attribute_details_rs_cache($rs);
     return $rs;
 }
 
