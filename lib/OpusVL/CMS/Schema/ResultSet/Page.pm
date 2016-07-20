@@ -102,7 +102,11 @@ sub attribute_search {
                 }
                 
                 $query->{"$field_alias.code"} = $field->code;
-                $query->{"$alias.value"}    = $value;
+                $query->{"$field_alias.active"} = 1;
+                $query->{'-and'} = [
+                    {"$alias.value" => $value},
+                    {"$alias.value" => { '!=' => undef }}
+                ];
             }
         }
         $options->{distinct} = 1;

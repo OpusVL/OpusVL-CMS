@@ -75,10 +75,8 @@ sub attribute_search {
 
 
     if (%$query) {
-        my $sites = $self->search_related('site');
-        my $profile_sites = $sites->search_related('profile');
-
-        my $active_attributes = $sites->union($profile_sites)->search_related('asset_attributes')->active;
+        my $sites = $self->search_related('site', undef, { distinct => 1 })->as_subselect_rs;
+        my $active_attributes = $sites->search_related('asset_attributes')->active;
         my @attributes = $active_attributes->search({ code => { -in => [keys %$query]}})->filter_by_code;
         my $join_count = 0;
         foreach my $field (@attributes) {
