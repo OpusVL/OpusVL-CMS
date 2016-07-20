@@ -15,6 +15,7 @@ use DBIx::Class;
 use Hash::Merge qw/merge/;
 use DateTime;
 use Moose;
+use MooseX::NonMoose;
 extends 'DBIx::Class';
 
 __PACKAGE__->load_components("Tree::AdjacencyList", "InflateColumn::DateTime", "Core");
@@ -608,11 +609,23 @@ sub cascaded_attribute
     }
 }
 
+has _attribute_cache => (is => 'rw', default => sub { {} });
+
 sub attribute
 {
     my ($self, $field) = @_;
+    unless($self->_attribute_cache)
+    {
+        $self->_attribute_cache({});
+    }
+    if(exists $self->_attribute_cache->{$field})
+    {
+        return $self->_attribute_cache->{$field};
+    }
     
-    return $self->page_attribute($field) || $self->cascaded_attribute($field);
+    my $value = $self->page_attribute($field) || $self->cascaded_attribute($field);
+    $self->_attribute_cache->{$field} = $value;
+    return $value;
 }
 
 sub get_last_draft {
