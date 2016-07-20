@@ -1,6 +1,4 @@
-use Test::Requires {
-    'Test::PostgreSQL'
-};
+use Test::Requires qw/Test::PostgreSQL/;
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
