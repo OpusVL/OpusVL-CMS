@@ -201,6 +201,12 @@ is $pages->first->url, '/', 'correct page identified';
 ok my $att = $page->attribute('test'), 'loaded attribute';
 is $att, 'a test value';
 
+ok my $pages2 = Page->attribute_search($site, { 
+        test => 'a test value', 
+        simple => { '!=' => 'yes'}
+    }, {}), 'Setup resultset';
+is $pages2->count, 1;
+
 my $a = Attachment->attribute_search($site, {
     test => 'pick me',
 });

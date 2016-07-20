@@ -85,21 +85,27 @@ sub attribute_search {
         my $attribute_query;
         my @page_ids;
         my $join_count = 0;
+        # we do this because there is no way to pick out the parameters
+        # that are attributes for the page any other way.
+        # it's ugly but it works.
         my @resultset = $site->all_page_attribute_details->active->search({ code => { -in => [keys %$query] } })->filter_by_code;
         foreach my $field (@resultset) {
             if (my $value = delete $query->{$field->code}) {
                 $join_count++;
                 my $alias = 'attribute_values';
-                push @{$options->{join}}, $alias;
+                my $field_alias = 'field';
+                push @{$options->{join}}, { $alias => 'field' };
                 
                 if ($join_count > 1) {
                     $alias .= "_$join_count";
+                    $field_alias .= "_$join_count";
                 }
                 
-                $query->{"$alias.field_id"} = $field->id;
+                $query->{"$field_alias.code"} = $field->code;
                 $query->{"$alias.value"}    = $value;
             }
         }
+        $options->{distinct} = 1;
     }
 
     given (delete $options->{sort}) {
