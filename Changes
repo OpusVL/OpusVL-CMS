@@ -2,6 +2,18 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+15        2016-07-20 15:38:15+01:00 Europe/London
+
+  - Sorted out the problems with attribute search.
+    Refactoring and simplifying it.
+  - Added a statement to remove old broken data
+    as part of the migration script.
+  - Added new tests to check more of the data model
+    behaviour and check my paranoia regarding deleting
+    data.
+  - Added a page attribute cache as we get lots of 
+    repeated hits for the same item.
+
 14        2016-07-19 21:56:14+01:00 Europe/London
 
   - Added more tests and refactored more code.
