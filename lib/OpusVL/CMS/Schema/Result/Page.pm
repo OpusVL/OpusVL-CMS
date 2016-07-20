@@ -530,7 +530,7 @@ around 'attachments' => sub {
 
 sub assets {
     my ($self, $query, $options) = @_;
-    return $self->site->all_assets->attribute_search($query, $options);
+    return $self->site->all_assets->published->attribute_search($query, $options);
 }
 
 =head2 update_attribute
