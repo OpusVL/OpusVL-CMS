@@ -23,6 +23,7 @@ use Moose;
 use MooseX::NonMoose;
 extends 'DBIx::Class::ResultSet';
 with 'OpusVL::CMS::Roles::ResultSetFilter' => { field => 'slug' };
+with 'OpusVL::CMS::Roles::AttributeSearch';
 sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 __PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
 use experimental 'switch';
@@ -61,45 +62,7 @@ sub attribute_search {
     my $site = shift;
     my ($query, $options) = @_;
 
-    $query   //= {};
-    $options //= {};
-    
-    if (scalar keys %$query) {
-        my $attribute_query;
-        my @page_ids;
-        my $join_count = 0;
-        my @resultset = $site->all_attachment_attribute_details->active->search({ code => { -in => [keys %$query] } })->filter_by_code;
-        foreach my $field (@resultset) {
-            if (my $value = delete $query->{$field->code}) {
-                $join_count++;
-                my $alias = 'attribute_values';
-                push @{$options->{join}}, $alias;
-                
-                if ($join_count > 1) {
-                    $alias .= "_$join_count";
-                }
-                
-                $query->{"$alias.field_id"} = $field->id;
-                $query->{"$alias.value"}    = $value;
-            }
-        }
-    }
-    
-    my $me = $self->current_source_alias;
-
-    given (delete $options->{sort}) {
-        when ('updated') { $options->{order_by} = {'-desc' => "$me.updated"} }
-        when ('newest')  { $options->{order_by} = {'-desc' => "$me.created"} }
-        when ('oldest')  { $options->{order_by} = {'-asc'  => "$me.created"} }
-        default          { $options->{order_by} = {'-asc' => "$me.priority"} }
-    }
-    
-    if (delete $options->{rs_only}) {
-        return $self->search_rs($query, $options);
-    }
-    else {
-        return $self->search($query, $options);
-    }
+    return $self->_attribute_search($query, $options);
 }
 
 sub available {
