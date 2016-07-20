@@ -18,4 +18,5 @@ on 'test' => sub {
     requires 'Test::Most';
     requires 'Test::DBIx::Class';
     requires 'Dir::Self';
+    requires 'Test::Requires';
 };
