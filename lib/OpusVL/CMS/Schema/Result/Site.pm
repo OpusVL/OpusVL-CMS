@@ -238,7 +238,7 @@ sub all_pages
     {
         my $profile_pages = $self->profile->search_related('pages');
         my $joined = $rs->union($profile_pages);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
@@ -262,7 +262,7 @@ sub all_elements
     {
         my $profile_items = $self->profile->search_related('elements');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
@@ -281,7 +281,7 @@ sub all_templates
     {
         my $profile_items = $self->profile->search_related('templates');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
@@ -300,12 +300,12 @@ sub all_assets
     {
         my $profile_items = $self->profile->search_related('assets');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
     }
-    $self->_all_elements_rs_cache($rs);
+    $self->_all_assets_rs_cache($rs);
     return $rs;
 }
 
@@ -319,7 +319,7 @@ sub all_attributes
     {
         my $profile_items = $self->profile->search_related('attributes');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
@@ -338,7 +338,7 @@ sub all_site_attributes
     {
         my $profile_items = $self->profile->search_related('site_attributes');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ 'site.profile_site' ],
         });
@@ -357,12 +357,12 @@ sub all_attachments
     {
         my $profile_items = $self->profile->attachments;
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => { page => 'site' },
             order_by => [ 'site.profile_site' ],
         });
     }
-    return $self->_all_attachments_rs_cache if $self->_all_attachments_rs_cache;
+    $self->_all_attachments_rs_cache($rs);
     return $rs;
 }
 
@@ -376,7 +376,7 @@ sub all_attachment_attribute_details
     {
         my $profile_items = $self->profile->search_related('attachment_attribute_details');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ { -desc => 'site.profile_site' } ],
         });
@@ -396,7 +396,7 @@ sub all_page_attribute_details
     {
         my $profile_items = $self->profile->search_related('page_attribute_details');
         my $joined = $rs->union($profile_items);
-        return $joined->search(undef, {
+        $rs = $joined->search(undef, {
             join => 'site',
             order_by => [ { -desc => 'site.profile_site' } ],
         });
