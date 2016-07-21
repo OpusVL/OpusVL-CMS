@@ -501,18 +501,17 @@ has _attribute_cache => (is => 'rw', default => sub { {} });
 
 sub attribute {
     my ($self, $code) = @_;
+    # this tends to get hit for a bunch of different attributes.
+    # rather than get each one with a separate query, grab them
+    # all at once and store them to give back.
+    # this makes a significant performance boost.
     unless($self->_attribute_cache)
     {
-        $self->_attribute_cache({});
+        my @attributes = $self->all_site_attributes->filter_by_code;
+        my %attributes = map { $_->code => $_->value } @attributes;
+        $self->_attribute_cache(\%attributes);
     }
-    if(exists $self->_attribute_cache->{$code})
-    {
-        return $self->_attribute_cache->{$code};
-    }
-    if (my $attr = $self->all_site_attributes->search({ code => $code }, { rows => 1 })->first) {
-        $self->_attribute_cache->{$code} = $attr->value;
-        return $attr->value;
-    }
+    return $self->_attribute_cache->{$code};
 }
 
 sub clone {
