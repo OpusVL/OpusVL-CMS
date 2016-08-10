@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+20        2016-08-10 13:37:18+01:00 Europe/London
+
+  - Release to ensure deployment handler SQL is back in sync
+
 19        2016-08-10 13:34:35+01:00 Europe/London
 
   - Added CheckDeploymentHandlerFiles dzil step
