@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+18        2016-08-10 11:03:58+01:00 Europe/London
+
+  - Added blank SQL files required for 16-17
+
 17        2016-07-21 16:04:53+01:00 Europe/London
 
   - More performance tweaks.  Page load is a bit quicker
