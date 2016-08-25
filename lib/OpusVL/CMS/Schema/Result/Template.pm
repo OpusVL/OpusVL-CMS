@@ -129,11 +129,7 @@ __PACKAGE__->has_many(
   { cascade_copy => 1, cascade_delete => 0 },
 );
 
-
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:HxqA0aUOCiO/fOinWZIe5A
-
-__PACKAGE__->add_unique_constraint([ 'name' ]);
+__PACKAGE__->add_unique_constraint([ 'name', 'site' ]);
 
 sub content {
     my $self = shift;
