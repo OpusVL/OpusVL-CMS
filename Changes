@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+21        2016-08-25 16:00:45+01:00 Europe/London
+
+  - Phone number is no longer a required user field
+  - Template name is now only unique to the site
+
 20        2016-08-10 13:37:18+01:00 Europe/London
 
   - Release to ensure deployment handler SQL is back in sync
