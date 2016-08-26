@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+22        2016-08-26 13:03:23+01:00 Europe/London
+
+  - Cloning sites now also clones elements
+
 21        2016-08-25 16:00:45+01:00 Europe/London
 
   - Phone number is no longer a required user field
