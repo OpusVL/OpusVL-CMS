@@ -95,7 +95,7 @@ __PACKAGE__->has_many(
   "asset_attributes",
   "OpusVL::CMS::Schema::Result::AssetAttributeDetail",
   { "foreign.site_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 assets
@@ -110,7 +110,7 @@ __PACKAGE__->has_many(
   "assets",
   "OpusVL::CMS::Schema::Result::Asset",
   { "foreign.site" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 elements
@@ -125,7 +125,7 @@ __PACKAGE__->has_many(
   "elements",
   "OpusVL::CMS::Schema::Result::Element",
   { "foreign.site" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 master_domains
@@ -150,6 +150,17 @@ __PACKAGE__->has_many(
   { "foreign.site_id" => "self.id" },
   { cascade_copy => 1, cascade_delete => 0 },
 );
+
+=head2 master_domains
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::MasterDomain>
+
+Does not C<cascade_copy> because a cloned site will never have the same domains
+as the original.
+
+=cut
 
 __PACKAGE__->has_many(
   "master_domains",
@@ -208,6 +219,9 @@ __PACKAGE__->has_many(
 Type: has_many
 
 Related object: L<OpusVL::CMS::Schema::Result::Page>
+
+Does not C<cascade_copy> because a page's template must be set up correctly. (Is
+this true? Can we not set it afterwards?)
 
 =cut
 
@@ -483,6 +497,28 @@ sub _recurse_children {
     }
 }
 
+=head2 find_or_clone_template
+
+=over
+
+=item C<$page> - L<OpusVL::CMS::Schema::Result::Page>
+
+=item C<$site> - L<OpusVL::CMS::Schema::Result::Site>
+
+=back
+
+Given a different site, C<$site>, and a page, C<$page>, that is part of
+C<$self>, finds the template in the other site that corresponds to this page's
+template. If there is no such template, it clones one from C<$self> and returns
+that.
+
+Searching is done by name.
+
+If C<$page> does not belong to C<$self>, the page's current template is
+returned.
+
+=cut
+
 sub find_or_clone_template {
     my ($self, $page, $site) = @_;
     my $template;
@@ -496,23 +532,6 @@ sub find_or_clone_template {
     else {
         $template = $page->template->copy({ site => $site->id });
         return $template;
-    }
-}
-
-sub clone_assets {
-    my ($self, $new_site) = @_;
-    my $assets = $self->assets->search();
-    for my $asset ($assets->all) {
-        my $new_asset = $asset->copy({ site => $new_site->id });
-    }
-}
-
-sub clone_elements {
-    my ($self, $new_site) = @_;
-
-    my $elements = $self->elements->search();
-    for my $element ($elements->all) {
-        $element->copy({ site => $new_site->id });
     }
 }
 
@@ -538,8 +557,9 @@ sub clone {
 
     my $new_site = $self->copy({ name => $self->name . " (Clone)" });
     if ($new_site) {
-        $self->clone_assets($new_site);
-        $self->clone_elements($new_site);
+        # When we clone the pages, we have to make sure the template they
+        # reference is the equivalent one from the new site - or create it.
+        # That's why we can't use cascade_copy on pages.
         for my $page ($self->pages->toplevel->all) {
             my $template = $self->find_or_clone_template($page, $new_site);
 

@@ -15,6 +15,7 @@ use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
+use Class::Method::Modifiers;
 
 =head1 COMPONENTS LOADED
 
@@ -108,7 +109,7 @@ __PACKAGE__->has_many(
   "element_users",
   "OpusVL::CMS::Schema::Result::ElementUser",
   { "foreign.element_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 element_attributes
@@ -123,7 +124,7 @@ __PACKAGE__->has_many(
   "element_attributes",
   "OpusVL::CMS::Schema::Result::ElementAttribute",
   { "foreign.element_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 element_contents
@@ -138,7 +139,7 @@ __PACKAGE__->has_many(
   "element_contents",
   "OpusVL::CMS::Schema::Result::ElementContent",
   { "foreign.element_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
+  { cascade_copy => 1, cascade_delete => 0 },
 );
 
 =head2 site
@@ -155,11 +156,6 @@ __PACKAGE__->belongs_to(
   { id => "site" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
-
-
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:B0+YPvqxW3nZfG02IyYOsg
-
 
 sub content {
     my $self = shift;
