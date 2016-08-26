@@ -218,6 +218,55 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 page_attribute_details
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::PageAttributeDetail>
+
+=cut
+
+__PACKAGE__->has_many(
+  "page_attribute_details",
+  "OpusVL::CMS::Schema::Result::PageAttributeDetail",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 1, cascade_delete => 0 },
+);
+
+=head2 attachment_attribute_details
+
+Type: has_many
+
+Related object: L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>
+
+=cut
+
+__PACKAGE__->has_many(
+  "attachment_attribute_details",
+  "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 1, cascade_delete => 0 },
+);
+
+=head2 profile
+
+Site I<may> belong to another site; this site is its profile. Otherwise, this is
+undef.
+
+Type: belongs_to
+
+Related object: L<OpusVL::CMS::Schema::Result::Site>
+
+=cut
+
+__PACKAGE__->belongs_to(
+    'profile' => 'OpusVL::CMS::Schema::Result::Site',
+    { id => 'profile_site' },
+    {
+        is_deferrable => 1,
+        join_type     => "LEFT",
+    },
+);
 has _all_elements_rs_cache => (is => 'rw');
 has _all_pages_rs_cache => (is => 'rw');
 has _all_site_attributes_rs_cache => (is => 'rw');
@@ -406,45 +455,6 @@ sub all_page_attribute_details
 }
 
 
-=head2 page_attribute_details
-
-Type: has_many
-
-Related object: L<OpusVL::CMS::Schema::Result::PageAttributeDetail>
-
-=cut
-
-__PACKAGE__->has_many(
-  "page_attribute_details",
-  "OpusVL::CMS::Schema::Result::PageAttributeDetail",
-  { "foreign.site_id" => "self.id" },
-  { cascade_copy => 1, cascade_delete => 0 },
-);
-
-=head2 attachment_attribute_details
-
-Type: has_many
-
-Related object: L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>
-
-=cut
-
-__PACKAGE__->has_many(
-  "attachment_attribute_details",
-  "OpusVL::CMS::Schema::Result::AttachmentAttributeDetail",
-  { "foreign.site_id" => "self.id" },
-  { cascade_copy => 1, cascade_delete => 0 },
-);
-
-__PACKAGE__->belongs_to(
-    'profile' => 'OpusVL::CMS::Schema::Result::Site',
-    { id => 'profile_site' },
-    {
-        is_deferrable => 1,
-        join_type     => "LEFT",
-    },
-);
-
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cFs5vMHOaxkMtvUEiz51dQ
 
@@ -454,39 +464,39 @@ sub master_domain {
 }
 
 sub _recurse_children {
-  my ($self, $site, $kid, $copy_kid) = @_;
-  my $template;
-  for my $child ($kid->children->all) {
-    if ($child->template->site->id == $self->id) {
-      $template = $child->template->copy({ site => $site->id });
+    my ($self, $site, $kid, $copy_kid) = @_;
+    my $template;
+    for my $child ($kid->children->all) {
+        if ($child->template->site->id == $self->id) {
+            $template = $child->template->copy({ site => $site->id });
+        }
+        else {
+            $template = $child->template;
+        }
+        my $cloned_child = $child->copy({
+            template_id => $template->id,
+            parent_id => $copy_kid->id,
+            site => $site->id
+        });
+        $site->_recurse_children($site, $child, $cloned_child)
+            if $child->children->count > 0;
     }
-    else {
-      $template = $child->template;
-    }
-    my $cloned_child = $child->copy({
-      template_id => $template->id,
-      parent_id => $copy_kid->id,
-      site => $site->id
-    });
-    $site->_recurse_children($site, $child, $cloned_child)
-      if $child->children->count > 0;
-  }
 }
 
 sub find_or_clone_template {
-  my ($self, $page, $site) = @_;
-  my $template;
-  if ($page->template->site->id != $self->id) {
-    return $page->template;
-  }
+    my ($self, $page, $site) = @_;
+    my $template;
+    if ($page->template->site->id != $self->id) {
+        return $page->template;
+    }
 
-  if ($template = $site->templates->search({ name => $page->template->name })->first) {
-    return $template;
-  }
-  else {
-    $template = $page->template->copy({ site => $site->id });
-    return $template;
-  }
+    if ($template = $site->templates->search({ name => $page->template->name })->first) {
+        return $template;
+    }
+    else {
+        $template = $page->template->copy({ site => $site->id });
+        return $template;
+    }
 }
 
 sub clone_assets {
@@ -515,43 +525,41 @@ sub attribute {
 }
 
 sub clone {
-  my $self = shift;
+    my $self = shift;
 
-  # clone the actual site
-  my $template;
-  my $new_site = $self->copy({ name => $self->name . " (Clone)" });
-  if ($new_site) {
-    $self->clone_assets($new_site);
-    for my $page ($self->pages->toplevel->all) {
-      $template = $self->find_or_clone_template($page, $new_site);
+    my $new_site = $self->copy({ name => $self->name . " (Clone)" });
+    if ($new_site) {
+        $self->clone_assets($new_site);
+        for my $page ($self->pages->toplevel->all) {
+            my $template = $self->find_or_clone_template($page, $new_site);
 
-      my $new_page = $page->copy({
-        site => $new_site->id,
-        template_id => $template->id,
-        #template_id => $new_site->templates->search({ name => $page->template->name })->first->id
-      });
+            my $new_page = $page->copy({
+                site => $new_site->id,
+                template_id => $template->id,
+            });
 
-      if ($page->children->count > 0) {
-        for my $child ($page->children->all) {
-          $template = $self->find_or_clone_template($child, $new_site);
+            if ($page->children->count > 0) {
+                for my $child ($page->children->all) {
+                    $template = $self->find_or_clone_template($child, $new_site);
 
-          my $cloned_child = $child->copy({
-            template_id => $template->id, 
-            parent_id => $new_page->id,
-            site => $new_site->id,
-          });
-          $self->_recurse_children($new_site, $child, $cloned_child)
-            if $child->children->count > 0;
+                    my $cloned_child = $child->copy({
+                        template_id => $template->id, 
+                        parent_id => $new_page->id,
+                        site => $new_site->id,
+                    });
+                    $self->_recurse_children($new_site, $child, $cloned_child)
+                    if $child->children->count > 0;
+                }
+            }
         }
-      }
+        return $new_site;
     }
-    return $new_site;
-  }
 }
 
 sub attachments {
     my ($self) = @_;
     return $self->search_related('pages')->published->search_related('attachments')
 }
+#
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
