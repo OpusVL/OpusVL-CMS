@@ -507,6 +507,15 @@ sub clone_assets {
     }
 }
 
+sub clone_elements {
+    my ($self, $new_site) = @_;
+
+    my $elements = $self->elements->search();
+    for my $element ($elements->all) {
+        $element->copy({ site => $new_site->id });
+    }
+}
+
 has _attribute_cache => (is => 'rw', default => sub { {} });
 
 sub attribute {
@@ -530,6 +539,7 @@ sub clone {
     my $new_site = $self->copy({ name => $self->name . " (Clone)" });
     if ($new_site) {
         $self->clone_assets($new_site);
+        $self->clone_elements($new_site);
         for my $page ($self->pages->toplevel->all) {
             my $template = $self->find_or_clone_template($page, $new_site);
 
