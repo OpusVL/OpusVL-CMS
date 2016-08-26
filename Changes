@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+23        2016-08-26 15:08:04+01:00 Europe/London
+
+  - Cloning elements now also clones their contents
+  - Cloning sites is now done properly, probably
+
 22        2016-08-26 13:03:23+01:00 Europe/London
 
   - Cloning sites now also clones elements
