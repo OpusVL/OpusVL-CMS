@@ -1,12 +1,16 @@
 use DBIx::Class::Report;
+use strict;
+use warnings;
 
 sub {
     my $schema = shift;
     my $users = $schema->resultset('User');
     my $sites = $schema->resultset('Site');
+    my $pages = $schema->resultset('Page');
     my $elements = $schema->resultset('Element');
     my $assets = $schema->resultset('Asset');
     my $templates = $schema->resultset('Template');
+    $templates->result_source->add_column('global');
     my $profile_info = {
         name => 'Default Profile',
         template => 1,
@@ -65,7 +69,7 @@ sub {
                 is_nullable => 1,
                 original    => { data_type => "varchar" },
             },
-            values => 
+            values =>
             {
                 data_type => 'text[]',
                 is_nullable => 1,
@@ -142,25 +146,57 @@ sub {
         $profile->create_related('sites_users', $user);
     }
     $sites->search({ template => 0 })->update({ profile_site => $profile->id });
-    # FIXME: need to detect duplicates at this point.
-    # perhaps do templates one at a time and when there is an exception
-    # simple turn global off rather than moving it.
-    # NOTE: pages reference templates directly.
-    # so that's what we need to worry about, not 
-    # what site they are part of or any of that stuff.
-    # we need to a) update pages reference templates we delete
-    # and b) make sure the template is visible to whatever pages
-    # reference it.
-    #
-    # This suggests 
-    #
-    # a) delete duplicate templates where the effective content
-    #    is the same.
-    # b) rename templates that are duplicated to disambiguate them.
-    #
-    # Lets start with the templates, and do a query grabbing all duplicate
-    # names.
-    # Then iterate through them and fix them up one way or another.
+    my $duplicate_names = $templates->search({
+        global => 1,
+    },{
+        group_by => [
+            'name'
+        ],
+        having => [
+            \'count(name) > 1',
+        ],
+    });
+    my @names = $duplicate_names->get_column('name')->all;
+    my $duplicates = $templates->search({
+        global => 1, name => { -in => \@names }
+    }, {
+            order_by => [qw/name/],
+    });
+    my $prev;
+    for my $dup ($duplicates->all)
+    {
+        my $deleted = 0;
+        my $sites = $dup->search_related('pages')->search_related('site');
+        my $count = $sites->count;
+        if($count == 0)
+        {
+            $dup->delete;
+            $deleted = 1;
+        }
+        elsif($prev && $prev->name eq $dup->name)
+        {
+            if($prev->content eq $dup->content)
+            {
+                $pages->search({ template_id => $dup->id })
+                      ->update({ template_id => $prev->id });
+                $dup->delete;
+                $deleted = 1;
+            }
+            else
+            {
+                if($count > 1)
+                {
+                    $dup->update({ name => sprintf("%s [%d]", $dup->name, int(rand(3000))) });
+                }
+                else
+                {
+                    my $site = $sites->first;
+                    $dup->update({ global => 0, site => $site->id });
+                }
+            }
+        }
+        $prev = $dup unless $deleted;
+    }
     for my $rs ($assets, $elements, $templates)
     {
         $rs->search({ global => 1 })->update({ site => $profile->id });
