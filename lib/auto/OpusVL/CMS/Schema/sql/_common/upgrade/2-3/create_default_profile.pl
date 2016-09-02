@@ -96,7 +96,7 @@ sub {
                 });
 
             if ($new_attr) {
-                if ($attr->field_type eq 'select') {
+                if ($attr->field_type && $attr->field_type eq 'select') {
                     # the select field has values
                     if (@{$attr->values}) {
                         for my $value (@{$attr->values}) {
@@ -118,7 +118,7 @@ sub {
                 });
 
             if ($new_attr) {
-                if ($attr->field_type eq 'select') {
+                if ($attr->field_type && $attr->field_type eq 'select') {
                     # the select field has values
                     if (@{$attr->values}) {
                         for my $value (@{$attr->values}) {
