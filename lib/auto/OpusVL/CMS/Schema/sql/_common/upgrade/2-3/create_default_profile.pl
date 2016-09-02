@@ -166,6 +166,7 @@ sub {
     for my $dup ($duplicates->all)
     {
         my $deleted = 0;
+        my $renamed = 0;
         my $sites = $dup->search_related('pages')->search_related('site');
         my $count = $sites->count;
         if($count == 0)
@@ -186,7 +187,9 @@ sub {
             {
                 if($count > 1)
                 {
-                    $dup->update({ name => sprintf("%s [%d]", $dup->name, int(rand(3000))) });
+                    my $name = sprintf("%s [%d]", $dup->name, int(rand(3000)));
+                    $dup->update({ name => $name });
+                    $renamed = 1;
                 }
                 else
                 {
@@ -195,7 +198,15 @@ sub {
                 }
             }
         }
-        $prev = $dup unless $deleted;
+        $prev = $dup unless $deleted || $renamed;
+    }
+    my @current_duplicates = $duplicate_names->get_column('name')->all;
+    if(@current_duplicates)
+    {
+        # this shouldn't happen.
+        # we will actually blow up later so it's not stricly necessary
+        # it just saves us some time.
+        die 'Still got duplicates';
     }
     for my $rs ($assets, $elements, $templates)
     {
