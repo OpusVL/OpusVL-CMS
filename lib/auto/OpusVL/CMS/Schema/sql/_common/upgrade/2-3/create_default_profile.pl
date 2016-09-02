@@ -146,6 +146,52 @@ sub {
         $profile->create_related('sites_users', $user);
     }
     $sites->search({ template => 0 })->update({ profile_site => $profile->id });
+
+    my $non_global_dups = $templates->search({
+        global => 0 
+    }, {
+        group_by => ['name', 'site'],
+        having => [\'count(name)>1'],
+        columns => ['name', 'site']
+    });
+    for my $template ($non_global_dups->all)
+    {
+        my $prev;
+        my $dups = $templates->search({ name => $template->name, site => $template->site->id });
+        for my $dup ($dups->all)
+        {
+            my $deleted = 0;
+            my $renamed = 0;
+            my $sites = $dup->search_related('pages')->search_related('site');
+            my $count = $sites->count;
+            if($count == 0)
+            {
+                $dup->delete;
+                $deleted = 1;
+            }
+            elsif($prev && $prev->name eq $dup->name)
+            {
+                if($prev->content eq $dup->content)
+                {
+                    $pages->search({ template_id => $dup->id })
+                          ->update({ template_id => $prev->id });
+                    $dup->delete;
+                    $deleted = 1;
+                }
+                else
+                {
+                    my $name = sprintf("%s [%d]", $dup->name, int(rand(3000)));
+                    $dup->update({ name => $name });
+                    $renamed = 1;
+                }
+            }
+            $prev = $dup unless $deleted || $renamed;
+        }
+    }
+    if($non_global_dups->count > 0)
+    {
+        die 'Still got dups';
+    }
     my $duplicate_names = $templates->search({
         global => 1,
     },{
@@ -160,7 +206,7 @@ sub {
     my $duplicates = $templates->search({
         global => 1, name => { -in => \@names }
     }, {
-            order_by => [qw/name/],
+        order_by => [qw/name/],
     });
     my $prev;
     for my $dup ($duplicates->all)
