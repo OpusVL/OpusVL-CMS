@@ -142,6 +142,25 @@ sub {
         $profile->create_related('sites_users', $user);
     }
     $sites->search({ template => 0 })->update({ profile_site => $profile->id });
+    # FIXME: need to detect duplicates at this point.
+    # perhaps do templates one at a time and when there is an exception
+    # simple turn global off rather than moving it.
+    # NOTE: pages reference templates directly.
+    # so that's what we need to worry about, not 
+    # what site they are part of or any of that stuff.
+    # we need to a) update pages reference templates we delete
+    # and b) make sure the template is visible to whatever pages
+    # reference it.
+    #
+    # This suggests 
+    #
+    # a) delete duplicate templates where the effective content
+    #    is the same.
+    # b) rename templates that are duplicated to disambiguate them.
+    #
+    # Lets start with the templates, and do a query grabbing all duplicate
+    # names.
+    # Then iterate through them and fix them up one way or another.
     for my $rs ($assets, $elements, $templates)
     {
         $rs->search({ global => 1 })->update({ site => $profile->id });
