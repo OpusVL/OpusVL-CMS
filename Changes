@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+24        2016-09-07 16:04:12+01:00 Europe/London
+
+  - Added history accessors to elements and assets
+  - Assets will now attempt to render themselves
+  - Migrating old CMS data now deals with duplicate templates and pages better
+
 23        2016-08-26 15:08:04+01:00 Europe/London
 
   - Cloning elements now also clones their contents
