@@ -13,6 +13,7 @@ OpusVL::CMS::Schema::Result::Asset
 
 use strict;
 use warnings;
+use HTML::Element;
 
 use base 'DBIx::Class::Core';
 
@@ -204,11 +205,17 @@ __PACKAGE__->belongs_to(
 sub content {
     my $self = shift;
 
-    my $asset_data = $self->search_related( 'asset_datas', {}, { 
-        order_by => { -desc => 'created' },
-        rows => 1,
-    } )->first;
+    my $asset_data = $self->history->first;
+
     return $asset_data ? $asset_data->data : "";
+}
+
+sub history {
+    my $self = shift;
+
+    return $self->search_related( 'asset_datas', {}, { 
+        order_by => { -desc => 'created' },
+    } );
 }
 
 sub set_content {
@@ -256,5 +263,73 @@ sub update_attribute
     }
 }
 
+=head2 as_html
+
+=over
+
+=item $url
+
+The model cannot know the URL of the asset, so you have to provide it if you want it to make sense.
+
+=item $inline
+
+A boolean that causes the method to output the asset's content if possible
+
+=back
+
+Returns an L<HTML::Element> object that represents this asset as HTML.
+
+By default, a link will be created, with this asset's URL in situ. With a true
+value as the first parameter, the asset's data will be rendered inline, when it
+makes sense to do so (i.e. when it's textual data)
+
+=cut
+
+sub as_html {
+    my $self = shift;
+    my $url = shift;
+    my $inline = shift && $self->mime_type =~ /text|javascript/;
+
+    my $lol;
+    if ($inline) {
+        $lol = [
+            pre => $self->content
+        ];
+    }
+    else {
+        if ($self->mime_type =~ /css/) {
+            die "URL required to render asset ${\$self->id} as HTML." unless $url;
+            $lol = [
+                link => {
+                    rel => 'stylesheet',
+                    href => $url
+                }
+            ]
+        }
+        elsif ($self->mime_type =~ /image/) {
+            die "URL required to render asset ${\$self->id} as HTML." unless $url;
+            $lol = [
+                img => {
+                    src => $url,
+                    alt => $self->attribute('alt_text'),
+                }
+            ]
+        }
+        elsif ($self->mime_type =~ /javascript/) {
+            die "URL required to render asset ${\$self->id} as HTML." unless $url;
+            $lol = [
+                script => {
+                    src => $url,
+                    type => 'application/javascript'
+                }
+            ]
+        }
+        else {
+            die "Don't know how to sensibly render ${\$self->mime_type}";
+        }
+    }
+
+    return HTML::Element->new_from_lol($lol);
+}
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
