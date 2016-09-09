@@ -294,6 +294,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 1, cascade_delete => 0 },
 );
 
+__PACKAGE__->has_many(
+    our_attributes => 'OpusVL::CMS::Schema::Result::PageAttribute',
+    { "foreign.page_id" => "self.id" },
+);
+
+__PACKAGE__->has_many(
+    _our_attributes => 'OpusVL::CMS::Schema::Result::PageAttribute',
+    sub {
+        my $args = shift;
+        return { 
+            "$args->{foreign_alias}.page_id" => { -ident => "$args->{self_alias}.id" }, 
+            "$args->{foreign_alias}.code" => { '=' => \"?"},
+        },
+    }
+);
+
+
+
 =head2 page_drafts
 
 Type: has_many
@@ -582,6 +600,11 @@ sub update_attribute
 sub page_attribute
 {
     my ($self, $field) = @_;
+    my $column_name = "attribute_$field" =~ s/\W/_/gr;
+    if($self->has_column_loaded($column_name))
+    {
+        return $self->get_column($column_name);
+    }
     my $search = {};
     my $args = { prefetch => ['field'] };
     if (ref $field) {

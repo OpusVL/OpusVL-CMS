@@ -82,7 +82,48 @@ sub attribute_search {
     my $me = $self->current_source_alias;
     my $rs = $self->search_rs({ "$me.status" => { '!=', 'deleted' } });
 
+    if(my $preload = delete $options->{load_attributes})
+    {
+		$rs = $rs->prefetch_attributes($preload);
+    }
+
     return $rs->_attribute_search($site, $query, $options);
+}
+
+sub prefetch_attributes
+{
+    my ($self, $names) = @_;
+
+    my @params;
+    my @joins;
+    my $x = 1;
+    my %aliases;
+    my @columns;
+    my @column_names;
+    for my $name (@$names)
+    {
+        my $alias = $x == 1 ? "_our_attributes" : "_our_attributes_$x";
+        push @params, $name;
+        # NOTE: guard against SQLi
+        my $column_name = "attribute_$name" =~ s/\W/_/gr;
+        push @column_names, $column_name;
+        push @columns, \"$alias.value as $column_name";
+        push @joins, '_our_attributes';
+        $aliases{$name} = $alias;
+        $x++;
+    }
+    my $rs = $self->search(undef, {
+        bind => \@params,
+        # Doing this manually since prefetch tries to be too clever
+        # by collapsing stuff and then providing no way to get to the dat
+        # as it doesn't consider multiple joins of the same relationship
+        # to be sane.
+        # Also our data should be flat (there should only be 1 or 0 row we're joining to
+        # so we don't need to do that collapse business.
+        join => \@joins,
+        '+select' => \@columns,
+    });
+    return $rs->as_subselect_rs->search(undef, { '+columns' => \@column_names })
 }
 
 ##
