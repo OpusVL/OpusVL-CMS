@@ -213,16 +213,4 @@ sub valid_option
     return $self->field_values->for_site($site)->find({ value => $value });
 }
 
-=head2 active
-
-I'm pretty sure this is broken and I'll delete it in a minute to find out.
-
-=cut
-
-sub active
-{
-    my $self = shift;
-    return $self->search({ active => 1 });
-}
-
 1;

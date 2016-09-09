@@ -289,7 +289,6 @@ has _all_attachment_attribute_details_rs_cache => (is => 'rw');
 has _all_attachments_rs_cache => (is => 'rw');
 has _all_asset_attribute_details_rs_cache => (is => 'rw');
 has _all_assets_rs_cache => (is => 'rw');
-has _all_attributes_rs_cache => (is => 'rw');
 has _all_templates_rs_cache => (is => 'rw');
 
 sub all_pages
