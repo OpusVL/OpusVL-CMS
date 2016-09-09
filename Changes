@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+25        2016-09-09 18:51:03+01:00 Europe/London
+
+  - Select options for page and attachment attributes are now linked to the
+    site, so profiles can define a set of options
+
 24        2016-09-07 16:04:12+01:00 Europe/London
 
   - Added history accessors to elements and assets
