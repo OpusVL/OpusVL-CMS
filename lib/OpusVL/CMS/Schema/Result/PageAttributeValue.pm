@@ -57,17 +57,24 @@ __PACKAGE__->table("page_attribute_values");
 =cut
 
 __PACKAGE__->add_columns(
-  "id",
-  {
-    data_type         => "integer",
-    is_auto_increment => 1,
-    is_nullable       => 0,
-    sequence          => "page_attribute_values_id_seq",
-  },
-  "value",
-  { data_type => "text", is_nullable => 1 },
-  "field_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+    "id",
+    {
+        data_type         => "integer",
+        is_auto_increment => 1,
+        is_nullable       => 0,
+        sequence          => "page_attribute_values_id_seq",
+    },
+    "value",
+    { data_type => "text", is_nullable => 1 },
+    "field_id",
+    { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+    # A field's value can be defined by the profile, or by a site that consumes
+    # that profile. We don't let the site edit the profile's fields.
+    site_id => {
+        data_type => "integer",
+        is_foreign_key => 1,
+        is_nullable => 1
+    },
 );
 
 =head1 PRIMARY KEY
@@ -99,10 +106,19 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
+=head2 site
 
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SmzLFY12xTKcFijZDJpFXg
+Type: belongs_to
 
+Related object: L<OpusVL::CMS::Schema::Result::Site>
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+=cut
+
+__PACKAGE__->belongs_to(
+  "site",
+  "OpusVL::CMS::Schema::Result::Site",
+  { id => "site_id" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+);
+
 1;
