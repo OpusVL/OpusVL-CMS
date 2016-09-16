@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+28        2016-09-16 16:10:44+01:00 Europe/London
+
+  - Fix upgrade SQL for changing data type
+
 27        2016-09-16 15:27:00+01:00 Europe/London
 
   - Fix data type of attachment_attribute_value's priority to be actually
