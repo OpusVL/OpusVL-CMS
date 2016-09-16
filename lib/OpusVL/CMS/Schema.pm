@@ -23,7 +23,7 @@ use DBIx::Class::Schema;
 use Moose;
 BEGIN { extends qw/DBIx::Class::Schema/; }
 
-our $VERSION = '28';
+our $VERSION = '29';
 
 __PACKAGE__->load_namespaces;
 
