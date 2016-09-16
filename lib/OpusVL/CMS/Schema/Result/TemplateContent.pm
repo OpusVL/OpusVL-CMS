@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::TemplateContent;
-our $VERSION = '27';
+our $VERSION = '28';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
