@@ -20,7 +20,7 @@ __PACKAGE__->add_columns(
         is_nullable => 1,
     },
     priority => {
-        data_type   => 'text',
+        data_type   => 'integer',
         is_nullable => 1,
         default_value => 50,
     },
