@@ -4,6 +4,7 @@
 BEGIN;
 
 ;
+ALTER TABLE attachment_attribute_values ALTER COLUMN priority SET DEFAULT 50;
 ALTER TABLE attachment_attribute_values ALTER COLUMN priority TYPE integer USING priority::integer;
 
 ;
