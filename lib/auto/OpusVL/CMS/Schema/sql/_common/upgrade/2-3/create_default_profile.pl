@@ -104,7 +104,7 @@ sub {
                             $new_attr->field_values->find_or_create({
                                 field_id => $new_attr->id,
                                 value    => $value
-                            });
+                            }, undef, { columns => [qw/field_id value/] });
                         }
                     }
                 }
@@ -126,7 +126,7 @@ sub {
                             $new_attr->field_values->find_or_create({
                                 field_id => $new_attr->id,
                                 value    => $value
-                            });
+                            }, undef, { columns => [qw/field_id value/] });
                         }
                     }
                 }
