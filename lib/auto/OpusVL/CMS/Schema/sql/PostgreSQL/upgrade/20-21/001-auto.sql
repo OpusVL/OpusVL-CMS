@@ -4,7 +4,7 @@
 BEGIN;
 
 ;
-ALTER TABLE templates DROP CONSTRAINT templates_name IF EXISTS templates_name;
+ALTER TABLE templates DROP CONSTRAINT IF EXISTS templates_name;
 
 ;
 ALTER TABLE templates ADD CONSTRAINT templates_name_site UNIQUE (name, site);
