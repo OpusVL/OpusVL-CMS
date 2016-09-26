@@ -134,6 +134,9 @@ for my $name ($conn->sources)
         }, $source->name, $rs, $source, $max_id + 10000);
     }
 }
+#
+print "Now run pg_dump\n";
+print 'docker exec -i -u postgres premnew_db_1 pg_dump -a cms_new -T sites_users -T users_data -T users_favourites -T users_parameter -T users_role -T role_admin -T page_users -T asset_users -T element_users -T aclrule -T aclrule_role -T aclfeature -T aclfeature_role -T dbix_class_deploymenthandler_versions -T users -T role -T roles_allowed -T user_avatar | grep -v sites_users | grep -v users_data | grep -v users_favourites | grep -v users_parameter | grep -v users_role | grep -v role_admin | grep -v page_users | grep -v asset_users | grep -v element_users | grep -v aclrule | grep -v aclrule_role | grep -v aclfeature | grep -v aclfeature_role | grep -v dbix_class_deploymenthandler_versions | grep -v users | grep -v role | grep -v roles_allowed | grep -v user_avatar > new_data.sql', "\n";
 # rip through the resultsets
 # grab the id field
 # shift it
