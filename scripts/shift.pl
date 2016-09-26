@@ -7,13 +7,24 @@ use Getopt::Long;
 use Try::Tiny::Retry;
 use Safe::Isa;
 
+sub usage
+{
+    print "Usage $0\n";
+    exit(1);
+}
+
 my ($connection, $user, $password);
+my ($oconnection, $ouser, $opassword);
 GetOptions(
+    "odbic=s" => \$oconnection,
+    "ouser=s" => \$ouser,
+    "opass=s" => \$opassword,
     "dbic=s" => \$connection,
     "user=s" => \$user,
-    "pass=s" => \$password) or die "I don't like your command line arguments";
+    "pass=s" => \$password
+) or die "I don't like your command line arguments";
 
-die 'Must specify connection string' unless $connection;
+usage() unless $connection;
 
 sub get_foreign_key
 {
@@ -68,16 +79,15 @@ ORDER BY 1;
 
 sub rebase_table
 {
-    my ($storage, $dbh, $name, $rs, $source) = @_;
+    my ($storage, $dbh, $name, $rs, $source, $start_id) = @_;
     my $sequence = sprintf("%s_id_seq", $name);
     my $retried = 0;
     retry
     {
-        $dbh->do(sprintf("alter sequence %s restart with 10000", $sequence));
+        $dbh->do(sprintf("alter sequence %s restart with $start_id", $sequence));
         my $update = sprintf("nextval('%s')", $sequence);
         $rs->update({ id => \$update });
         # perhaps save this for later.
-        printf("alter sequence %s restart with select max(id) from %s;\n", $sequence, $source->name);
     }
     on_retry
     {
@@ -100,23 +110,30 @@ sub rebase_table
     };
 }
 
+my $oconn = OpusVL::CMS::Schema->connect($oconnection, $ouser, $opassword);
 my $conn = OpusVL::CMS::Schema->connect($connection, $user, $password);
 my $storage = $conn->storage;
-my @dump_commands;
 for my $name ($conn->sources)
 {
     my $rs = $conn->resultset($name);
+    my $ors = $oconn->resultset($name);
     # skip some of the resultsets.
     my $source = $rs->result_source;
+    next if $name eq 'users';
     if(grep { $_ eq 'id' } $source->columns)
     {
-        push @dump_commands, "pg_dump --column-inserts -t " . $source->name . " >> db_dump.sql";
+        my $max_id = $ors->search(
+            undef,
+            { 
+                select => [\'max(id)'],
+                as => ['max_id'],
+            }
+        )->first->get_column('max_id');
         $storage->dbh_do(sub {
             rebase_table(@_);
-        }, $source->name, $rs, $source);
+        }, $source->name, $rs, $source, $max_id + 10000);
     }
 }
-print "\n", join("\n", @dump_commands), "\n";
 # rip through the resultsets
 # grab the id field
 # shift it
