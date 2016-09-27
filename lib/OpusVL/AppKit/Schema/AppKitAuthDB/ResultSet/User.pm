@@ -4,6 +4,8 @@ our $VERSION = '30';
 use Moose;
 extends 'DBIx::Class::ResultSet';
 
+__PACKAGE__->load_components(qw{Helper::ResultSet::SetOperations});
+
 sub initdb
 {
     my $self = shift;

@@ -273,17 +273,20 @@ sub {
             join => { users_parameters => 'parameter' }
         }
     );
-    if($restricted->count > 0)
+
+    my $unrestricted = $users->except($restricted);
+
+    if($unrestricted->count > 0)
     {
-        # if we have some, create a role for the restricted users.
+        # if we have some, create a role for the unrestricted users.
         # then ensure all the users have it.
-        my $feature = 'Pages/Restrict Access to Individual Items';
+        my $feature = 'Pages/Unrestricted Access to Individual Items';
         my $roles = $schema->resultset('Role');
-        my $role = $roles->find_or_create({ role => 'Restricted Users' });
+        my $role = $roles->find_or_create({ role => 'Unrestricted Users' });
         my $feature_rs = $schema->resultset('Aclfeature');
         my $f = $feature_rs->find_or_create({ feature => $feature });
         $f->add_to_roles($role);
-        for my $user ($restricted->all)
+        for my $user ($unrestricted->all)
         {
             $user->add_to_roles($role);
         }

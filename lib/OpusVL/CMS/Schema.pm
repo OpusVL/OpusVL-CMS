@@ -32,4 +32,6 @@ with 'OpusVL::AppKit::RolesFor::Schema::AppKitAuthDB';
 __PACKAGE__->merge_authdb;
 __PACKAGE__->meta->make_immutable;
 
+sub schema_version { 29 }
+
 1;
