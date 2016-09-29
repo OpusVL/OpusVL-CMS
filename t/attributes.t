@@ -15,8 +15,8 @@ ok my $site = Site->create({
         },
     ],
 });
-is $site->attribute('test'), 'test value', 'get site attribute';
-is $site->attribute('test'), 'test value', 'should be cached';
+is $site->attribute('test'), undef, 'site attribute not accessible because not on profile';
+is $site->attribute('test'), undef, 'should be cached';
 my $asset_att = $site->create_related('asset_attributes', {
     code => 'logo',
     type => 'text',
