@@ -400,6 +400,9 @@ sub all_site_attributes
     if($self->profile_site)
     {
         my $profile_items = $self->profile->search_related('site_attributes');
+        # limit the attributes we pull down to just those specified
+        # in the profile.
+        $rs = $rs->search({ code => { -in => $profile_items->get_column('code')->as_query }});
         my $joined = $rs->union($profile_items);
         $rs = $joined->search(undef, {
             join => 'site',
