@@ -373,25 +373,6 @@ sub all_assets
     return $rs;
 }
 
-sub all_attributes
-{
-    my $self = shift;
-    
-    return $self->_all_attributes_rs_cache if $self->_all_attributes_rs_cache;
-    my $rs = $self->search_related('attributes');
-    if($self->profile_site)
-    {
-        my $profile_items = $self->profile->search_related('attributes');
-        my $joined = $rs->union($profile_items);
-        $rs = $joined->search(undef, {
-            join => 'site',
-            order_by => [ 'site.profile_site' ],
-        });
-    }
-    $self->_all_attributes_rs_cache($rs);
-    return $rs;
-}
-
 sub all_site_attributes
 {
     my $self = shift;
