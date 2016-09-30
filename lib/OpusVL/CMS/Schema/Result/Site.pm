@@ -471,9 +471,39 @@ sub all_page_attribute_details
     return $rs;
 }
 
+=head2 page_attributes
 
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:cFs5vMHOaxkMtvUEiz51dQ
+Returns canonical list of page attributes for this site, i.e. the profile's
+list, or the site's own list if the site is a profile.
+
+Attributes are represented as L<OpusVL::CMS::Schema::Result:PageAttributeDetail>s
+
+=cut
+
+sub page_attributes
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related('page_attribute_details');
+}
+
+=head2 attachment_attributes
+
+Returns canonical list of attachment attributes for this site, i.e. the profile's
+list, or the site's own list if the site is a profile.
+
+Attributes are represented as L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>s
+
+=cut
+
+sub attachment_attributes
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related('attachment_attribute_details');
+}
 
 sub master_domain {
     my $self = shift;
