@@ -1,16 +1,20 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::PageAttribute;
 
-=head1 NAME
-
-OpusVL::CMS::Schema::Result::PageAttribute
-
-=cut
-
 use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
+
+=head1 NAME
+
+OpusVL::CMS::Schema::Result::PageAttribute
+
+=head1 DESCRIPTION
+
+This is a view that combines page_attribute_data and page_attribute details to
+produce a single resultset of all available page attributes and their values per
+page, if set.
 
 =head1 COMPONENTS LOADED
 
@@ -24,6 +28,7 @@ use base 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
+
 =head1 TABLE: C<page_attributes>
 
 =cut
@@ -32,7 +37,7 @@ __PACKAGE__->table("page_attributes");
 __PACKAGE__->result_source_instance->view_definition('
     select field.code, vals.value, field.site_id, page_id
     from page_attribute_data vals
-    inner join page_attribute_details field
+    left join page_attribute_details field
     on field.id = vals.field_id
     where field.active
 ');
