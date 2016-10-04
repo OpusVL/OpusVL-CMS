@@ -1,7 +1,7 @@
 package OpusVL::CMS::Roles::AttributeSearch;
 
 use Moose::Role;
-use experimental 'switch';
+use Switch::Plain;
 
 sub _attribute_search {
     my ($self, $query, $options) = @_;
@@ -41,13 +41,13 @@ sub _attribute_search {
 
     my $me = $self->current_source_alias;
 
-    given (delete $options->{sort}) {
+    sswitch (delete $options->{sort}) {
         # FIXME: perhaps detect if we have an h1?
-        when ('alphabetical') { $options->{order_by} = {'-asc' => "$me.h1"} }
-        when ('updated') { $options->{order_by} = {'-desc' => "$me.updated"} }
-        when ('newest')  { $options->{order_by} = {'-desc' => "$me.created"} }
-        when ('oldest')  { $options->{order_by} = {'-asc'  => "$me.created"} }
-        default          { $options->{order_by} = {'-asc' => "$me.priority"} }
+        case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
+        case 'updated'      : { $options->{order_by} = {'-desc' => "$me.updated"} }
+        case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
+        case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
+        default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
     }
     if (delete $options->{rs_only}) {
         return $self->search_rs($query, $options);
