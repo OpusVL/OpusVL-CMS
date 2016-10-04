@@ -35,10 +35,12 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 
 __PACKAGE__->table("page_attributes");
 __PACKAGE__->result_source_instance->view_definition('
-    select field.code, vals.value, field.site_id, page_id
+    select field.id as field_id field.code, vals.value, page_id, field.site_id, 
     from page_attribute_data vals
     left join page_attribute_details field
     on field.id = vals.field_id
+    left join page_attribute_values opts
+    on field.id = opts.field_id
     where field.active
 ');
 
@@ -68,8 +70,10 @@ __PACKAGE__->result_source_instance->view_definition('
 =cut
 
 __PACKAGE__->add_columns(
+  "field_id",
+  { data_type => "integer" },
   "code",
-  { data_type => "text", is_nullable => 1 },
+  { data_type => "text" },
   "value",
   { data_type => "text", is_nullable => 1 },
   "site_id",
@@ -78,5 +82,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
 );
 
+__PACKAGE__->belongs_to( site => 'OpusVL::CMS::Schema::Result::Site', 'site_id' );
+
+__PACKAGE__->has_many( options => 'OpusVL::CMS::Schema::Result:PageAttributeValue',
+    { 'foreign.field_id' => 'self.field_id' }
+);
 
 1;
