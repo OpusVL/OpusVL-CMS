@@ -530,7 +530,7 @@ around 'attachments' => sub {
 
 sub assets {
     my ($self, $query, $options) = @_;
-    return $self->site->all_assets->published->attribute_search($query, $options);
+    return $self->site->all_assets->published->attribute_search($self->site, $query, $options);
 }
 
 =head2 update_attribute
@@ -647,7 +647,7 @@ sub attachment {
     my ($self) = shift;
     my $attachment = $self->search_related(
         'attachments',
-        { status => 'published' }
+        { 'attachments.status' => 'published' }
     )->first;
 
     if ($attachment) {
@@ -689,7 +689,7 @@ sub date {
 
 sub blog_image {
     my ($self, $type) = @_;
-    my $query = { status => 'published' };
+    my $query = { 'attachments.status' => 'published' };
     $query->{description} = (defined $type and $type eq 'thumb') ?
         { '=', 'thumb' } : { '!=', 'thumb' };
  

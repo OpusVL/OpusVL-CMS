@@ -11,6 +11,7 @@ requires 'MooseX::Role::Parameterized';
 requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 requires 'Sort::Naturally';
+requires 'Switch::Plain';
 requires 'DBIx::Class::DeploymentHandler';
 requires 'DBIx::Class::Report';
 

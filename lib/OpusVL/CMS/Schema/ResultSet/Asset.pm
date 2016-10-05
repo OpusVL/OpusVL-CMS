@@ -69,9 +69,9 @@ sub by_id_desc
 ##
 
 sub attribute_search {
-    my ($self, $query, $options) = @_;
+    my ($self, $site, $query, $options) = @_;
 
-    return $self->_attribute_search($query, $options);
+    return $self->_attribute_search($site, $query, $options);
 }
 
 1;

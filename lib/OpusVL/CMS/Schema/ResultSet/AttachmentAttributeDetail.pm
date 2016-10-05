@@ -12,7 +12,8 @@ sub BUILDARGS { $_[2] } # ::RS::new() expects my ($class, $rsrc, $args) = @_
 sub active
 {
     my $self = shift;
-    return $self->search({ active => 1 });
+    my $me = $self->current_source_alias;
+    return $self->search({ "$me.active" => 1 });
 }
 
 sub get_values {

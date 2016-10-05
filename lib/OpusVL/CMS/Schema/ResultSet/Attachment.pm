@@ -37,8 +37,8 @@ Returns all published (i.e. live) attachments
 sub published
 {
 	my $self = shift;
-    
-    return $self->search({ status => 'published' });
+    my $me = $self->current_source_alias;
+    return $self->search({ "$me.status" => 'published' });
 }
 
 =head2 attribute_search
@@ -62,7 +62,7 @@ sub attribute_search {
     my $site = shift;
     my ($query, $options) = @_;
 
-    return $self->_attribute_search($query, $options);
+    return $self->_attribute_search($site, $query, $options);
 }
 
 sub available {

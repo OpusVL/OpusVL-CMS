@@ -47,8 +47,9 @@ Returns all published (i.e. live) pages
 sub published
 {
     my $self = shift;
+    my $me = $self->current_source_alias;
     
-    return $self->search({ status => 'published' });
+    return $self->search({ "$me.status" => 'published' });
 }
 
 ##

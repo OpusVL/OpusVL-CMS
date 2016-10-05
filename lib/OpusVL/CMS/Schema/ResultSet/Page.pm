@@ -82,7 +82,7 @@ sub attribute_search {
     my $me = $self->current_source_alias;
     my $rs = $self->search_rs({ "$me.status" => { '!=', 'deleted' } });
 
-    return $rs->_attribute_search($query, $options);
+    return $rs->_attribute_search($site, $query, $options);
 }
 
 ##

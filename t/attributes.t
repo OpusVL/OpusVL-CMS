@@ -46,7 +46,7 @@ my $asset = $site->create_related('assets', {
     ],
 });
 is $asset->attribute('logo'), 'blah';
-my $assets = Asset->attribute_search({
+my $assets = Asset->attribute_search($site, {
     logo => 'blah',
 });
 is $assets->count, 1;
