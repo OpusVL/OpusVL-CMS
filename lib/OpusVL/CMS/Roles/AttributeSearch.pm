@@ -6,9 +6,6 @@ use Switch::Plain;
 sub _attribute_search {
     my ($self, $site, $query, $options) = @_;
 
-    # All attributes for all the things come from the profile. Site attributes
-    # will be ignored as historical data.
-    $site = $site->profile if $site->profile;
     $query   //= {};
     $options //= {};
 
@@ -37,7 +34,15 @@ sub _attribute_search {
                     $_ .= "_$join_count" for $alias, $field_alias, $site_alias;
                 }
 
-                $query->{"$site_alias.id"} = $site->id;
+                if ($site->profile) {
+                    $query->{'-or'} = [
+                        {"$site_alias.id" => $site->id},
+                        {"$site_alias.id" => $site->profile->id},
+                    ]
+                }
+                else {
+                    $query->{"$site_alias.id"} = $site->id;
+                }
                 $query->{"$field_alias.code"} = $field;
                 $query->{"$field_alias.active"} = 1;
                 $query->{'-and'} = [
