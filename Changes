@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+31        2016-10-06 11:10:25+01:00 Europe/London
+
+  - Fixed attribute_search role to correctly identify results:
+    * Profile attributes are now taken into account
+    * Values set against irrelevant sites are now ignored
+
 30        2016-09-27 17:22:16+01:00 Europe/London
 
   - Migration script now creates role for unrestricted users instead of role for
