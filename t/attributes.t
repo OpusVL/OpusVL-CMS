@@ -72,27 +72,27 @@ subtest 'Asset attributes' => sub {
 };
 
 subtest 'Page attributes' => sub {
-    ok my $profile_only_attribute = $profile->create_related('page_attribute_details',
+    ok my $profile_attr = $profile->create_related('page_attribute_details',
         {
-            code => 'profile',
+            code => 'profile_attr',
             name => 'Simple',
             type => 'text',
             active => 1,
         }
     ), "Created profile page attribute";
 
-    ok my $attribute = $site->create_related('page_attribute_details',
+    ok my $site_attr = $site->create_related('page_attribute_details',
         {
-            code => 'site',
+            code => 'site_attr',
             name => 'Test',
             type => 'text',
             active => 1,
         }
     ), "Created site page attribute";
 
-    ok my $pesky_attribute = $pesky_site->create_related('page_attribute_details',
+    ok my $pesky_attr = $pesky_site->create_related('page_attribute_details',
         {
-            code => 'pest',
+            code => 'pest_attr',
             name => 'Pest',
             type => 'text',
             active => 1,
@@ -113,80 +113,69 @@ subtest 'Page attributes' => sub {
         attribute_values => [
             {
                 value => 'a nice value',
-                field_id => $profile_only_attribute->id,
+                field_id => $profile_attr->id,
             },
             {
                 value => 'a test value',
-                field_id => $attribute->id,
+                field_id => $site_attr->id,
             },
             {
                 value => 'a pesky value',
-                field_id => $pesky_attribute->id,
+                field_id => $pesky_attr->id,
             },
         ],
-#        attachments => [
-#            {
-#                slug => 'test.css',
-#                filename => 'test.css',
-#                mime_type => 'text/css',
-#                att_data => [
-#                    {
-#                        data => '/* test */',
-#                    }
-#                ],
-#                attribute_values => [
-#                    {
-#                        value => 'me',
-#                        field_id => $profile_aa->id,
-#                    },
-#                ],
-#            }
-#        ],
     }), "Created page with one of each attribute";
 
-    my $pages = Page->attribute_search($site, { site => 'a test value'}, {});
+    my $pages = Page->attribute_search($site, { $site_attr->code => 'a test value'});
     is $pages->count, 1, "Found page by site value";
+    $DB::single=1;
     is $pages->first->url, '/', "correct page identified";
-    is $pages->first->attribute('site'), "a test value", "Correct site attr";
-    is $pages->first->attribute('profile'), "a nice value", "Correct profile attr";
+    is $pages->first->attribute($site_attr->code), "a test value", "Correct site attr";
+    is $pages->first->attribute($profile_attr->code), "a nice value", "Correct profile attr";
 
 
-    $pages = Page->attribute_search($site, { profile => 'a nice value'}, {});
+    $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'});
     is $pages->count, 1, "Found page by profile value";
     is $pages->first->url, '/', "correct page identified";
 
-    $pages = Page->attribute_search($site, { pest => 'a pesky value'}, {});
+    $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
     is $pages->count, 0, "Did not find page by another site's value";
 
     $pages = Page->attribute_search($site, { 
-            site => 'a test value', 
-            profile => { '!=' => 'yes'}
+            $site_attr->code => 'a test value', 
+            $profile_attr->code => { '!=' => 'yes'}
         }, {});
     is $pages->count, 1, "Found page by two attributes";
+
+    $pages = Page->attribute_search($site, { 
+            $site_attr->code => 'a test value', 
+            $profile_attr->code => { '!=' => 'a nice value'}
+        }, {});
+    is $pages->count, 0, "Filtered out page by two attributes";
 };
 
 subtest 'Attachment attributes' => sub {
     ok my $profile_aa = $profile->create_related('attachment_attribute_details',
         {
-            code => 'profile',
+            code => 'profile_attr',
             name => 'Original',
             type => 'text',
             active => 1,
         }
     ), "Created profile attachment attribute";
 
-    ok my $attachment_attribute = $site->create_related('attachment_attribute_details',
+    ok my $site_aa = $site->create_related('attachment_attribute_details',
         {
-            code => 'site',
+            code => 'site_attr',
             name => 'Test',
             type => 'text',
             active => 1,
         }
     ), "Created site attachment attribute";
 
-    ok my $pesky_attribute = $pesky_site->create_related('attachment_attribute_details',
+    ok my $pesky_aa = $pesky_site->create_related('attachment_attribute_details',
         {
-            code => 'pesky',
+            code => 'pesky_attr',
             name => 'Pest',
             type => 'text',
             active => 1,
@@ -221,11 +210,11 @@ subtest 'Attachment attributes' => sub {
                     },
                     {
                         value => 'pick me',
-                        field_id => $attachment_attribute->id,
+                        field_id => $site_aa->id,
                     },
                     {
                         value => 'avoid me',
-                        field_id => $pesky_attribute->id,
+                        field_id => $pesky_aa->id,
                     },
                 ],
             }
@@ -233,19 +222,19 @@ subtest 'Attachment attributes' => sub {
     }), "Created /about page";
     
     my $s_att = Attachment->attribute_search($site, {
-        site => 'pick me',
+        $site_aa->code => 'pick me',
     });
     is $s_att->count, 1, "Found attachment by site attr";
-    is $s_att->first->attribute('site'), 'pick me', "Correct attribute value";
+    is $s_att->first->attribute($site_aa->code), 'pick me', "Correct attribute value";
 
     my $p_att = Attachment->attribute_search($site, {
-        profile => 'not me',
+        $profile_aa->code => 'not me',
     });
     is $p_att->count, 1, "Found attachment by profile attr";
     is $p_att->first->slug, 'test.css', "Correct slug";
 
     my $bad_att = Attachment->attribute_search($site, {
-        pesky => 'avoid me',
+        $pesky_aa->code => 'avoid me',
     });
     is $bad_att->count, 0, "Did not find attachment by pesky attr";
 };
