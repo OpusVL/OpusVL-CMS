@@ -645,10 +645,7 @@ sub allows_user {
 
 sub attachment {
     my ($self) = shift;
-    my $attachment = $self->search_related(
-        'attachments',
-        { 'attachments.status' => 'published' }
-    )->first;
+    my $attachment = $self->attachments->published->first;
 
     if ($attachment) {
         return "/_attachment/"
@@ -664,21 +661,7 @@ sub get_attachments {
     my $attribute_query = delete $options->{query} // {};
 
     # FIXME: come back to this.
-    return [ $self->result_source->schema->resultset('Page')
-        ->search_related('attachments', 
-            { "attachments.status" => 'published',
-              "me.id"           => $self->id
-            }
-        )
-        ->attribute_search(
-            $self->site,
-            {
-                "me.id" => $self->id,
-                %$attribute_query
-            },
-            $options,
-        )->all
-    ];
+    return [ $self->attachments($attribute_query, $options)->all ];
 }
 
 sub date {
