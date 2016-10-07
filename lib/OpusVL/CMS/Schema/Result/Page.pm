@@ -512,8 +512,15 @@ sub remove
 
 =cut
 
-around 'children', 'children_rs' => sub {
+around 'children' => sub {
     my ($orig, $self, $query, $options) = @_;
+    return $self->$orig()->published->attribute_search($self->site, $query, $options);
+};
+
+around 'children_rs' => sub {
+    my ($orig, $self, $query, $options) = @_;
+    $options //= {};
+    $options->{rs_only} = 1;
     return $self->$orig()->published->attribute_search($self->site, $query, $options);
 };
 
@@ -521,7 +528,14 @@ around 'children', 'children_rs' => sub {
 
 =cut
 
-around 'attachments', 'attachments_rs' => sub {
+around 'attachments_rs' => sub {
+    my ($orig, $self, $query, $options) = @_;
+    $options //= {};
+    $options->{rs_only} = 1;
+    return $self->$orig()->published->attribute_search($self->site, $query, $options);
+};
+
+around 'attachments' => sub {
     my ($orig, $self, $query, $options) = @_;
 
     return $self->$orig()->published->attribute_search($self->site, $query, $options);
