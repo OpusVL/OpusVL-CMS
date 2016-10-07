@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+32        2016-10-07 10:21:10+01:00 Europe/London
+
+  - Fixed bug when searching for multiple attributes at once
+  - Fixed the sorting to sort by priority by default
+  - Removed code that was breaking some attachments and simplified retrievals
+
 31        2016-10-06 11:10:25+01:00 Europe/London
 
   - Fixed attribute_search role to correctly identify results:
