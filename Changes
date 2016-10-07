@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+33        2016-10-07 11:16:03+01:00 Europe/London
+
+  - Apply method modifiers to _rs methods too
+
 32        2016-10-07 10:21:10+01:00 Europe/London
 
   - Fixed bug when searching for multiple attributes at once
