@@ -45,10 +45,10 @@ sub _attribute_search {
                 }
                 $query->{"$field_alias.code"} = $field;
                 $query->{"$field_alias.active"} = 1;
-                $query->{'-and'} = [
+                push @{$query->{'-and'}}, (
                     {"$alias.value" => $value},
                     {"$alias.value" => { '!=' => undef }} # need to double check this is the right thing.
-                ];
+                );
             }
         }
         $options->{distinct} = 1;
