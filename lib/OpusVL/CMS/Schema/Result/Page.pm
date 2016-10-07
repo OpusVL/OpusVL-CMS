@@ -514,8 +514,6 @@ sub remove
 
 around 'children' => sub {
     my ($orig, $self, $query, $options) = @_;
-    $options //= {};
-    $options->{sort} = 'priority' unless exists $options->{sort};
     return $self->$orig()->published->attribute_search($self->site, $query, $options);
 };
 

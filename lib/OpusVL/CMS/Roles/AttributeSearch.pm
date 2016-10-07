@@ -60,16 +60,15 @@ sub _attribute_search {
         }
     }
 
-    if (my $sort = delete $options->{sort}) {
-        sswitch ($sort) {
-            # FIXME: Perhaps the individual resultsets should have these as methods?
-            # We can 'requires' them.
-            case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
-            case 'updated'      : { $options->{order_by} = {'-desc' => "$me.updated"} }
-            case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
-            case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
-            default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
-        }
+    my $sort = delete $options->{sort} || 'priority';
+    sswitch ($sort) {
+        # FIXME: Perhaps the individual resultsets should have these as methods?
+        # We can 'requires' them.
+        case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
+        case 'updated'      : { $options->{order_by} = {'-desc' => "$me.updated"} }
+        case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
+        case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
+        default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
     }
 
     if (delete $options->{rs_only}) {
