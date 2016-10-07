@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+34        2016-10-07 12:35:57+01:00 Europe/London
+
+  - Make sure the _rs methods do return a resultset
+
 33        2016-10-07 11:16:03+01:00 Europe/London
 
   - Apply method modifiers to _rs methods too
