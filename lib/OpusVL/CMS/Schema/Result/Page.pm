@@ -512,7 +512,7 @@ sub remove
 
 =cut
 
-around 'children' => sub {
+around 'children', 'children_rs' => sub {
     my ($orig, $self, $query, $options) = @_;
     return $self->$orig()->published->attribute_search($self->site, $query, $options);
 };
@@ -521,7 +521,7 @@ around 'children' => sub {
 
 =cut
 
-around 'attachments' => sub {
+around 'attachments', 'attachments_rs' => sub {
     my ($orig, $self, $query, $options) = @_;
 
     return $self->$orig()->published->attribute_search($self->site, $query, $options);
