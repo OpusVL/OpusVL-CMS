@@ -61,7 +61,7 @@ sub _attribute_search {
     }
 
     if (my $sort = delete $options->{sort}) {
-        sswitch (delete $options->{sort}) {
+        sswitch ($sort) {
             # FIXME: Perhaps the individual resultsets should have these as methods?
             # We can 'requires' them.
             case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
