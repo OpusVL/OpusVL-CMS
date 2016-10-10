@@ -2,6 +2,7 @@ package OpusVL::CMS::Roles::AttributeSearch;
 
 use Moose::Role;
 use Switch::Plain;
+use Data::Dump;
 
 sub _attribute_search {
     my ($self, $site, $query, $options) = @_;
@@ -68,22 +69,24 @@ sub _attribute_search {
             );
         }
     }
-    $options->{distinct} = 1;
-
 
     # ensure all direct columns are aliased
     for (grep { $columns{$_} } keys %$query) {
         $query->{"$me.$_"} = delete $query->{$_};
     }
 
+    my $sort = delete $options->{order_by};
+
     # By creating a select for only ID, we reduce the query time, since id is
     # then the only thing that shows up in the GROUP BY.
-    my $subselect = $self->search_rs($query, { columns => ['me.id'], distinct => 1 });
+    my $subselect = $self->search_rs($query, {
+        columns => ['me.id'], distinct => 1, %$options
+    });
 
     if (delete $options->{rs_only}) {
-        return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, $options);
+        return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, { order_by => $sort });
     }
-    return $self->search({ 'me.id' => { -in => $subselect->as_query }}, $options);
+    return $self->search({ 'me.id' => { -in => $subselect->as_query }}, { order_by => $sort });
 }
 
 1;
