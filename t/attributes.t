@@ -152,6 +152,7 @@ subtest 'Page attributes' => sub {
             $profile_attr->code => { '!=' => 'a nice value'}
         }, {});
     is $pages->count, 0, "Filtered out page by two attributes";
+    is Page->attribute_search($site)->count, 1;
 };
 
 subtest 'Attachment attributes' => sub {
