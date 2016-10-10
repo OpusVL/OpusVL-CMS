@@ -11,55 +11,6 @@ sub _attribute_search {
 
     my $me = $self->current_source_alias;
 
-    if (%$query) {
-        # lets make this simpler.
-        # forget anything with a . as they presumably knew what they were doing.
-        # then check the columns on the resultset to see if it was presumably a param.
-        my %columns = map { $_ => 1 } $self->result_source->columns;
-        my @params = grep { !$columns{$_} } grep { !/\./ } keys %$query;
-        my $join_count = 0;
-
-        foreach my $field (@params) {
-            if (my $value = delete $query->{$field}) {
-                $join_count++;
-                my $alias = 'attribute_values';
-                my $field_alias = 'field';
-                my $site_alias = 'site';
-
-                push @{$options->{join}}, { 
-                    $alias => { $field_alias => $site_alias }
-                };
-
-                if ($join_count > 1) {
-                    $_ .= "_$join_count" for $alias, $field_alias, $site_alias;
-                }
-
-                if ($site->profile) {
-                    $query->{'-or'} = [
-                        {"$site_alias.id" => $site->id},
-                        {"$site_alias.id" => $site->profile->id},
-                    ]
-                }
-                else {
-                    $query->{"$site_alias.id"} = $site->id;
-                }
-                $query->{"$field_alias.code"} = $field;
-                $query->{"$field_alias.active"} = 1;
-                push @{$query->{'-and'}}, (
-                    {"$alias.value" => $value},
-                    {"$alias.value" => { '!=' => undef }} # need to double check this is the right thing.
-                );
-            }
-        }
-        $options->{distinct} = 1;
-
-
-        # ensure all direct columns are aliased
-        for (grep { $columns{$_} } keys %$query) {
-            $query->{"$me.$_"} = delete $query->{$_};
-        }
-    }
-
     my $sort = delete $options->{sort} || 'priority';
     sswitch ($sort) {
         # FIXME: Perhaps the individual resultsets should have these as methods?
@@ -69,6 +20,60 @@ sub _attribute_search {
         case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
         case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
         default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
+    }
+
+    if (!%$query) {
+        if (delete $options->{rs_only}) {
+            return $self->search_rs(undef, $options);
+        }
+        return $self->search(undef, $options);
+    }
+
+    # lets make this simpler.
+    # forget anything with a . as they presumably knew what they were doing.
+    # then check the columns on the resultset to see if it was presumably a param.
+    my %columns = map { $_ => 1 } $self->result_source->columns;
+    my @params = grep { !$columns{$_} } grep { !/\./ } keys %$query;
+    my $join_count = 0;
+
+    foreach my $field (@params) {
+        if (my $value = delete $query->{$field}) {
+            $join_count++;
+            my $alias = 'attribute_values';
+            my $field_alias = 'field';
+            my $site_alias = 'site';
+
+            push @{$options->{join}}, { 
+                $alias => { $field_alias => $site_alias }
+            };
+
+            if ($join_count > 1) {
+                $_ .= "_$join_count" for $alias, $field_alias, $site_alias;
+            }
+
+            if ($site->profile) {
+                $query->{'-or'} = [
+                    {"$site_alias.id" => $site->id},
+                    {"$site_alias.id" => $site->profile->id},
+                ]
+            }
+            else {
+                $query->{"$site_alias.id"} = $site->id;
+            }
+            $query->{"$field_alias.code"} = $field;
+            $query->{"$field_alias.active"} = 1;
+            push @{$query->{'-and'}}, (
+                {"$alias.value" => $value},
+                {"$alias.value" => { '!=' => undef }} # need to double check this is the right thing.
+            );
+        }
+    }
+    $options->{distinct} = 1;
+
+
+    # ensure all direct columns are aliased
+    for (grep { $columns{$_} } keys %$query) {
+        $query->{"$me.$_"} = delete $query->{$_};
     }
 
     # By creating a select for only ID, we reduce the query time, since id is
