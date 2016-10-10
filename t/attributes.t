@@ -128,7 +128,7 @@ subtest 'Page attributes' => sub {
 
     my $pages = Page->attribute_search($site, { $site_attr->code => 'a test value'});
     is $pages->count, 1, "Found page by site value";
-    $DB::single=1;
+
     is $pages->first->url, '/', "correct page identified";
     is $pages->first->attribute($site_attr->code), "a test value", "Correct site attr";
     is $pages->first->attribute($profile_attr->code), "a nice value", "Correct profile attr";
