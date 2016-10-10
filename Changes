@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+36        2016-10-10 14:09:27+01:00 Europe/London
+
+  - Speed up attribute queries
+
 35        2016-10-07 16:02:30+01:00 Europe/London
 
   - Fixed missing code accidentally left on branch
