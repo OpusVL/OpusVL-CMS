@@ -71,10 +71,14 @@ sub _attribute_search {
         default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
     }
 
+    # By creating a select for only ID, we reduce the query time, since id is
+    # then the only thing that shows up in the GROUP BY.
+    my $subselect = $self->search_rs($query, { columns => ['me.id'], distinct => 1 });
+
     if (delete $options->{rs_only}) {
-        return $self->search_rs($query, $options);
+        return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, $options);
     }
-    return $self->search($query, $options);
+    return $self->search({ 'me.id' => { -in => $subselect->as_query }}, $options);
 }
 
 1;
