@@ -74,7 +74,7 @@ sub _attribute_search {
         $query->{"$me.$_"} = delete $query->{$_};
     }
 
-    my $sort = delete $options->{order_by};
+    $sort = delete $options->{order_by};
 
     # By creating a select for only ID, we reduce the query time, since id is
     # then the only thing that shows up in the GROUP BY.
