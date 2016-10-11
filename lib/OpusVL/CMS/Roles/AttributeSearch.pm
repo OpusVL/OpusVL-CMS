@@ -42,24 +42,23 @@ sub _attribute_search {
             $join_count++;
             my $alias = 'attribute_values';
             my $field_alias = 'field';
-            my $site_alias = 'site';
 
             push @{$options->{join}}, { 
-                $alias => { $field_alias => $site_alias }
+                $alias => $field_alias
             };
 
             if ($join_count > 1) {
-                $_ .= "_$join_count" for $alias, $field_alias, $site_alias;
+                $_ .= "_$join_count" for $alias, $field_alias;
             }
 
             if ($site->profile) {
-                $query->{'-or'} = [
-                    {"$site_alias.id" => $site->id},
-                    {"$site_alias.id" => $site->profile->id},
-                ]
+                push @{$query->{'-and'}}, [
+                    {"$field_alias.site_id" => $site->id},
+                    {"$field_alias.site_id" => $site->profile->id},
+                ];
             }
             else {
-                $query->{"$site_alias.id"} = $site->id;
+                $query->{"$field_alias.site_id"} = $site->id;
             }
             $query->{"$field_alias.code"} = $field;
             $query->{"$field_alias.active"} = 1;
