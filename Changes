@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+37        2016-10-11 11:08:54+01:00 Europe/London
+
+  - Fixes to attribute search 
+
 36        2016-10-10 14:09:27+01:00 Europe/London
 
   - Speed up attribute queries
