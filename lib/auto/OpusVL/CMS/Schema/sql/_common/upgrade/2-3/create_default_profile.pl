@@ -80,6 +80,7 @@ sub {
     );
     for my $attr ($default_attributes->fetch)
     {
+        # We explicitly ignore assets because they're omitted by the site creator
         if ($attr->type eq 'site') {
             $site_attr->find_or_create({
                     site_id => $profile->id,
@@ -133,29 +134,7 @@ sub {
                 }
             }
         }
-        elsif ($attr->type eq 'asset') {
-            my $new_attr = $ass_attr->find_or_create({
-                    site_id => $profile->id,
-                    name    => $attr->name,
-                    code    => $attr->code,
-                    type    => $attr->field_type,
-                });
-            if ($new_attr) {
-                if ($attr->field_type && $attr->field_type eq 'select') {
-                    # the select field has values
-                    if (@{$attr->values}) {
-                        for my $value (@{$attr->values}) {
-                            $new_attr->field_values->find_or_create({
-                                field_id => $new_attr->id,
-                                value    => $value
-                            }, undef, { columns => [qw/field_id value/] });
-                        }
-                    }
-                }
-            }
-        }
     }
-
     my $a = $assets->search({ global => 1 })->search_related('site');
     my $e = $elements->search({ global => 1 })->search_related('site');
     my $t = $templates->search({ global => 1 })->search_related('site');
