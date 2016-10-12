@@ -17,7 +17,7 @@ ok my $site = Site->create({
         },
     ],
 });
-my $asset_att = $site->create_related('asset_attributes', {
+my $asset_att = $site->create_related('asset_attribute_details', {
     code => 'logo',
     type => 'text',
     name => 'Logo',

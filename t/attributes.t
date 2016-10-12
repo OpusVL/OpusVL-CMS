@@ -41,7 +41,7 @@ ok my $template = $site->create_related('templates', {
 }), "Created simple template";
 
 subtest 'Asset attributes' => sub {
-    ok my $profile_asset_att = $profile->create_related('asset_attributes', {
+    ok my $profile_asset_att = $profile->create_related('asset_attribute_details', {
         code => 'logo',
         type => 'text',
         name => 'Original',
