@@ -21,7 +21,7 @@ where id in (
 );
 
 delete
-from asset_attribute_data
+from attachment_attribute_data
 where id in (
     select d.id
     from attachment_attribute_details f
