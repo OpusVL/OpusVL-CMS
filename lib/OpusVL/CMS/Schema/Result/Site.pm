@@ -287,6 +287,7 @@ has _all_site_attributes_rs_cache => (is => 'rw');
 has _all_page_attribute_details_rs_cache => (is => 'rw');
 has _all_attachment_attribute_details_rs_cache => (is => 'rw');
 has _all_attachments_rs_cache => (is => 'rw');
+has _all_asset_attribute_details_rs_cache => (is => 'rw');
 has _all_assets_rs_cache => (is => 'rw');
 has _all_attributes_rs_cache => (is => 'rw');
 has _all_templates_rs_cache => (is => 'rw');
@@ -471,6 +472,25 @@ sub all_page_attribute_details
     return $rs;
 }
 
+sub all_asset_attribute_details
+{
+    my $self = shift;
+    
+    return $self->_all_asset_attribute_details_rs_cache if $self->_all_asset_attribute_details_rs_cache;
+    my $rs = $self->search_related('asset_attribute_details');
+    if($self->profile_site)
+    {
+        my $profile_items = $self->profile->search_related('asset_attribute_details');
+        my $joined = $rs->union($profile_items);
+        $rs = $joined->search(undef, {
+            join => 'site',
+            order_by => [ { -desc => 'site.profile_site' } ],
+        });
+    }
+    $self->_all_asset_attribute_details_rs_cache($rs);
+    return $rs;
+}
+
 =head2 page_attributes
 
 Returns canonical list of page attributes for this site, i.e. the profile's
@@ -503,6 +523,23 @@ sub attachment_attributes
     my $site = $self->profile || $self;
 
     return $site->search_related('attachment_attribute_details');
+}
+
+=head2 asset_attributes
+
+Returns canonical list of asset attributes for this site, i.e. the profile's
+list, or the site's own list if the site is a profile.
+
+Assets are represented as L<OpusVL::CMS::Schema::Result::AssetAttributeDetail>s
+
+=cut
+
+sub asset_attributes
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related('asset_attribute_details');
 }
 
 sub master_domain {
