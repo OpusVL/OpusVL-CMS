@@ -3,6 +3,11 @@ use strict;
 use warnings;
 
 sub check_asset_attribute_sanity {
+    # asset_attribute_details has always had site_id but until FB11 it was
+    # ignored. That meant all asset attribute details were effectively global,
+    # so now we put them on the profile. We want to check this won't cause a
+    # conflict between two sites defining the same code. This shouldn't happen
+    # because of course all sites will show all attributes anyway.
     my $schema = shift;
     my $merged_attributes = DBIx::Class::Report->new(
         schema => $schema,
@@ -44,8 +49,6 @@ sub {
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
 
-    # Asset attributes all belong to the profile due to the way we completely
-    # ignored site_id until now.
     check_asset_attribute_sanity();
     $schema->resultset('AssetAttributeDetails')->update({ site_id => $profile->id });
 
