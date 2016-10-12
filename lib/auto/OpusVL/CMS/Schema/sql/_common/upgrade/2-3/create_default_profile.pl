@@ -21,6 +21,7 @@ sub {
     my $site_attr  = $profile->site_attributes;
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
+    my $ass_attr   = $profile->asset_attribute_details;
 
     # NOTE: we don't have the resultset any more.
     # so we create it temporarily for the migration.
@@ -132,7 +133,29 @@ sub {
                 }
             }
         }
+        elsif ($attr->type eq 'asset') {
+            my $new_attr = $ass_attr->find_or_create({
+                    site_id => $profile->id,
+                    name    => $attr->name,
+                    code    => $attr->code,
+                    type    => $attr->field_type,
+                });
+            if ($new_attr) {
+                if ($attr->field_type && $attr->field_type eq 'select') {
+                    # the select field has values
+                    if (@{$attr->values}) {
+                        for my $value (@{$attr->values}) {
+                            $new_attr->field_values->find_or_create({
+                                field_id => $new_attr->id,
+                                value    => $value
+                            }, undef, { columns => [qw/field_id value/] });
+                        }
+                    }
+                }
+            }
+        }
     }
+
     my $a = $assets->search({ global => 1 })->search_related('site');
     my $e = $elements->search({ global => 1 })->search_related('site');
     my $t = $templates->search({ global => 1 })->search_related('site');
