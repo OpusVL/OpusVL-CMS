@@ -68,6 +68,13 @@ __PACKAGE__->add_columns(
   { data_type => "text", is_nullable => 1 },
   "field_id",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+    # A field's value can be defined by the profile, or by a site that consumes
+    # that profile. We don't let the site edit the profile's fields.
+    site_id => {
+        data_type => "integer",
+        is_foreign_key => 1,
+        is_nullable => 1
+    },
 );
 
 =head1 PRIMARY KEY
