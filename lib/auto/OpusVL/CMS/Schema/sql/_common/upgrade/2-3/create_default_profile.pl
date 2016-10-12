@@ -2,6 +2,28 @@ use DBIx::Class::Report;
 use strict;
 use warnings;
 
+sub check_asset_attribute_sanity {
+    my $schema = shift;
+    my $merged_attributes = DBIx::Class::Report->new(
+        schema => $schema,
+        sql => q{
+            select code, count(*) as instances
+            from asset_attribute_details
+            where active = true
+            group by code
+            having count(*) > 1
+        },
+        columns => [
+            code => { data_type => 'text' },
+            instances => { data_type => 'integer' },
+        ]
+    );
+
+    if ($default_attributes->fetch) {
+        die "asset_attribute_details has conflicting data - cannot migrate"
+    }
+}
+
 sub {
     my $schema = shift;
     my $debug = $ENV{DEBUG_MIGRATION};
@@ -21,7 +43,11 @@ sub {
     my $site_attr  = $profile->site_attributes;
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
-    my $ass_attr   = $profile->asset_attribute_details;
+
+    # Asset attributes all belong to the profile due to the way we completely
+    # ignored site_id until now.
+    check_asset_attribute_sanity();
+    $schema->resultset('AssetAttributeDetails')->update({ site_id => $profile->id });
 
     # NOTE: we don't have the resultset any more.
     # so we create it temporarily for the migration.
