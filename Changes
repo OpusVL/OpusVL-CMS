@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+38        2016-10-13 13:55:19+01:00 Europe/London
+
+  - Asset attributes are now connected to sites in the same way as other
+    attributes
+  - Asset attributes are now migrated along with everything else
+
 37        2016-10-11 11:08:54+01:00 Europe/London
 
   - Fixes to attribute search 
