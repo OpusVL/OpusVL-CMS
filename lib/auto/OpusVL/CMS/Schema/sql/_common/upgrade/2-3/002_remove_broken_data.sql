@@ -1,3 +1,6 @@
+-- Removes values for attributes that are not set against the right site.
+-- Either the site or the profile should own the field (_details) against which
+-- the value (_data) is set, or else it is removed
 delete
 from page_attribute_data
 where id in (
