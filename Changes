@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+40        2016-10-14 14:00:14+01:00 Europe/London
+
+  - Fixed display of select box attributes, which were not filtered by site.
+
 39        2016-10-14 10:46:14+01:00 Europe/London
 
   - Attribute select values can now be easily looked up by site
