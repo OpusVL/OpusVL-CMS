@@ -2,9 +2,6 @@ use utf8;
 package OpusVL::CMS::Schema::Result::AssetAttributeDetail;
 our $VERSION = '40';
 
-# Created by DBIx::Class::Schema::Loader
-# DO NOT MODIFY THE FIRST PART OF THIS FILE
-
 =head1 NAME
 
 OpusVL::CMS::Schema::Result::AssetAttributeDetail
@@ -171,23 +168,61 @@ __PACKAGE__->belongs_to(
   },
 );
 
+=head1 METHODS
 
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2013-01-08 10:30:16
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:n/l6nHz/MAlp7RsodN4kdw
+=head2 form_options
+
+=over
+
+=item $site
+
+Since fields are always defined against profiles, but sites can augment the set
+of values, you must pass in the site whose values you want. This will default to
+that profile.
+
+=back
+
+Returns an arrayref of arrayrefs for HTML::FormFu usage, for when the field's
+type is C<select>
+
+=cut
 
 sub form_options
 {
     my $self = shift;
-    my @all = sort { $a->[0] cmp $b->[0] } map { [ $_->value, $_->value ] } $self->field_values->all;
+    my $site = shift // $self->site;
+    my @all = sort { $a->[0] cmp $b->[0] } map { [ $_->value, $_->value ] } $self->field_values->for_site($site);
     return \@all;
 }
+
+=head2 valid_option
+
+=over
+
+=item $value
+
+The value to check
+
+=item $site
+
+Since fields are always defined against profiles, but sites can augment the set
+of values, you must pass in the site whose values you want. This will default to
+that profile.
+
+=back
+
+Returns a true value if the input value exists in the provided site's set of
+options for this C<select> field. If it's not a C<select> field, this is false,
+because no options are defined.
+
+=cut
 
 sub valid_option
 {
     my $self = shift;
     my $value = shift;
-    return $self->field_values->find({ value => $value });
+    my $site = shift // $self->site;
+    return $self->field_values->for_site($site)->find({ value => $value });
 }
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;

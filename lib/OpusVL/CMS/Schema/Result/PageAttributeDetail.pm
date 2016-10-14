@@ -2,9 +2,6 @@ use utf8;
 package OpusVL::CMS::Schema::Result::PageAttributeDetail;
 our $VERSION = '40';
 
-# Created by DBIx::Class::Schema::Loader
-# DO NOT MODIFY THE FIRST PART OF THIS FILE
-
 =head1 NAME
 
 OpusVL::CMS::Schema::Result::PageAttributeDetail
@@ -124,7 +121,7 @@ __PACKAGE__->has_many(
   { cascade_copy => 1, cascade_delete => 0 },
 );
 
-=head2 page_attribute_values
+=head2 field_values
 
 Type: has_many
 
@@ -159,23 +156,68 @@ __PACKAGE__->belongs_to(
   },
 );
 
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AfWP+iCIWZWJN5TLhXXwug
+=head1 METHODS
 
+=head2 form_options
+
+=over
+
+=item $site
+
+Since fields are always defined against profiles, but sites can augment the set
+of values, you must pass in the site whose values you want. This will default to
+that profile.
+
+=back
+
+Returns an arrayref of arrayrefs for HTML::FormFu usage, for when the field's
+type is C<select>
+
+=cut
 
 sub form_options
 {
     my $self = shift;
-    my @all = map { [ $_->value, $_->value ] } $self->field_values->all;
+    my $site = shift // $self->site;
+    my @all = map { [ $_->value, $_->value ] } $self->field_values->for_site($site)->all;
     return \@all;
 }
+
+=head2 valid_option
+
+=over
+
+=item $value
+
+The value to check
+
+=item $site
+
+Since fields are always defined against profiles, but sites can augment the set
+of values, you must pass in the site whose values you want. This will default to
+that profile.
+
+=back
+
+Returns a true value if the input value exists in the provided site's set of
+options for this C<select> field. If it's not a C<select> field, this is false,
+because no options are defined.
+
+=cut
 
 sub valid_option
 {
     my $self = shift;
     my $value = shift;
-    return $self->field_values->find({ value => $value });
+    my $site = shift;
+    return $self->field_values->for_site($site)->find({ value => $value });
 }
+
+=head2 active
+
+I'm pretty sure this is broken and I'll delete it in a minute to find out.
+
+=cut
 
 sub active
 {
@@ -183,5 +225,4 @@ sub active
     return $self->search({ active => 1 });
 }
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
