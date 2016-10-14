@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+39        2016-10-14 10:46:14+01:00 Europe/London
+
+  - Attribute select values can now be easily looked up by site
+  - Added migration to tidy up said values
+
 38        2016-10-13 13:55:19+01:00 Europe/London
 
   - Asset attributes are now connected to sites in the same way as other
