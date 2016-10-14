@@ -10,7 +10,7 @@ OpusVL::CMS - The Data layer for the OpusVL CMS
 
 =cut
 
-our $VERSION = '40';
+our $VERSION = '41';
 
 
 =head1 SYNOPSIS
