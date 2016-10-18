@@ -9,7 +9,7 @@ where id in (
     inner join page_attribute_data d on d.field_id = f.id
     inner join pages p on d.page_id = p.id
     inner join sites s on s.id = p.site
-    where f.site_id <> s.id and f.site_id <> s.profile_site
+    where f.site_id <> s.id and f.site_id <> COALESCE(s.profile_site, 0)
 );
 
 delete
@@ -20,7 +20,7 @@ where id in (
     inner join asset_attribute_data d on d.field_id = f.id
     inner join assets a on d.asset_id = a.id
     inner join sites s on s.id = a.site
-    where f.site_id <> s.id and f.site_id <> s.profile_site
+    where f.site_id <> s.id and f.site_id <> COALESCE(s.profile_site, 0)
 );
 
 delete
@@ -32,5 +32,5 @@ where id in (
     inner join attachments a on d.attachment_id = a.id
     inner join pages p on a.page_id = p.id
     inner join sites s on s.id = p.site
-    where f.site_id <> p.site and f.site_id <> s.profile_site
+    where f.site_id <> p.site and f.site_id <> COALESCE(s.profile_site, 0)
 );
