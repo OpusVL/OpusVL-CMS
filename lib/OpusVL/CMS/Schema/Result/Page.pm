@@ -590,7 +590,16 @@ sub page_attribute
         $search->{'field.code'} = $field;
     }
 
-    my $current_value = $self->search_related('attribute_values', $search, $args)->first;
+    my $site = $self->site->profile_site ? $self->site->profile : $self->site;
+    my $current_value = $self->search_related('attribute_values', $search, $args)
+        ->search( 
+            { 
+                'field.active' => '1',
+                'site.id' => $site->id,
+            },
+            { join => { 'field' => 'site' } },
+        )
+        ->first;
     return undef unless $current_value;
     return $current_value->date_value if $current_value->field->type eq 'date';
     return $current_value->value;
