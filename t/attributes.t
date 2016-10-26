@@ -130,7 +130,7 @@ subtest 'Page attributes' => sub {
     is $pages->count, 1, "Found page by site value";
 
     is $pages->first->url, '/', "correct page identified";
-    is $pages->first->attribute($site_attr->code), "a test value", "Correct site attr";
+    ok +(not defined $pages->first->attribute($site_attr->code)), "No value for non-profile attr";
     is $pages->first->attribute($profile_attr->code), "a nice value", "Correct profile attr";
 
 
