@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+41        2016-10-26 11:53:49+01:00 Europe/London
+
+  - Requesting page attribute value no longer returns values from
+    similarly-named fields on the wrong site, e.g. from migrated data.
+  - Migration no longer trips over NULL values, and thus actually does
+    something.
+
 40        2016-10-14 14:00:14+01:00 Europe/London
 
   - Fixed display of select box attributes, which were not filtered by site.
