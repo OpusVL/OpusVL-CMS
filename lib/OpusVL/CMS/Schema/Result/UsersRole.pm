@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::UsersRole;
-our $VERSION = '41';
+our $VERSION = '42';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE

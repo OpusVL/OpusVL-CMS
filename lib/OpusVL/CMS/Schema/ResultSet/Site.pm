@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::Site;
-our $VERSION = '41';
+our $VERSION = '42';
 
 use strict;
 use warnings;
