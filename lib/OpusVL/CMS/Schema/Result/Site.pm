@@ -493,10 +493,13 @@ sub all_asset_attribute_details
 
 =head2 page_attributes
 
-Returns canonical list of page attributes for this site, i.e. the profile's
-list, or the site's own list if the site is a profile.
+=head2 page_attributes_rs
 
-Attributes are represented as L<OpusVL::CMS::Schema::Result:PageAttributeDetail>s
+Returns canonical list of page attributes for this site, i.e. the profile's
+list, or the site's own list if the site is a profile. An C<_rs> version is
+provided to mimic the behaviour of relationships.
+
+Attributes are represented as L<OpusVL::CMS::Schema::Result:PageAttributeDetail>s.
 
 =cut
 
@@ -508,10 +511,21 @@ sub page_attributes
     return $site->search_related('page_attribute_details');
 }
 
+sub page_attributes_rs
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related_rs('page_attribute_details');
+}
+
 =head2 attachment_attributes
 
+=head2 attachment_attributes_rs
+
 Returns canonical list of attachment attributes for this site, i.e. the profile's
-list, or the site's own list if the site is a profile.
+list, or the site's own list if the site is a profile. An C<_rs> version is
+provided to mimic the behaviour of relationships.
 
 Attributes are represented as L<OpusVL::CMS::Schema::Result::AttachmentAttributeDetail>s
 
@@ -525,10 +539,21 @@ sub attachment_attributes
     return $site->search_related('attachment_attribute_details');
 }
 
+sub attachment_attributes_rs
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related_rs('attachment_attribute_details');
+}
+
 =head2 asset_attributes
 
+=head2 asset_attributes_rs
+
 Returns canonical list of asset attributes for this site, i.e. the profile's
-list, or the site's own list if the site is a profile.
+list, or the site's own list if the site is a profile. An C<_rs> version is
+provided to mimic the behaviour of relationships.
 
 Assets are represented as L<OpusVL::CMS::Schema::Result::AssetAttributeDetail>s
 
@@ -540,6 +565,14 @@ sub asset_attributes
     my $site = $self->profile || $self;
 
     return $site->search_related('asset_attribute_details');
+}
+
+sub asset_attributes_rs
+{
+    my $self = shift;
+    my $site = $self->profile || $self;
+
+    return $site->search_related_rs('asset_attribute_details');
 }
 
 sub master_domain {
