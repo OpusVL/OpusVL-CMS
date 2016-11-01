@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+42        2016-11-01 16:36:17+00:00 Europe/London
+
+  - Site accessors that return sets of Attribute results now have _rs versions
+    because TT2
+
 41        2016-10-26 11:53:49+01:00 Europe/London
 
   - Requesting page attribute value no longer returns values from
