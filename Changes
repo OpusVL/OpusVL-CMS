@@ -2,6 +2,12 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+43        2016-11-15 15:09:21+00:00 Europe/London
+
+  - Page attachment metadata lookup now uses the site ID of the page in
+    question, because for some reason the page attachment metadata has a site
+    ID.
+
 42        2016-11-01 16:36:17+00:00 Europe/London
 
   - Site accessors that return sets of Attribute results now have _rs versions
