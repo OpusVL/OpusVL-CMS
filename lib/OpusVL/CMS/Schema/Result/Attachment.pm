@@ -247,7 +247,10 @@ sub attribute
 {
     my ($self, $field) = @_;
 
-    my $search = {};
+    my $search = {
+        site_id => $self->page->get_column('site')
+    };
+
     my $args = { prefetch => ['field'] };
     if (ref $field) {
         $search->{field_id} = $field->id
