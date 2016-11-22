@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+44        2016-11-22 13:43:58+00:00 Europe/London
+
+  - Page attachment metadata now actually uses the profile to filter the fields,
+    not the page site directly
+
 43        2016-11-15 15:09:21+00:00 Europe/London
 
   - Page attachment metadata lookup now uses the site ID of the page in
