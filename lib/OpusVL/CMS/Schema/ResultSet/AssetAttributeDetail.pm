@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::AssetAttributeDetail;
-our $VERSION = '44';
+our $VERSION = '45';
 
 use Moose;
 use MooseX::NonMoose;
