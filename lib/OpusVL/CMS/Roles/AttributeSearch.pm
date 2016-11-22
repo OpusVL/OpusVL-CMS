@@ -52,10 +52,7 @@ sub _attribute_search {
             }
 
             if ($site->profile) {
-                push @{$query->{'-and'}}, [
-                    {"$field_alias.site_id" => $site->id},
-                    {"$field_alias.site_id" => $site->profile->id},
-                ];
+                $query->{"$field_alias.site_id"} = $site->profile->id;
             }
             else {
                 $query->{"$field_alias.site_id"} = $site->id;

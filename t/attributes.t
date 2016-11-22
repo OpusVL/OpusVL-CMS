@@ -127,12 +127,7 @@ subtest 'Page attributes' => sub {
     }), "Created page with one of each attribute";
 
     my $pages = Page->attribute_search($site, { $site_attr->code => 'a test value'});
-    is $pages->count, 1, "Found page by site value";
-
-    is $pages->first->url, '/', "correct page identified";
-    ok +(not defined $pages->first->attribute($site_attr->code)), "No value for non-profile attr";
-    is $pages->first->attribute($profile_attr->code), "a nice value", "Correct profile attr";
-
+    is $pages->count, 0, "Cannot find page by site attribute";
 
     $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'});
     is $pages->count, 1, "Found page by profile value";
@@ -141,18 +136,17 @@ subtest 'Page attributes' => sub {
     $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
     is $pages->count, 0, "Did not find page by another site's value";
 
-    $pages = Page->attribute_search($site, { 
-            $site_attr->code => 'a test value', 
-            $profile_attr->code => { '!=' => 'yes'}
-        }, {});
-    is $pages->count, 1, "Found page by two attributes";
-
-    $pages = Page->attribute_search($site, { 
-            $site_attr->code => 'a test value', 
-            $profile_attr->code => { '!=' => 'a nice value'}
-        }, {});
-    is $pages->count, 0, "Filtered out page by two attributes";
-    is Page->attribute_search($site)->count, 1;
+#    $pages = Page->attribute_search($site, { 
+#            $site_attr->code => 'a test value', 
+#            $profile_attr->code => { '!=' => 'yes'}
+#        }, {});
+#    is $pages->count, 1, "Found page by two attributes";
+#
+#    $pages = Page->attribute_search($site, { 
+#            $site_attr->code => 'a test value', 
+#            $profile_attr->code => { '!=' => 'a nice value'}
+#        }, {});
+#    is $pages->count, 0, "Filtered out page by two attributes";
 };
 
 subtest 'Attachment attributes' => sub {
@@ -225,8 +219,7 @@ subtest 'Attachment attributes' => sub {
     my $s_att = Attachment->attribute_search($site, {
         $site_aa->code => 'pick me',
     });
-    is $s_att->count, 1, "Found attachment by site attr";
-    is $s_att->first->attribute($site_aa->code), 'pick me', "Correct attribute value";
+    is $s_att->count, 0, "Attribute search did not find site attribute";
 
     my $p_att = Attachment->attribute_search($site, {
         $profile_aa->code => 'not me',
