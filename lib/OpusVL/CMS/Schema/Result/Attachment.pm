@@ -247,11 +247,18 @@ sub attribute
 {
     my ($self, $field) = @_;
 
+    my $profile = $self->page->site->get_column('profile_site') || $self->page->get_column('site');
+
+    # site_id refers to the field, not the value, and only profiles may define
+    # fields. The value is then a (field_id, attachment_id) thing
     my $search = {
-        site_id => $self->page->get_column('site')
+        site_id => $profile,
     };
 
-    my $args = { prefetch => ['field'] };
+    my $args = {
+        prefetch => ['field'],
+        rows => 1
+    };
     if (ref $field) {
         $search->{field_id} = $field->id
     }
