@@ -36,7 +36,7 @@ sub _attribute_search {
     my %columns = map { $_ => 1 } $self->result_source->columns;
     my @params = grep { !$columns{$_} } grep { !/\./ } keys %$query;
     my $join_count = 0;
-    my $inner_options = {};
+    my %safe_options = map { $_ => $options->{$_} } grep { /join|prefetch/ } keys %$options;
 
     foreach my $field (@params) {
         if (my $value = delete $query->{$field}) {
@@ -44,7 +44,7 @@ sub _attribute_search {
             my $alias = 'attribute_values';
             my $field_alias = 'field';
 
-            push @{$inner_options->{join}}, { 
+            push @{$safe_options{join}}, {
                 $alias => $field_alias
             };
 
@@ -76,9 +76,8 @@ sub _attribute_search {
 
     # By creating a select for only ID, we reduce the query time, since id is
     # then the only thing that shows up in the GROUP BY.
-    my %safe_options = map { $_ => $options->{$_} } grep { /join|prefetch/ } keys %$options;
     my $subselect = $self->search_rs($query, {
-        columns => ['me.id'], distinct => 1, %$inner_options, %safe_options
+        columns => ['me.id'], distinct => 1, %safe_options
     });
 
     if (delete $options->{rs_only}) {
