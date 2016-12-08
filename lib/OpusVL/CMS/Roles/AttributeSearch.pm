@@ -32,9 +32,11 @@ sub _attribute_search {
 
     # lets make this simpler.
     # forget anything with a . as they presumably knew what they were doing.
-    # then check the columns on the resultset to see if it was presumably a param.
+    # forget anything starting - because those are special keys like -and, -or
+    # forget anything that is a real column
+    # everything else is an attribute to search on
     my %columns = map { $_ => 1 } $self->result_source->columns;
-    my @params = grep { !$columns{$_} } grep { !/\./ } keys %$query;
+    my @params = grep { !$columns{$_} } grep { !/\./ } grep { !/^-/ } keys %$query;
     my $join_count = 0;
     my %safe_options = map { $_ => $options->{$_} } grep { /join|prefetch/ } keys %$options;
 
