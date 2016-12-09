@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::Asset;
-our $VERSION = '45';
+our $VERSION = '46';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
