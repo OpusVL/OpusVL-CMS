@@ -1,6 +1,6 @@
 package OpusVL::CMS::Schema::ResultSet::AssetAttributeValue;
 
-our $VERSION = '48';
+our $VERSION = '49';
 
 use 5.010;
 use Moose;
