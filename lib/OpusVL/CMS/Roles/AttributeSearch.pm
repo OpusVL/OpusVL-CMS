@@ -41,7 +41,8 @@ sub _attribute_search {
     my %safe_options = map { $_ => $options->{$_} } grep { /join|prefetch/ } keys %$options;
 
     foreach my $field (@params) {
-        if (my $value = delete $query->{$field}) {
+        if (exists $query->{$field}) {
+            my $value = delete $query->{$field};
             $join_count++;
             my $alias = 'attribute_values';
             my $field_alias = 'field';
@@ -64,8 +65,15 @@ sub _attribute_search {
             $query->{"$field_alias.active"} = 1;
             push @{$query->{'-and'}}, (
                 {"$alias.value" => $value},
-                {"$alias.value" => { '!=' => undef }} # need to double check this is the right thing.
             );
+            if(defined $value)
+            {
+                # note that this still won't really allow for { -in => [undef, 0 ] }
+                # assuming that's a valid construct.
+                push @{$query->{'-and'}}, (
+                    {"$alias.value" => { '!=' => undef }}
+                );
+            }
         }
     }
 
