@@ -1,6 +1,6 @@
 package OpusVL::CMS::Schema::ResultSet::PageAttributeValue;
 
-our $VERSION = '46';
+our $VERSION = '47';
 
 use 5.010;
 use Moose;
