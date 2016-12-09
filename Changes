@@ -2,6 +2,16 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+46        2016-12-09 13:43:12+00:00 Europe/London
+
+  - Added new attribute search query features
+
+    You can now clobber the default order_by by specifying your own
+    order_by.  This can be simply an empty order_by if that's what you need.
+
+    You can also specify a new flag, as_subselect like you can with rs_only
+    to wrap the query up in a subselect.
+
 45        2016-12-09 11:58:10+00:00 Europe/London
 
   - Added at least partial support for looking for null in attribute values
