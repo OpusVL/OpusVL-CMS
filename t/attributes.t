@@ -1,6 +1,7 @@
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
+    traits => [qw/Testpostgresql/],
 }, 'Page', 'Site', 'Attachment', 'Asset';
 
 ok my $profile = Site->create({ name => 'test' }), "Created a profile";
@@ -144,6 +145,9 @@ subtest 'Page attributes' => sub {
 
     $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
     is $pages->count, 0, "Did not find page by another site's value";
+
+    $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'}, {invert_attribute_search => 1});
+    is $pages->count, 1, "Found the pages without that attribute set.";
 
 #    $pages = Page->attribute_search($site, { 
 #            $site_attr->code => 'a test value', 

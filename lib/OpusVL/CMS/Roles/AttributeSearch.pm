@@ -96,6 +96,11 @@ sub _attribute_search {
         columns => ['me.id'], distinct => 1, %safe_options
     });
 
+    if(delete $options->{invert_attribute_search})
+    {
+        my $regular_query = $self->search_rs(undef, { columns => ['me.id'], distinct => 1 });
+        $subselect = $regular_query->except_all([$subselect]);
+    }
     if (delete $options->{rs_only}) {
         return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, { %$options });
     }
