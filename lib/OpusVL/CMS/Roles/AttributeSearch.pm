@@ -12,20 +12,28 @@ sub _attribute_search {
 
     my $me = $self->current_source_alias;
 
-    my $sort = delete $options->{sort} || 'priority';
-    sswitch ($sort) {
-        # FIXME: Perhaps the individual resultsets should have these as methods?
-        # We can 'requires' them.
-        case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
-        case 'updated'      : { $options->{order_by} = {'-desc' => "$me.updated"} }
-        case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
-        case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
-        default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
+    # don't fuck it up if it's been specified.
+    unless($options->{order_by})
+    {
+        my $sort = delete $options->{sort} || 'priority';
+        sswitch ($sort) {
+            # FIXME: Perhaps the individual resultsets should have these as methods?
+            # We can 'requires' them.
+            case 'alphabetical' : { $options->{order_by} = {'-asc' => "$me.h1"} }
+            case 'updated'      : { $options->{order_by} = {'-desc' => "$me.updated"} }
+            case 'newest'       : { $options->{order_by} = {'-desc' => "$me.created"} }
+            case 'oldest'       : { $options->{order_by} = {'-asc'  => "$me.created"} }
+            default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
+        }
     }
 
     if (!%$query) {
         if (delete $options->{rs_only}) {
             return $self->search_rs(undef, $options);
+        }
+        if(delete $options->{as_subselect})
+        {
+            return $self->search(undef, $options)->as_subselect->search_rs;
         }
         return $self->search(undef, $options);
     }
@@ -82,8 +90,6 @@ sub _attribute_search {
         $query->{"$me.$_"} = delete $query->{$_};
     }
 
-    $sort = delete $options->{order_by};
-
     # By creating a select for only ID, we reduce the query time, since id is
     # then the only thing that shows up in the GROUP BY.
     my $subselect = $self->search_rs($query, {
@@ -91,9 +97,13 @@ sub _attribute_search {
     });
 
     if (delete $options->{rs_only}) {
-        return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, { %$options, order_by => $sort });
+        return $self->search_rs({ 'me.id' => { -in => $subselect->as_query }}, { %$options });
     }
-    return $self->search({ 'me.id' => { -in => $subselect->as_query }}, { %$options, order_by => $sort });
+    if(delete $options->{as_subselect})
+    {
+        return $self->search({ 'me.id' => { -in => $subselect->as_query }}, { %$options })->as_subselect_rs->search_rs;
+    }
+    return $self->search({ 'me.id' => { -in => $subselect->as_query }}, { %$options });
 }
 
 1;

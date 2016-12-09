@@ -132,6 +132,15 @@ subtest 'Page attributes' => sub {
     $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'});
     is $pages->count, 1, "Found page by profile value";
     is $pages->first->url, '/', "correct page identified";
+    $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'}, {as_rs => 1});
+    is $pages->count, 1, "Found page by profile value";
+    is $pages->first->url, '/', "correct page identified";
+    ok $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'}, {as_subselect => 1}), 'as subselect';
+    is $pages->count, 1, "Found page by profile value";
+    is $pages->first->url, '/', "correct page identified";
+    ok $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'}, {order_by => []}), 'no order by';
+    is $pages->count, 1, "Found page by profile value";
+    is $pages->first->url, '/', "correct page identified";
 
     $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
     is $pages->count, 0, "Did not find page by another site's value";
