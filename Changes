@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+45        2016-12-09 11:58:10+00:00 Europe/London
+
+  - Added at least partial support for looking for null in attribute values
+  - Added Jenkinsfile
+  - Improve attribute search to allow -and, -or etc
+  - Try to ensure search attributes passed into attribute_search are used correctly
+
 44        2016-11-22 13:43:58+00:00 Europe/London
 
   - Page attachment metadata now actually uses the profile to filter the fields,
