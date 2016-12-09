@@ -33,7 +33,7 @@ sub _attribute_search {
         }
         if(delete $options->{as_subselect})
         {
-            return $self->search(undef, $options)->as_subselect->search_rs;
+            return $self->search(undef, $options)->as_subselect_rs->search_rs;
         }
         return $self->search(undef, $options);
     }
