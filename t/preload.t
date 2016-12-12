@@ -253,7 +253,7 @@ subtest prefetch => sub {
         explain $page->attribute('external_link');
         explain $page->attribute('open_in_new_tab');
     }
-    my $pages = $site->pages->published->attribute_search($site, undef, { load_attributes => [qw/external_link open_in_new_tab/]});
+    $pages = $site->pages->published->attribute_search($site, undef, { load_attributes => [qw/external_link open_in_new_tab/]});
     is $pages->count, 4;
     for my $page ($pages->all)
     {
