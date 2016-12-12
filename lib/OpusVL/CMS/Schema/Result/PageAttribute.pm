@@ -47,6 +47,11 @@ __PACKAGE__->result_source_instance->view_definition('
 
 =head1 ACCESSORS
 
+=head2 field_id
+
+  data_type: 'integer'
+  is_nullable: 1
+
 =head2 code
 
   data_type: 'text'
