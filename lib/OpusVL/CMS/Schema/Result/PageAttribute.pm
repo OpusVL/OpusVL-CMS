@@ -35,7 +35,7 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 
 __PACKAGE__->table("page_attributes");
 __PACKAGE__->result_source_instance->view_definition('
-    select field.id as field_id field.code, vals.value, page_id, field.site_id, 
+    select field.id as field_id, field.code, vals.value, page_id, field.site_id
     from page_attribute_data vals
     left join page_attribute_details field
     on field.id = vals.field_id
