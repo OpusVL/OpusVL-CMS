@@ -108,8 +108,10 @@ sub prefetch_attributes
         my $column_name = "attribute_$name" =~ s/\W/_/gr;
         push @column_names, $column_name;
         push @column_names, $column_name . '_cascade';
+        push @column_names, $column_name . '_type';
         push @columns, \"$alias.value as $column_name";
         push @columns, \"$alias.cascade as ${column_name}_cascade";
+        push @columns, \"$alias.type as ${column_name}_type";
         push @joins, '_our_attributes';
         $aliases{$name} = $alias;
         $x++;

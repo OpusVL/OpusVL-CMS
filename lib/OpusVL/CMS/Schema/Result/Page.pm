@@ -603,7 +603,15 @@ sub page_attribute
     my $column_name = "attribute_$field" =~ s/\W/_/gr;
     if($self->has_column_loaded($column_name))
     {
-        return $self->get_column($column_name);
+        my $val = $self->get_column($column_name);
+        my $type = $self->get_column($column_name . '_type');
+        if($type && $type eq 'date')
+        {
+            # inflate the date.
+            my $dtf = $self->result_source->schema->storage->datetime_parser;
+            $val = $dtf->parse_date($val);
+        }
+        return $val;
     }
     my $search = {};
     my $args = { prefetch => ['field'] };

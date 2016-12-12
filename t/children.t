@@ -1,6 +1,7 @@
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
+    traits => [qw/Testpostgresql/],
 }, 'Page', 'Site', 'Attachment', 'Asset';
 
 sub check_priority

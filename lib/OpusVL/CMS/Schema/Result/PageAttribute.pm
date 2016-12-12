@@ -34,14 +34,15 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 =cut
 
 __PACKAGE__->table("page_attributes");
-__PACKAGE__->result_source_instance->view_definition('
-    select field.id as field_id, field.code as code, vals.value as value, 
-            page_id as page_id, field.site_id as site_id, cascade
-    from page_attribute_data vals
-    left outer join page_attribute_details field
+__PACKAGE__->result_source_instance->view_definition("
+    select field.id as field_id, field.code as code, 
+        case when type = 'date' then vals.date_value::varchar else vals.value end as value, 
+            page_id as page_id, field.site_id as site_id, cascade, type
+    from page_attribute_details field
+    left outer join page_attribute_data vals
     on field.id = vals.field_id
     where field.active = true
-');
+");
 
 
 =head1 ACCESSORS
@@ -87,6 +88,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "cascade",
   { data_type => "boolean", is_nullable => 1 },
+  "type",
+  { data_type => "text", is_nullable => 1 },
 );
 
 __PACKAGE__->belongs_to( site => 'OpusVL::CMS::Schema::Result::Site', 'site_id' );
