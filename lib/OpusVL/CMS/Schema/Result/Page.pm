@@ -631,7 +631,17 @@ sub page_attribute
 sub cascaded_attribute
 {
     my ($self, $field) = @_;
-    
+
+    my $column_name = "attribute_${field}_cascade" =~ s/\W/_/gr;
+    if($self->has_column_loaded($column_name))
+    {
+        # see if we've pre-loaded the cascade field
+        # if we have, and the field isn't cascaded we can short
+        # circuit all this.
+        # I'm still leaving the cascaded fields un-optimised for now.
+        return undef unless $self->get_column($column_name);
+    }
+
     my $site = $self->site;
     unless (ref $field) {
         $field = $site->page_attribute_details->search({code => $field})->first;
