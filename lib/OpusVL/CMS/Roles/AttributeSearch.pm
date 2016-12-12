@@ -63,8 +63,8 @@ sub _attribute_search {
                 $_ .= "_$join_count" for $alias, $field_alias;
             }
 
-            if ($site->profile) {
-                $query->{"$field_alias.site_id"} = $site->profile->id;
+            if ($site->profile_site) {
+                $query->{"$field_alias.site_id"} = $site->profile_site;
             }
             else {
                 $query->{"$field_alias.site_id"} = $site->id;
