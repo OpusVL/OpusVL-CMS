@@ -26,6 +26,10 @@ sub _attribute_search {
             default             : { $options->{order_by} = {'-asc' => "$me.priority"} }
         }
     }
+    if(my $preload = delete $options->{load_attributes})
+    {
+		$self = $self->prefetch_extra_fields($preload);
+    }
 
     if (!%$query) {
         if (delete $options->{rs_only}) {
@@ -45,32 +49,23 @@ sub _attribute_search {
     # everything else is an attribute to search on
     my %columns = map { $_ => 1 } $self->result_source->columns;
     my @params = grep { !$columns{$_} } grep { !/\./ } grep { !/^-/ } keys %$query;
-    my $join_count = 0;
+    my $alias = 'our_attributes';
     my %safe_options = map { $_ => $options->{$_} } grep { /join|prefetch/ } keys %$options;
+    my $join_count = 0;
 
     foreach my $field (@params) {
         if (exists $query->{$field}) {
             my $value = delete $query->{$field};
             $join_count++;
-            my $alias = 'attribute_values';
-            my $field_alias = 'field';
 
-            push @{$safe_options{join}}, {
-                $alias => $field_alias
-            };
+            push @{$safe_options{join}}, $alias;
 
             if ($join_count > 1) {
-                $_ .= "_$join_count" for $alias, $field_alias;
+                $_ .= "_$join_count" for $alias;
             }
 
-            if ($site->profile_site) {
-                $query->{"$field_alias.site_id"} = $site->profile_site;
-            }
-            else {
-                $query->{"$field_alias.site_id"} = $site->id;
-            }
-            $query->{"$field_alias.code"} = $field;
-            $query->{"$field_alias.active"} = 1;
+            $query->{"$alias.site_id"} = $site->profile_site || $site->id;
+            $query->{"$alias.code"} = $field;
             push @{$query->{'-and'}}, (
                 {"$alias.value" => $value},
             );

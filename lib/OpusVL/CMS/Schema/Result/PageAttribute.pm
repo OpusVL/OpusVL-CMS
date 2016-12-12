@@ -35,13 +35,14 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 
 __PACKAGE__->table("page_attributes");
 __PACKAGE__->result_source_instance->view_definition('
-    select field.id as field_id, field.code, vals.value, page_id, field.site_id
+    select field.id as field_id, field.code as code, vals.value as value, 
+            page_id as page_id, field.site_id as site_id
     from page_attribute_data vals
-    left join page_attribute_details field
+    inner join page_attribute_details field
     on field.id = vals.field_id
-    left join page_attribute_values opts
+    left outer join page_attribute_values opts
     on field.id = opts.field_id
-    where field.active
+    where field.active = true
 ');
 
 
@@ -72,6 +73,7 @@ __PACKAGE__->result_source_instance->view_definition('
   data_type: 'integer'
   is_nullable: 1
 
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -81,9 +83,9 @@ __PACKAGE__->add_columns(
   { data_type => "text" },
   "value",
   { data_type => "text", is_nullable => 1 },
-  "site_id",
-  { data_type => "integer", is_nullable => 1 },
   "page_id",
+  { data_type => "integer", is_nullable => 1 },
+  "site_id",
   { data_type => "integer", is_nullable => 1 },
 );
 
