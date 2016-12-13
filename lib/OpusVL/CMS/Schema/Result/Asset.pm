@@ -198,6 +198,22 @@ __PACKAGE__->belongs_to(
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
 );
 
+__PACKAGE__->has_many(
+    our_attributes => 'OpusVL::CMS::Schema::Result::AssetAttribute',
+    { "foreign.page_id" => "self.id" },
+);
+
+__PACKAGE__->has_many(
+    _our_attributes => 'OpusVL::CMS::Schema::Result::AssetAttribute',
+    sub {
+        my $args = shift;
+        return { 
+            "$args->{foreign_alias}.asset_id" => { -ident => "$args->{self_alias}.id" }, 
+            "$args->{foreign_alias}.code" => { '=' => \"?"},
+        },
+    }
+);
+
 
 # Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-09-24 16:18:52
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:civfYlahwBqBDSi3bGCXdg
