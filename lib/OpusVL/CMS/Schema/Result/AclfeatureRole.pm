@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::AclfeatureRole;
-our $VERSION = '49';
+our $VERSION = '50';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
