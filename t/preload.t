@@ -42,6 +42,7 @@ ok my $template = $site->create_related('templates', {
 }), "Created simple template";
 
 
+my $set_embargo_date = DateTime->today;
 subtest 'Page attributes' => sub {
     my $site = Site->find({ name => 'main' });
     ok my $profile_attr = $profile->create_related('page_attribute_details',
@@ -83,6 +84,15 @@ subtest 'Page attributes' => sub {
             code => 'exclude_from_menu',
             name => 'Exclude from Main Menu',
             type => 'boolean',
+            active => 1,
+        }
+    ), "Created profile page attribute";
+
+    ok my $embargo = $profile->create_related('page_attribute_details',
+        {
+            code => 'embargo_date',
+            name => 'Embargo date',
+            type => 'date',
             active => 1,
         }
     ), "Created profile page attribute";
@@ -206,7 +216,11 @@ subtest 'Page attributes' => sub {
                 field_id => $main_menu->id,
             },
             {
-                value => undef,
+                date_value => $set_embargo_date,
+                field_id => $embargo->id,
+            },
+            {
+                value => '1',
                 field_id => $new_tab->id,
             },
         ],
@@ -245,21 +259,72 @@ subtest prefetch => sub {
     my $pages = $site->pages->published->attribute_search($site, {
         main_menu => 1,
         # perhaps check it's not been excluded from the main menu?
-    }, { load_attributes => [qw/external_link open_in_new_tab/]});
+    }, { load_attributes => [qw/external_link open_in_new_tab embargo_date/]});
     is $pages->count, 3;
     # FIXME: somehow check we aren't emitting queries.
+    my $expected = {
+        '/' => {
+            external_link => 'http://opusvl.com',
+            open_in_new_tab => 1,
+            embargo_date => undef,
+        },
+        '/p2' => {
+            external_link => undef,
+            open_in_new_tab => undef,
+            embargo_date => undef,
+        },
+        '/p4' => {
+            external_link => undef,
+            open_in_new_tab => 1,
+            embargo_date => $set_embargo_date->ymd,
+        },
+    };
+    my $actual = {};
     for my $page ($pages->all)
     {
-        explain $page->attribute('external_link');
-        explain $page->attribute('open_in_new_tab');
+        my $embargo_date = $page->attribute('embargo_date');
+        $embargo_date = $embargo_date->ymd if $embargo_date;
+
+        $actual->{$page->url} = {
+            external_link => $page->attribute('external_link'),
+            open_in_new_tab => $page->attribute('open_in_new_tab'),
+            embargo_date => $embargo_date,
+        };
     }
-    $pages = $site->pages->published->attribute_search($site, undef, { load_attributes => [qw/external_link open_in_new_tab/]});
+    eq_or_diff $actual, $expected, 'Retrieved correct params';
+    ok $pages = $site->pages->published->attribute_search($site, undef, { load_attributes => [qw/external_link open_in_new_tab embargo_date/]}), 'No criteria';
+    is $pages->count, 4;
+    $expected->{'/p3'} = {
+        external_link => undef,
+        open_in_new_tab => undef,
+        embargo_date => undef,
+    };
+    for my $page ($pages->all)
+    {
+        my $embargo_date = $page->attribute('embargo_date');
+        $embargo_date = $embargo_date->ymd if $embargo_date;
+
+        $actual->{$page->url} = {
+            external_link => $page->attribute('external_link'),
+            open_in_new_tab => $page->attribute('open_in_new_tab'),
+            embargo_date => $embargo_date,
+        };
+    }
+    eq_or_diff $actual, $expected, 'Retrieved correct params';
+    ok $pages = $site->pages->published->attribute_search($site, undef, { load_attributes => [qw//]}), 'No criteria, no preload';
     is $pages->count, 4;
     for my $page ($pages->all)
     {
-        explain $page->attribute('external_link');
-        explain $page->attribute('open_in_new_tab');
+        my $embargo_date = $page->attribute('embargo_date');
+        $embargo_date = $embargo_date->ymd if $embargo_date;
+
+        $actual->{$page->url} = {
+            external_link => $page->attribute('external_link'),
+            open_in_new_tab => $page->attribute('open_in_new_tab'),
+            embargo_date => $embargo_date,
+        };
     }
+    eq_or_diff $actual, $expected, 'Retrieved correct params';
 };
 
 done_testing;
