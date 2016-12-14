@@ -1,0 +1,5122 @@
+---
+schema:
+  procedures: {}
+  tables:
+    aclfeature:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        feature:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: feature
+          order: 2
+          size:
+            - 0
+        feature_description:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: feature_description
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices: []
+      name: aclfeature
+      options: []
+      order: 1
+    aclfeature_role:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - aclfeature_id
+            - role_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - aclfeature_id
+          match_type: ''
+          name: aclfeature_role_fk_aclfeature_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: aclfeature
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_id
+          match_type: ''
+          name: aclfeature_role_fk_role_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+      fields:
+        aclfeature_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: aclfeature_id
+          order: 1
+          size:
+            - 0
+        role_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - aclfeature_id
+          name: aclfeature_role_idx_aclfeature_id
+          options: []
+          type: NORMAL
+        - fields:
+            - role_id
+          name: aclfeature_role_idx_role_id
+          options: []
+          type: NORMAL
+      name: aclfeature_role
+      options: []
+      order: 2
+    aclrule:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        actionpath:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: actionpath
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices: []
+      name: aclrule
+      options: []
+      order: 3
+    aclrule_role:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - aclrule_id
+            - role_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - aclrule_id
+          match_type: ''
+          name: aclrule_role_fk_aclrule_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: aclrule
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_id
+          match_type: ''
+          name: aclrule_role_fk_role_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+      fields:
+        aclrule_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: aclrule_id
+          order: 1
+          size:
+            - 0
+        role_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - aclrule_id
+          name: aclrule_role_idx_aclrule_id
+          options: []
+          type: NORMAL
+        - fields:
+            - role_id
+          name: aclrule_role_idx_role_id
+          options: []
+          type: NORMAL
+      name: aclrule_role
+      options: []
+      order: 54
+    aliases:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: aliases_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        url:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: url
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - page_id
+          name: aliases_idx_page_id
+          options: []
+          type: NORMAL
+      name: aliases
+      options: []
+      order: 4
+    alternate_domains:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - master_domain
+          match_type: ''
+          name: alternate_domains_fk_master_domain
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: master_domains
+          type: FOREIGN KEY
+      fields:
+        domain:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: domain
+          order: 5
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        master_domain:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: master_domain
+          order: 4
+          size:
+            - 0
+        port:
+          data_type: integer
+          default_value: 80
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: port
+          order: 2
+          size:
+            - 0
+        secure:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: secure
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - master_domain
+          name: alternate_domains_idx_master_domain
+          options: []
+          type: NORMAL
+      name: alternate_domains
+      options: []
+      order: 5
+    asset_attribute_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - asset_id
+          match_type: ''
+          name: asset_attribute_data_fk_asset_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: assets
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: asset_attribute_data_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: asset_attribute_details
+          type: FOREIGN KEY
+      fields:
+        asset_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: asset_id
+          order: 5
+          size:
+            - 0
+        date_value:
+          data_type: date
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: date_value
+          order: 3
+          size:
+            - 0
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - asset_id
+          name: asset_attribute_data_idx_asset_id
+          options: []
+          type: NORMAL
+        - fields:
+            - field_id
+          name: asset_attribute_data_idx_field_id
+          options: []
+          type: NORMAL
+      name: asset_attribute_data
+      options: []
+      order: 6
+    asset_attribute_details:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: asset_attribute_details_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        active:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: true
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: active
+          order: 5
+          size:
+            - 0
+        code:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: code
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 3
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 6
+          size:
+            - 0
+        type:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - site_id
+          name: asset_attribute_details_idx_site_id
+          options: []
+          type: NORMAL
+      name: asset_attribute_details
+      options: []
+      order: 7
+    asset_attribute_values:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: asset_attribute_values_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: asset_attribute_details
+          type: FOREIGN KEY
+      fields:
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 4
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - field_id
+          name: asset_attribute_values_idx_field_id
+          options: []
+          type: NORMAL
+      name: asset_attribute_values
+      options: []
+      order: 8
+    asset_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - asset_id
+          match_type: ''
+          name: asset_data_fk_asset_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: assets
+          type: FOREIGN KEY
+      fields:
+        asset_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: asset_id
+          order: 2
+          size:
+            - 0
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 4
+          size:
+            - 0
+        data:
+          data_type: bytea
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: data
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - asset_id
+          name: asset_data_idx_asset_id
+          options: []
+          type: NORMAL
+      name: asset_data
+      options: []
+      order: 9
+    asset_users:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - asset_id
+          match_type: ''
+          name: asset_users_fk_asset_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: assets
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - user_id
+          match_type: ''
+          name: asset_users_fk_user_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        asset_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: asset_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        user_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: user_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - asset_id
+          name: asset_users_idx_asset_id
+          options: []
+          type: NORMAL
+        - fields:
+            - user_id
+          name: asset_users_idx_user_id
+          options: []
+          type: NORMAL
+      name: asset_users
+      options: []
+      order: 10
+    assets:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site
+          match_type: ''
+          name: assets_fk_site
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        description:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: description
+          order: 4
+          size:
+            - 0
+        filename:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: filename
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        mime_type:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: mime_type
+          order: 5
+          size:
+            - 0
+        priority:
+          data_type: integer
+          default_value: 10
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: priority
+          order: 7
+          size:
+            - 0
+        site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site
+          order: 6
+          size:
+            - 0
+        slug:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: slug
+          order: 8
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: published
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - site
+          name: assets_idx_site
+          options: []
+          type: NORMAL
+      name: assets
+      options: []
+      order: 11
+    attachment_attribute_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - attachment_id
+          match_type: ''
+          name: attachment_attribute_data_fk_attachment_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: attachments
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: attachment_attribute_data_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: attachment_attribute_details
+          type: FOREIGN KEY
+      fields:
+        attachment_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: attachment_id
+          order: 5
+          size:
+            - 0
+        date_value:
+          data_type: date
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: date_value
+          order: 3
+          size:
+            - 0
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - attachment_id
+          name: attachment_attribute_data_idx_attachment_id
+          options: []
+          type: NORMAL
+        - fields:
+            - field_id
+          name: attachment_attribute_data_idx_field_id
+          options: []
+          type: NORMAL
+      name: attachment_attribute_data
+      options: []
+      order: 12
+    attachment_attribute_details:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: attachment_attribute_details_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        active:
+          data_type: boolean
+          default_value: 1
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: active
+          order: 5
+          size:
+            - 0
+        code:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: code
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 3
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 6
+          size:
+            - 0
+        type:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - site_id
+          name: attachment_attribute_details_idx_site_id
+          options: []
+          type: NORMAL
+      name: attachment_attribute_details
+      options: []
+      order: 13
+    attachment_attribute_values:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: attachment_attribute_values_fk_field_id
+          on_delete: ''
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: attachment_attribute_details
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: attachment_attribute_values_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: serial
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        priority:
+          data_type: integer
+          default_value: 50
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: priority
+          order: 3
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 5
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - field_id
+          name: attachment_attribute_values_idx_field_id
+          options: []
+          type: NORMAL
+        - fields:
+            - site_id
+          name: attachment_attribute_values_idx_site_id
+          options: []
+          type: NORMAL
+      name: attachment_attribute_values
+      options: []
+      order: 51
+    attachment_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - att_id
+          match_type: ''
+          name: attachment_data_fk_att_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: attachments
+          type: FOREIGN KEY
+      fields:
+        att_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: att_id
+          order: 2
+          size:
+            - 0
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 4
+          size:
+            - 0
+        data:
+          data_type: bytea
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: data
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - att_id
+          name: attachment_data_idx_att_id
+          options: []
+          type: NORMAL
+      name: attachment_data
+      options: []
+      order: 14
+    attachment_tags:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - attachment_id
+          match_type: ''
+          name: attachment_tags_fk_attachment_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: attachments
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - tag_id
+          match_type: ''
+          name: attachment_tags_fk_tag_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: tags
+          type: FOREIGN KEY
+      fields:
+        attachment_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: attachment_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        tag_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: tag_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - attachment_id
+          name: attachment_tags_idx_attachment_id
+          options: []
+          type: NORMAL
+        - fields:
+            - tag_id
+          name: attachment_tags_idx_tag_id
+          options: []
+          type: NORMAL
+      name: attachment_tags
+      options: []
+      order: 15
+    attachments:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: attachments_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 8
+          size:
+            - 0
+        description:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: description
+          order: 5
+          size:
+            - 0
+        filename:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: filename
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        mime_type:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: mime_type
+          order: 6
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        priority:
+          data_type: integer
+          default_value: 50
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: priority
+          order: 7
+          size:
+            - 0
+        slug:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: slug
+          order: 10
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: published
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 3
+          size:
+            - 0
+        updated:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: updated
+          order: 9
+          size:
+            - 0
+      indices:
+        - fields:
+            - page_id
+          name: attachments_idx_page_id
+          options: []
+          type: NORMAL
+      name: attachments
+      options: []
+      order: 16
+    element_attributes:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - element_id
+          match_type: ''
+          name: element_attributes_fk_element_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: elements
+          type: FOREIGN KEY
+      fields:
+        code:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: code
+          order: 3
+          size:
+            - 60
+        element_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: element_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - element_id
+          name: element_attributes_idx_element_id
+          options: []
+          type: NORMAL
+      name: element_attributes
+      options: []
+      order: 17
+    element_contents:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - element_id
+          match_type: ''
+          name: element_contents_fk_element_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: elements
+          type: FOREIGN KEY
+      fields:
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 4
+          size:
+            - 0
+        data:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: data
+          order: 3
+          size:
+            - 0
+        element_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: element_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - element_id
+          name: element_contents_idx_element_id
+          options: []
+          type: NORMAL
+      name: element_contents
+      options: []
+      order: 18
+    element_users:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - element_id
+          match_type: ''
+          name: element_users_fk_element_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: elements
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - user_id
+          match_type: ''
+          name: element_users_fk_user_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        element_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: element_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        user_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: user_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - element_id
+          name: element_users_idx_element_id
+          options: []
+          type: NORMAL
+        - fields:
+            - user_id
+          name: element_users_idx_user_id
+          options: []
+          type: NORMAL
+      name: element_users
+      options: []
+      order: 19
+    elements:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site
+          match_type: ''
+          name: elements_fk_site
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 3
+          size:
+            - 0
+        site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site
+          order: 4
+          size:
+            - 0
+        slug:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: slug
+          order: 5
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: published
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - site
+          name: elements_idx_site
+          options: []
+          type: NORMAL
+      name: elements
+      options: []
+      order: 20
+    forms:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - owner_id
+          match_type: ''
+          name: forms_fk_owner_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: forms_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        mail_from:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: mail_from
+          order: 6
+          size:
+            - 0
+        mail_to:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: mail_to
+          order: 5
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 4
+          size:
+            - 0
+        owner_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: owner_id
+          order: 3
+          size:
+            - 0
+        recaptcha:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: recaptcha
+          order: 7
+          size:
+            - 0
+        recaptcha_private_key:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: recaptcha_private_key
+          order: 9
+          size:
+            - 0
+        recaptcha_public_key:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: recaptcha_public_key
+          order: 8
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 2
+          size:
+            - 0
+        ssl:
+          data_type: boolean
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: ssl
+          order: 10
+          size:
+            - 0
+      indices:
+        - fields:
+            - owner_id
+          name: forms_idx_owner_id
+          options: []
+          type: NORMAL
+        - fields:
+            - site_id
+          name: forms_idx_site_id
+          options: []
+          type: NORMAL
+      name: forms
+      options: []
+      order: 21
+    forms_constraints:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 2
+          size:
+            - 0
+        type:
+          data_type: text
+          default_value: Required
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 3
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 4
+          size:
+            - 0
+      indices: []
+      name: forms_constraints
+      options: []
+      order: 22
+    forms_content:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: forms_content_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms_fields
+          type: FOREIGN KEY
+      fields:
+        content:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: content
+          order: 2
+          size:
+            - 0
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - field_id
+          name: forms_content_idx_field_id
+          options: []
+          type: NORMAL
+      name: forms_content
+      options: []
+      order: 23
+    forms_field_type:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        type:
+          data_type: enum
+          default_value: Text
+          extra:
+            custom_type_name: field_type
+            list:
+              - Text
+              - Textarea
+              - Select
+              - Checkbox
+              - Submit
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 2
+          size:
+            - 0
+      indices: []
+      name: forms_field_type
+      options: []
+      order: 24
+    forms_fields:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - form_id
+          match_type: ''
+          name: forms_fields_fk_form_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - type
+          match_type: ''
+          name: forms_fields_fk_type
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms_field_type
+          type: FOREIGN KEY
+      fields:
+        fields:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: fields
+          order: 7
+          size:
+            - 0
+        form_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: form_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        label:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: label
+          order: 3
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 4
+          size:
+            - 0
+        priority:
+          data_type: integer
+          default_value: 10
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: priority
+          order: 5
+          size:
+            - 0
+        type:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 6
+          size:
+            - 0
+      indices:
+        - fields:
+            - form_id
+          name: forms_fields_idx_form_id
+          options: []
+          type: NORMAL
+        - fields:
+            - type
+          name: forms_fields_idx_type
+          options: []
+          type: NORMAL
+      name: forms_fields
+      options: []
+      order: 25
+    forms_fields_constraints:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - constraint_id
+          match_type: ''
+          name: forms_fields_constraints_fk_constraint_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms_constraints
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: forms_fields_constraints_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms_fields
+          type: FOREIGN KEY
+      fields:
+        constraint_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: constraint_id
+          order: 3
+          size:
+            - 0
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - constraint_id
+          name: forms_fields_constraints_idx_constraint_id
+          options: []
+          type: NORMAL
+        - fields:
+            - field_id
+          name: forms_fields_constraints_idx_field_id
+          options: []
+          type: NORMAL
+      name: forms_fields_constraints
+      options: []
+      order: 26
+    forms_submit_field:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - form_id
+          match_type: ''
+          name: forms_submit_field_fk_form_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: forms
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - redirect
+          match_type: ''
+          name: forms_submit_field_fk_redirect
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        email:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: email
+          order: 3
+          size:
+            - 0
+        form_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: form_id
+          order: 6
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        redirect:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: redirect
+          order: 4
+          size:
+            - 0
+        submitted:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: submitted
+          order: 5
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - form_id
+          name: forms_submit_field_idx_form_id
+          options: []
+          type: NORMAL
+        - fields:
+            - redirect
+          name: forms_submit_field_idx_redirect
+          options: []
+          type: NORMAL
+      name: forms_submit_field
+      options: []
+      order: 27
+    master_domains:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site
+          match_type: ''
+          name: master_domains_fk_site
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        domain:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: domain
+          order: 2
+          size:
+            - 255
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - site
+          name: master_domains_idx_site
+          options: []
+          type: NORMAL
+      name: master_domains
+      options: []
+      order: 28
+    page_attribute_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: page_attribute_data_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: page_attribute_details
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: page_attribute_data_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        date_value:
+          data_type: date
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: date_value
+          order: 3
+          size:
+            - 0
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 5
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - field_id
+          name: page_attribute_data_idx_field_id
+          options: []
+          type: NORMAL
+        - fields:
+            - page_id
+          name: page_attribute_data_idx_page_id
+          options: []
+          type: NORMAL
+      name: page_attribute_data
+      options: []
+      order: 29
+    page_attribute_details:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: page_attribute_details_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        active:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: true
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: active
+          order: 5
+          size:
+            - 0
+        cascade:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: cascade
+          order: 6
+          size:
+            - 0
+        code:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: code
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 3
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 7
+          size:
+            - 0
+        type:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: type
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - site_id
+          name: page_attribute_details_idx_site_id
+          options: []
+          type: NORMAL
+      name: page_attribute_details
+      options: []
+      order: 30
+    page_attribute_values:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - field_id
+          match_type: ''
+          name: page_attribute_values_fk_field_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: page_attribute_details
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: page_attribute_values_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        field_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: field_id
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 4
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - field_id
+          name: page_attribute_values_idx_field_id
+          options: []
+          type: NORMAL
+        - fields:
+            - site_id
+          name: page_attribute_values_idx_site_id
+          options: []
+          type: NORMAL
+      name: page_attribute_values
+      options: []
+      order: 31
+    page_contents:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - created_by
+          match_type: ''
+          name: page_contents_fk_created_by
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: page_contents_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        body:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: body
+          order: 4
+          size:
+            - 0
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 5
+          size:
+            - 0
+        created_by:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: created_by
+          order: 6
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: Published
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - created_by
+          name: page_contents_idx_created_by
+          options: []
+          type: NORMAL
+        - fields:
+            - page_id
+          name: page_contents_idx_page_id
+          options: []
+          type: NORMAL
+      name: page_contents
+      options: []
+      order: 32
+    page_drafts:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - created_by
+          match_type: ''
+          name: page_drafts_fk_created_by
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: page_drafts_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+      fields:
+        created_by:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: created_by
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: draft
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - created_by
+          name: page_drafts_idx_created_by
+          options: []
+          type: NORMAL
+        - fields:
+            - page_id
+          name: page_drafts_idx_page_id
+          options: []
+          type: NORMAL
+      name: page_drafts
+      options: []
+      order: 33
+    page_drafts_content:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - draft_id
+          match_type: ''
+          name: page_drafts_content_fk_draft_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: page_drafts
+          type: FOREIGN KEY
+      fields:
+        body:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: body
+          order: 3
+          size:
+            - 0
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 4
+          size:
+            - 0
+        draft_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: draft_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - draft_id
+          name: page_drafts_content_idx_draft_id
+          options: []
+          type: NORMAL
+      name: page_drafts_content
+      options: []
+      order: 34
+    page_tags:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: page_tags_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - tag_id
+          match_type: ''
+          name: page_tags_fk_tag_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: tags
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        tag_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: tag_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - page_id
+          name: page_tags_idx_page_id
+          options: []
+          type: NORMAL
+        - fields:
+            - tag_id
+          name: page_tags_idx_tag_id
+          options: []
+          type: NORMAL
+      name: page_tags
+      options: []
+      order: 35
+    page_users:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - page_id
+          match_type: ''
+          name: page_users_fk_page_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - user_id
+          match_type: ''
+          name: page_users_fk_user_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        page_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: page_id
+          order: 2
+          size:
+            - 0
+        user_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: user_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - page_id
+          name: page_users_idx_page_id
+          options: []
+          type: NORMAL
+        - fields:
+            - user_id
+          name: page_users_idx_user_id
+          options: []
+          type: NORMAL
+      name: page_users
+      options: []
+      order: 36
+    pages:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - url
+            - site
+          match_type: ''
+          name: pages_url_site
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+        - deferrable: 1
+          expression: ''
+          fields:
+            - parent_id
+          match_type: ''
+          name: pages_fk_parent_id
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields:
+            - id
+          reference_table: pages
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - created_by
+          match_type: ''
+          name: pages_fk_created_by
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site
+          match_type: ''
+          name: pages_fk_site
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - template_id
+          match_type: ''
+          name: pages_fk_template_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: templates
+          type: FOREIGN KEY
+      fields:
+        blog:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: blog
+          order: 16
+          size:
+            - 0
+        breadcrumb:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: breadcrumb
+          order: 7
+          size:
+            - 0
+        content_type:
+          data_type: text
+          default_value: text/html
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: content_type
+          order: 11
+          size:
+            - 0
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 12
+          size:
+            - 0
+        created_by:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: created_by
+          order: 15
+          size:
+            - 0
+        description:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: description
+          order: 9
+          size:
+            - 0
+        h1:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: h1
+          order: 6
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        markup_type:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: markup_type
+          order: 18
+          size:
+            - 0
+        note_changes:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: note_changes
+          order: 17
+          size:
+            - 0
+        parent_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: parent_id
+          order: 4
+          size:
+            - 0
+        priority:
+          data_type: integer
+          default_value: 50
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: priority
+          order: 10
+          size:
+            - 0
+        site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: site
+          order: 14
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: published
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 3
+          size:
+            - 0
+        template_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: template_id
+          order: 5
+          size:
+            - 0
+        title:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: title
+          order: 8
+          size:
+            - 0
+        updated:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: updated
+          order: 13
+          size:
+            - 0
+        url:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: url
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - parent_id
+          name: pages_idx_parent_id
+          options: []
+          type: NORMAL
+        - fields:
+            - created_by
+          name: pages_idx_created_by
+          options: []
+          type: NORMAL
+        - fields:
+            - site
+          name: pages_idx_site
+          options: []
+          type: NORMAL
+        - fields:
+            - template_id
+          name: pages_idx_template_id
+          options: []
+          type: NORMAL
+      name: pages
+      options: []
+      order: 37
+    parameter:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        data_type:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: data_type
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        parameter:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: parameter
+          order: 3
+          size:
+            - 0
+      indices: []
+      name: parameter
+      options: []
+      order: 38
+    parameter_defaults:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - parameter_id
+          match_type: ''
+          name: parameter_defaults_fk_parameter_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: parameter
+          type: FOREIGN KEY
+      fields:
+        data:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: data
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        parameter_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: parameter_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - parameter_id
+          name: parameter_defaults_idx_parameter_id
+          options: []
+          type: NORMAL
+      name: parameter_defaults
+      options: []
+      order: 52
+    redirect_domains:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - master_domain
+          match_type: ''
+          name: redirect_domains_fk_master_domain
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: master_domains
+          type: FOREIGN KEY
+      fields:
+        domain:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: domain
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        master_domain:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: master_domain
+          order: 2
+          size:
+            - 0
+        status:
+          data_type: enum
+          default_value: active
+          extra:
+            custom_type_name: status_type
+            list:
+              - active
+              - disabled
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - master_domain
+          name: redirect_domains_idx_master_domain
+          options: []
+          type: NORMAL
+      name: redirect_domains
+      options: []
+      order: 39
+    role:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        role:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: role
+          order: 2
+          size:
+            - 0
+      indices: []
+      name: role
+      options: []
+      order: 40
+    role_admin:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_id
+          match_type: ''
+          name: role_admin_fk_role_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+      fields:
+        role_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role_id
+          order: 1
+          size:
+            - 0
+      indices: []
+      name: role_admin
+      options: []
+      order: 41
+    roles_allowed:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role
+            - role_allowed
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role
+          match_type: ''
+          name: roles_allowed_fk_role
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_allowed
+          match_type: ''
+          name: roles_allowed_fk_role_allowed
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+      fields:
+        role:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role
+          order: 1
+          size:
+            - 0
+        role_allowed:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role_allowed
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - role
+          name: roles_allowed_idx_role
+          options: []
+          type: NORMAL
+        - fields:
+            - role_allowed
+          name: roles_allowed_idx_role_allowed
+          options: []
+          type: NORMAL
+      name: roles_allowed
+      options: []
+      order: 42
+    site_attributes:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: site_attributes_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        code:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: code
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 6
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 2
+          size:
+            - 0
+        super:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: super
+          order: 5
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - site_id
+          name: site_attributes_idx_site_id
+          options: []
+          type: NORMAL
+      name: site_attributes
+      options: []
+      order: 43
+    sites:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - profile_site
+          match_type: ''
+          name: sites_fk_profile_site
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: varchar
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 2
+          size:
+            - 140
+        profile_site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: profile_site
+          order: 5
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: active
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 3
+          size:
+            - 0
+        template:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: template
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - profile_site
+          name: sites_idx_profile_site
+          options: []
+          type: NORMAL
+      name: sites
+      options: []
+      order: 44
+    sites_users:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site_id
+          match_type: ''
+          name: sites_users_fk_site_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - user_id
+          match_type: ''
+          name: sites_users_fk_user_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        site_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: site_id
+          order: 2
+          size:
+            - 0
+        user_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: user_id
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - site_id
+          name: sites_users_idx_site_id
+          options: []
+          type: NORMAL
+        - fields:
+            - user_id
+          name: sites_users_idx_user_id
+          options: []
+          type: NORMAL
+      name: sites_users
+      options: []
+      order: 45
+    tag_groups:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+      fields:
+        cascade:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: cascade
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        multiple:
+          data_type: boolean
+          default_value: !!perl/ref
+            =: false
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: multiple
+          order: 4
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 2
+          size:
+            - 0
+      indices: []
+      name: tag_groups
+      options: []
+      order: 46
+    tags:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - group_id
+          match_type: ''
+          name: tags_fk_group_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: tag_groups
+          type: FOREIGN KEY
+      fields:
+        group_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: group_id
+          order: 2
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - group_id
+          name: tags_idx_group_id
+          options: []
+          type: NORMAL
+      name: tags
+      options: []
+      order: 47
+    template_contents:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - template_id
+          match_type: ''
+          name: template_contents_fk_template_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: templates
+          type: FOREIGN KEY
+      fields:
+        created:
+          data_type: timestamp
+          default_value: !!perl/ref
+            =: current_timestamp
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: created
+          order: 4
+          size:
+            - 0
+        data:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: data
+          order: 3
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        template_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: template_id
+          order: 2
+          size:
+            - 0
+      indices:
+        - fields:
+            - template_id
+          name: template_contents_idx_template_id
+          options: []
+          type: NORMAL
+      name: template_contents
+      options: []
+      order: 48
+    templates:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - name
+            - site
+          match_type: ''
+          name: templates_name_site
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+        - deferrable: 1
+          expression: ''
+          fields:
+            - site
+          match_type: ''
+          name: templates_fk_site
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: sites
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: name
+          order: 2
+          size:
+            - 0
+        site:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: site
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - site
+          name: templates_idx_site
+          options: []
+          type: NORMAL
+      name: templates
+      options: []
+      order: 49
+    users:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - username
+          match_type: ''
+          name: user_index
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: UNIQUE
+      fields:
+        email:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: email
+          order: 4
+          size:
+            - 0
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        last_failed_login:
+          data_type: timestamp
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: last_failed_login
+          order: 9
+          size:
+            - 0
+        last_login:
+          data_type: timestamp
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: last_login
+          order: 8
+          size:
+            - 0
+        name:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: name
+          order: 5
+          size:
+            - 0
+        password:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: password
+          order: 3
+          size:
+            - 0
+        status:
+          data_type: text
+          default_value: active
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: status
+          order: 7
+          size:
+            - 0
+        tel:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: tel
+          order: 6
+          size:
+            - 0
+        username:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 1
+          name: username
+          order: 2
+          size:
+            - 0
+      indices: []
+      name: users
+      options: []
+      order: 50
+    users_data:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - users_id
+          match_type: ''
+          name: users_data_fk_users_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: id
+          order: 1
+          size:
+            - 0
+        key:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: key
+          order: 3
+          size:
+            - 0
+        users_id:
+          data_type: integer
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: users_id
+          order: 2
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 4
+          size:
+            - 0
+      indices:
+        - fields:
+            - users_id
+          name: users_data_idx_users_id
+          options: []
+          type: NORMAL
+      name: users_data
+      options: []
+      order: 53
+    users_parameter:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - users_id
+            - parameter_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - parameter_id
+          match_type: ''
+          name: users_parameter_fk_parameter_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: parameter
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - users_id
+          match_type: ''
+          name: users_parameter_fk_users_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        parameter_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: parameter_id
+          order: 2
+          size:
+            - 0
+        users_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: users_id
+          order: 1
+          size:
+            - 0
+        value:
+          data_type: text
+          default_value: ~
+          is_nullable: 0
+          is_primary_key: 0
+          is_unique: 0
+          name: value
+          order: 3
+          size:
+            - 0
+      indices:
+        - fields:
+            - parameter_id
+          name: users_parameter_idx_parameter_id
+          options: []
+          type: NORMAL
+        - fields:
+            - users_id
+          name: users_parameter_idx_users_id
+          options: []
+          type: NORMAL
+      name: users_parameter
+      options: []
+      order: 55
+    users_role:
+      constraints:
+        - deferrable: 1
+          expression: ''
+          fields:
+            - users_id
+            - role_id
+          match_type: ''
+          name: ''
+          on_delete: ''
+          on_update: ''
+          options: []
+          reference_fields: []
+          reference_table: ''
+          type: PRIMARY KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - role_id
+          match_type: ''
+          name: users_role_fk_role_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: role
+          type: FOREIGN KEY
+        - deferrable: 1
+          expression: ''
+          fields:
+            - users_id
+          match_type: ''
+          name: users_role_fk_users_id
+          on_delete: CASCADE
+          on_update: CASCADE
+          options: []
+          reference_fields:
+            - id
+          reference_table: users
+          type: FOREIGN KEY
+      fields:
+        role_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: role_id
+          order: 2
+          size:
+            - 0
+        users_id:
+          data_type: integer
+          default_value: ~
+          is_auto_increment: 1
+          is_nullable: 0
+          is_primary_key: 1
+          is_unique: 0
+          name: users_id
+          order: 1
+          size:
+            - 0
+      indices:
+        - fields:
+            - role_id
+          name: users_role_idx_role_id
+          options: []
+          type: NORMAL
+        - fields:
+            - users_id
+          name: users_role_idx_users_id
+          options: []
+          type: NORMAL
+      name: users_role
+      options: []
+      order: 56
+  triggers: {}
+  views:
+    asset_attributes:
+      fields:
+        - field_id
+        - code
+        - value
+        - asset_id
+        - site_id
+        - type
+      name: asset_attributes
+      order: 1
+      sql: |2
+        
+            select field.id as field_id, field.code as code, 
+                case when type = 'date' then vals.date_value::varchar else vals.value end as value, 
+                    asset_id as asset_id, field.site_id as site_id, type
+            from asset_attribute_details field
+            left outer join asset_attribute_data vals
+            on field.id = vals.field_id
+            where field.active = true
+    attachment_attributes:
+      fields:
+        - field_id
+        - code
+        - value
+        - attachment_id
+        - site_id
+        - type
+      name: attachment_attributes
+      order: 2
+      sql: |2
+        
+            select field.id as field_id, field.code as code, 
+                case when type = 'date' then vals.date_value::varchar else vals.value end as value, 
+                    attachment_id as attachment_id, field.site_id as site_id, type
+            from attachment_attribute_details field
+            left outer join attachment_attribute_data vals
+            on field.id = vals.field_id
+            where field.active = true
+    page_attributes:
+      fields:
+        - field_id
+        - code
+        - value
+        - page_id
+        - site_id
+        - cascade
+        - type
+      name: page_attributes
+      order: 3
+      sql: |2
+        
+            select field.id as field_id, field.code as code, 
+                case when type = 'date' then vals.date_value::varchar else vals.value end as value, 
+                    page_id as page_id, field.site_id as site_id, cascade, type
+            from page_attribute_details field
+            left outer join page_attribute_data vals
+            on field.id = vals.field_id
+            where field.active = true
+translator:
+  add_drop_table: 0
+  filename: ~
+  no_comments: 0
+  parser_args:
+    sources:
+      - Aclfeature
+      - AclfeatureRole
+      - Aclrule
+      - AclruleRole
+      - Alias
+      - AlternateDomain
+      - Asset
+      - AssetAttribute
+      - AssetAttributeData
+      - AssetAttributeDetail
+      - AssetAttributeValue
+      - AssetData
+      - AssetUser
+      - Attachment
+      - AttachmentAttribute
+      - AttachmentAttributeData
+      - AttachmentAttributeDetail
+      - AttachmentAttributeValue
+      - AttachmentData
+      - AttachmentTag
+      - Element
+      - ElementAttribute
+      - ElementContent
+      - ElementUser
+      - Form
+      - FormsConstraint
+      - FormsContent
+      - FormsField
+      - FormsFieldType
+      - FormsFieldsConstraint
+      - FormsSubmitField
+      - MasterDomain
+      - Page
+      - PageAttribute
+      - PageAttributeData
+      - PageAttributeDetail
+      - PageAttributeValue
+      - PageContent
+      - PageDraft
+      - PageDraftsContent
+      - PageTag
+      - PageUser
+      - Parameter
+      - ParameterDefault
+      - RedirectDomain
+      - Role
+      - RoleAdmin
+      - RoleAllowed
+      - Site
+      - SiteAttribute
+      - SitesUser
+      - Tag
+      - TagGroup
+      - Template
+      - TemplateContent
+      - User
+      - UsersData
+      - UsersParameter
+      - UsersRole
+  parser_type: SQL::Translator::Parser::DBIx::Class
+  producer_args: {}
+  producer_type: SQL::Translator::Producer::YAML
+  show_warnings: 0
+  trace: 0
+  version: 0.11021
