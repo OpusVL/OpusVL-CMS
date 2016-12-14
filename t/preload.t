@@ -62,6 +62,14 @@ subtest 'Page attributes' => sub {
         }
     ), "Created profile page attribute";
 
+    ok my $pesky_link = $pesky_site->create_related('page_attribute_details',
+        {
+            code => 'external_link',
+            name => 'External Link',
+            active => 1,
+        }
+    ), "Created pesky page attribute";
+
     ok my $new_tab = $profile->create_related('page_attribute_details',
         {
             code => 'open_in_new_tab',
@@ -125,6 +133,10 @@ subtest 'Page attributes' => sub {
             {
                 value => '1',
                 field_id => $new_tab->id,
+            },
+            {
+                value => 'http://opusvl.com',
+                field_id => $pesky_link->id,
             },
             {
                 value => 'http://opusvl.com',
