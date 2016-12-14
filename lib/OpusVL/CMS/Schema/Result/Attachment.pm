@@ -210,7 +210,7 @@ __PACKAGE__->belongs_to(
 
 __PACKAGE__->has_many(
     our_attributes => 'OpusVL::CMS::Schema::Result::AttachmentAttribute',
-    { "foreign.page_id" => "self.id" },
+    { "foreign.attachment_id" => "self.id" },
 );
 
 __PACKAGE__->has_many(

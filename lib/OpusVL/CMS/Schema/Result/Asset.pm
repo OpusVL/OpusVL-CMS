@@ -200,7 +200,7 @@ __PACKAGE__->belongs_to(
 
 __PACKAGE__->has_many(
     our_attributes => 'OpusVL::CMS::Schema::Result::AssetAttribute',
-    { "foreign.page_id" => "self.id" },
+    { "foreign.asset_id" => "self.id" },
 );
 
 __PACKAGE__->has_many(
