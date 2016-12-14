@@ -70,6 +70,12 @@ subtest 'Asset attributes' => sub {
         logo => 'blah',
     });
     is $assets->count, 1, "Asset attribute defined by profile was found via attribute_search against site";
+    $assets = Asset->attribute_search($site, {
+        logo => 'blah',
+    }, {
+        load_attributes => ['logo']
+    });
+    is $assets->count, 1, "Asset attribute defined by profile was found via attribute_search against site";
 };
 
 subtest 'Page attributes' => sub {
@@ -238,6 +244,9 @@ subtest 'Attachment attributes' => sub {
         $profile_aa->code => 'not me',
     });
     is $p_att->count, 1, "Found attachment by profile attr";
+    $p_att = Attachment->attribute_search($site, {
+        $profile_aa->code => 'not me',
+    }, { load_attributes => [$profile_aa->code] });
     is $p_att->first->slug, 'test.css', "Correct slug";
 
     my $bad_att = Attachment->attribute_search($site, {

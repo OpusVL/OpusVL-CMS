@@ -117,6 +117,7 @@ sub prefetch_attributes
     my %aliases;
     my @columns;
     my @column_names;
+    my $need_cascade = $self->result_source->related_source('our_attributes')->has_column('cascade');
     for my $name (@$names)
     {
         my $alias = $x == 1 ? "_our_attributes" : "_our_attributes_$x";
@@ -127,10 +128,10 @@ sub prefetch_attributes
         push @column_names, $column_name;
         # FIXME: shouldn't do cascade if we're not a page
         # as we don't have cascade available.
-        push @column_names, $column_name . '_cascade';
+        push @column_names, $column_name . '_cascade' if $need_cascade;
         push @column_names, $column_name . '_type';
         push @columns, \"$alias.value as $column_name";
-        push @columns, \"$alias.cascade as ${column_name}_cascade";
+        push @columns, \"$alias.cascade as ${column_name}_cascade" if $need_cascade;
         push @columns, \"$alias.type as ${column_name}_type";
         push @joins, '_our_attributes';
         $aliases{$name} = $alias;
