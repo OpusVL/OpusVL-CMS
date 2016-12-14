@@ -304,6 +304,7 @@ __PACKAGE__->has_many(
     sub {
         my $args = shift;
         return { 
+            "$args->{foreign_alias}.site_id" => { '=' => \"?"},
             "$args->{foreign_alias}.page_id" => { -ident => "$args->{self_alias}.id" }, 
             "$args->{foreign_alias}.code" => { '=' => \"?"},
         },

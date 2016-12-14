@@ -13,7 +13,7 @@ sub _attribute_search {
     my $me = $self->current_source_alias;
     if(my $preload = delete $options->{load_attributes})
     {
-		$self = $self->prefetch_attributes($preload);
+		$self = $self->prefetch_attributes($site, $preload);
     }
 
 
@@ -109,7 +109,7 @@ sub _attribute_search {
 
 sub prefetch_attributes
 {
-    my ($self, $names) = @_;
+    my ($self, $site, $names) = @_;
 
     my @params;
     my @joins;
@@ -121,9 +121,12 @@ sub prefetch_attributes
     {
         my $alias = $x == 1 ? "_our_attributes" : "_our_attributes_$x";
         push @params, $name;
+        push @params, $site->profile_site || $site->id;
         # NOTE: guard against SQLi
         my $column_name = "attribute_$name" =~ s/\W/_/gr;
         push @column_names, $column_name;
+        # FIXME: shouldn't do cascade if we're not a page
+        # as we don't have cascade available.
         push @column_names, $column_name . '_cascade';
         push @column_names, $column_name . '_type';
         push @columns, \"$alias.value as $column_name";
