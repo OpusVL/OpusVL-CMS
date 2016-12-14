@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+  - Sorted out the load_attributes feature for the assets/attachments.
+  - Fixed duplicates on preload
+  - Made the tests blow up with invalid data
+  - Added deployment handler files
+  - Converted over to using the views and fixed goofs
+  - Started to add views for the rest of the attribute things
+
 49        2016-12-13 14:06:06+00:00 Europe/London
 
   - Updated Jenkinsfile to send emails on failure
