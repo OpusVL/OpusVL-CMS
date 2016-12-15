@@ -1,5 +1,5 @@
 package OpusVL::CMS::Schema::ResultSet::Alias;
-our $VERSION = '50';
+our $VERSION = '51';
 
 use Moose;
 use namespace::autoclean;
