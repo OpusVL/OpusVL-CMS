@@ -1,0 +1,95 @@
+#!perl
+use strict;
+use warnings;
+
+# ABSTRACT: Export a site into a directory tree
+
+=head1 SYNOPSIS
+
+    site-export [--chdir|-C I<dir>] [--module|-M I<module>] I<site>
+
+=head1 OPTIONS
+
+=head2 --chdir
+
+=head2 -C
+
+Change to the given directory before outputting.
+
+=head2 --module
+
+=head2 -M
+
+Load the given website module. The default is to load
+C<OpusVL::FB11WebsiteAdmin>
+
+=head1 DESCRIPTION
+
+Exports a site into a directory structure that may later be imported if and when
+we write such a script.
+
+A directory is created for the selected site in the current working directory,
+unless L<-C> is used to output elsewhere.
+
+Within this, directories are created for C<elements>, C<pages>, C<templates>,
+and C<assets>.
+
+=head2 META.yml
+
+Alongside every item will be a META.yml. The content of this will vary by type,
+but by and large it will contain the attribute values, permissions, and suchlike.
+
+The META.yml is found next to the file that represents the user-defined content
+of the item, which itself is dependent on the item type, but usually resides in
+a directory named to identify the item.
+
+=head2 Elements and Assets
+
+Elements and assets are identified by their I<slug>, and therefore this is used
+as the next directory in the structure. In case the slug has to be mangled to be
+a valid directory name, we put the I<ID> of the element or asset on the front.
+
+    site_name/
+    |-elements/
+    |--id-slug1/
+    |--id-slug2/
+    |-assets/
+    |--id-slug1/
+    |--id-slug2/
+
+Within the slug directory there will be a file that uses the I<name> of the
+element or the I<filename> of the asset. This will contain the actual content of
+the item.
+
+=head2 Pages and Attachments
+
+The identifying mark for a page is its I<url>. Unfortunately, using that would
+require having a directory name with the directory separator (C</>) in it.
+
+Instead, we must use the I<ID> of the page. Since this is not very useful to
+humans, we also append the I<title> of the page to the directory name, in a
+consistent manner to allow later parsing of the directory tree.
+
+Within the directory will exist a I<content.html> file, which may in fact
+contain L<Template::Toolkit> code, but there you go.
+
+Inside each page's directory may exist further directories that follow the same
+format as other pages. These are child pages of the containing page.
+
+The URL, breadcrumb, title, etc. of the page are stored in the META.yml.
+
+A directory called C<attachments> is also created within each page directory.
+This is recognisable because it doesn't start with a number - i.e. it has no
+page ID. This stores all the attachments for the containing page.
+
+Attachments are stored identically to assets: the I<slug> is used as a directory
+name, and then within that there is a file whose filename is what the attachment
+says it is.
+
+=head2 Templates
+
+Templates are super simple, so all they have is a file for each template's
+I<name>, containing (hopefully obviously) the content.
+
+To avoid filename problems, the template file's name will actually start with
+the template's I<ID>.
