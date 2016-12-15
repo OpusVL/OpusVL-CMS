@@ -2,6 +2,8 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+50        2016-12-15 08:36:17+00:00 Europe/London
+
   - Sorted out the load_attributes feature for the assets/attachments.
   - Fixed duplicates on preload
   - Made the tests blow up with invalid data
