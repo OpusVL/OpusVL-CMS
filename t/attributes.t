@@ -21,9 +21,10 @@ ok my $site = Site->create({
 is $site->attribute('test'), undef, 'site attribute not accessible because not on profile';
 is $site->attribute('test'), undef, 'should be cached';
 
+# This will be a profile containing similar attributes, and we make sure we
+# don't accidentally discover them.
 ok my $pesky_site = Site->create({ 
         name => 'pesky site', 
-        profile_site => $profile->id, 
         site_attributes => [
             {
                 code => 'test',
@@ -48,6 +49,12 @@ subtest 'Asset attributes' => sub {
         name => 'Original',
         active => 1,
     }), "Created a profile asset attribute";
+    ok my $site_asset_att = $site->create_related('asset_attribute_details', {
+        code => 'site_attr',
+        type => 'text',
+        name => 'Site Attr',
+        active => 1,
+    }), "Created a site asset attribute";
     ok my $asset = $site->create_related('assets', {
         filename => 'some.css',
         mime_type => 'text/css',
@@ -56,20 +63,29 @@ subtest 'Asset attributes' => sub {
             {
                 value => 'blah',
                 field_id => $profile_asset_att->id,
-            }
+            },
+            {
+                value => 'irrelevant',
+                field_id => $site_asset_att->id,
+            },
         ],
         asset_datas => [
             {
                 data => '/* blah */',
             },
         ],
-    }), "Create asset with value for site asset attribute";
+    }), "Create asset with values for asset attributes";
 
     is $asset->attribute('logo'), 'blah', "Asset has attribute defined by the profile";
     my $assets = Asset->attribute_search($site, {
         logo => 'blah',
     });
     is $assets->count, 1, "Asset attribute defined by profile was found via attribute_search against site";
+
+    ok +(not defined $asset->attribute('site_attr')), "Asset doesn't have a value for an attribute defined by the site";
+    is Asset->attribute_search($site, { site_attr => 'irrelevant' })->count,
+        0,
+        "Asset is not found by site attribute";
 };
 
 subtest 'Page attributes' => sub {
@@ -128,11 +144,15 @@ subtest 'Page attributes' => sub {
     }), "Created page with one of each attribute";
 
     my $pages = Page->attribute_search($site, { $site_attr->code => 'a test value'});
-    is $pages->count, 0, "Cannot find page by site attribute";
+    is $pages->count, 0, "Did not find page by site value";
+
+    $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
+    is $pages->count, 0, "Did not find page by another profile's value";
 
     $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'});
     is $pages->count, 1, "Found page by profile value";
     is $pages->first->url, '/', "correct page identified";
+
     $pages = Page->attribute_search($site, { $profile_attr->code => 'a nice value'}, {as_rs => 1});
     is $pages->count, 1, "Found page by profile value";
     is $pages->first->url, '/', "correct page identified";
@@ -143,23 +163,37 @@ subtest 'Page attributes' => sub {
     is $pages->count, 1, "Found page by profile value";
     is $pages->first->url, '/', "correct page identified";
 
-    $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'});
-    is $pages->count, 0, "Did not find page by another site's value";
+    ok +(not defined $pages->first->attribute($site_attr->code)), "No value for non-profile attr";
+    is $pages->first->attribute($profile_attr->code), "a nice value", "Correct profile attr";
 
     $pages = Page->attribute_search($site, { $pesky_attr->code => 'a pesky value'}, {invert_attribute_search => 1});
     is $pages->count, 1, "Found the pages without that attribute set.";
 
-#    $pages = Page->attribute_search($site, { 
-#            $site_attr->code => 'a test value', 
-#            $profile_attr->code => { '!=' => 'yes'}
-#        }, {});
-#    is $pages->count, 1, "Found page by two attributes";
-#
-#    $pages = Page->attribute_search($site, { 
-#            $site_attr->code => 'a test value', 
-#            $profile_attr->code => { '!=' => 'a nice value'}
-#        }, {});
-#    is $pages->count, 0, "Filtered out page by two attributes";
+    ok my $second_attr = $profile->create_related('page_attribute_details',
+        {
+            code => 'second_attr',
+            name => 'Complex',
+            type => 'text',
+            active => 1,
+        }
+    ), "Created second profile page attribute";
+
+    $page->create_related('attribute_values', {
+        value => "a second value",
+        field_id => $second_attr->id
+    });
+    $pages = Page->attribute_search($site, { 
+            $second_attr->code => 'a second value', 
+            $profile_attr->code => { '!=' => 'yes'}
+        }, {});
+    is $pages->count, 1, "Found page by two attributes";
+
+    $pages = Page->attribute_search($site, { 
+            $second_attr->code => 'a second value', 
+            $profile_attr->code => { '!=' => 'a nice value'}
+        }, {});
+    is $pages->count, 0, "Filtered out page by two attributes";
+    is Page->attribute_search($site)->count, 1;
 };
 
 subtest 'Attachment attributes' => sub {
@@ -232,7 +266,7 @@ subtest 'Attachment attributes' => sub {
     my $s_att = Attachment->attribute_search($site, {
         $site_aa->code => 'pick me',
     });
-    is $s_att->count, 0, "Attribute search did not find site attribute";
+    is $s_att->count, 0, "Did not find attachment by site attr";
 
     my $p_att = Attachment->attribute_search($site, {
         $profile_aa->code => 'not me',
