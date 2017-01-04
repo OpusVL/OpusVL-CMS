@@ -16,8 +16,8 @@ alter table forms add column   mail_to text,
   add column ssl boolean;
 alter table page_contents add column created_by integer;
 CREATE INDEX page_contents_idx_created_by on page_contents (created_by);
-alter table pages add column content_type text DEFAULT 'text/html' NOT NULL,
-    add column markup_type text;
+alter table pages add column content_type text DEFAULT 'text/html' NOT NULL;
+alter table pages add column markup_type text;
 --  CONSTRAINT pages_url_site UNIQUE (url, site)
 alter table attachment_attribute_values add column priority text DEFAULT '50';
 ALTER TABLE page_contents ADD CONSTRAINT page_contents_fk_created_by FOREIGN KEY (created_by)
