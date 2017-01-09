@@ -122,10 +122,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head1 METHODS
 
-# Created by DBIx::Class::Schema::Loader v0.07017 @ 2012-12-27 12:28:12
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sZZ3Ju1KzEQ6wLXZJ9wuqA
+=head2 select_box_name
 
+Returns the name column, and the value column in parentheses if the value column
+is set.
 
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+=cut
+
+sub select_box_name {
+    my $self = shift;
+    my $label = $self->name;
+    if (my $val = $self->value) {
+        $label .= " ($val)";
+    }
+    return $label;
+}
 1;
