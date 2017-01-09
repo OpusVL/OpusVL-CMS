@@ -156,6 +156,8 @@ __PACKAGE__->has_many(
 
 =head2 forms_submit_fields
 
+DEPRECATED
+
 Type: has_many
 
 Related object: L<OpusVL::CMS::Schema::Result::FormsSubmitField>
@@ -164,6 +166,19 @@ Related object: L<OpusVL::CMS::Schema::Result::FormsSubmitField>
 
 __PACKAGE__->has_many(
   "forms_submit_fields",
+  "OpusVL::CMS::Schema::Result::FormsSubmitField",
+  { "foreign.form_id" => "self.id" },
+  { cascade_copy => 1, cascade_delete => 0 },
+);
+
+=head2 submit_field
+
+The form has I<one> submit field, so use this.
+
+=cut
+
+__PACKAGE__->has_one(
+  "submit_field",
   "OpusVL::CMS::Schema::Result::FormsSubmitField",
   { "foreign.form_id" => "self.id" },
   { cascade_copy => 1, cascade_delete => 0 },
