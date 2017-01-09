@@ -97,6 +97,10 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
   "fields",
   { data_type => "text", is_nullable => 1 },
+    constraint_id => {
+        data_type => "integer",
+        is_nullable => 1,
+    },
 );
 
 =head1 PRIMARY KEY
@@ -166,10 +170,10 @@ Related object: L<OpusVL::CMS::Schema::Result::FormsFieldsConstraint>
 
 =cut
 
-__PACKAGE__->has_many(
-  "forms_fields_constraints",
-  "OpusVL::CMS::Schema::Result::FormsFieldsConstraint",
-  { "foreign.field_id" => "self.id" },
+__PACKAGE__->belongs_to(
+  "constraint",
+  "OpusVL::CMS::Schema::Result::FormsConstraint",
+  { id => "constraint_id" },
   { cascade_copy => 1, cascade_delete => 0 },
 );
 
@@ -186,11 +190,4 @@ sub content {
     my $self = shift;
     return $self->forms_contents->first;
 }
-
-sub constraint {
-    my $self = shift;
-    return $self->forms_fields_constraints->first;
-}
-
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
