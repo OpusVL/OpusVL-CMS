@@ -95,6 +95,7 @@ __PACKAGE__->add_columns(
   { data_type => "integer", default_value => 10, is_nullable => 0 },
   "type",
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  # Actually options for a select box
   "fields",
   { data_type => "text", is_nullable => 1 },
     constraint_id => {
@@ -190,4 +191,41 @@ sub content {
     my $self = shift;
     return $self->forms_contents->first;
 }
+
+=head2 options
+
+Returns the options for a select box. Options are stored with separate values
+and labels, but they are never created differently, so we just return a list.
+
+Empty options are removed. It looks like all the existing database entries
+contain a blank item to force the first select option to be blank, but in future
+this should be decided by the controller or template.
+
+Also a setter: pass in a list of items to be re-joined into the esoteric
+serialisation format someone invented in the before times.
+
+An arrayref will also be supported, for form handling purposes.
+
+The blank value will be put back at the start.
+
+=cut
+
+sub options {
+    my $self = shift;
+    if (my @options = @_) {
+
+        if (ref $options[0]) {
+            @options = @{$options[0]};
+        }
+        # All the existing values in the DB have this blank at the start for
+        # some reason. Presumably this is to render a blank option in the form,
+        # but it's the only item in the list that doesn't contain *!*
+        $self->fields(join '*,*', " ", map { $_ . '*!*' . $_ } @options);
+    }
+    my $options = $self->fields;
+
+    my @options = map { (split /\*!\*/)[0] } split /\*,\*/, $options;
+    return grep /\S/, @options;
+}
+
 1;
