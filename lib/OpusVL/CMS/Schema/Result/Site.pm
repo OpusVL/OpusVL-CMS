@@ -673,6 +673,19 @@ sub attachments {
     my ($self) = @_;
     return $self->search_related('pages')->published->search_related('attachments')
 }
+
+sub form {
+    my $self = shift;
+    my $form_name = shift;
+
+    my $form = $self->forms->find({ name => $form_name });
+
+    if (! $form and $self->profile) {
+        return $self->profile->forms->find({ name => $form_name });
+    }
+
+    return $form;
+}
 #
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 1;
