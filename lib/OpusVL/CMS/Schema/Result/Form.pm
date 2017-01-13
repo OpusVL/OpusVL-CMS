@@ -372,7 +372,7 @@ sub validate {
     my $field_name  = $field->name;
     my $field_label = $field->label;
     if (my $const = $field->constraint) {
-      given ($const->constraint->type) {
+      given ($const->type) {
         when ('required') {
           if (not $params->{$field_name} or $params->{$field_name} eq '') {
             push @errors,
