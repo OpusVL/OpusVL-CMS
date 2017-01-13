@@ -680,7 +680,7 @@ sub form {
 
     my $form = $self->forms->find({ name => $form_name });
 
-    if (! $form and $self->profile) {
+    if (! $form && $self->profile) {
         return $self->profile->forms->find({ name => $form_name });
     }
 
