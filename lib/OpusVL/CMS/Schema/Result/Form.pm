@@ -215,7 +215,7 @@ sub field {
         my $name;
         my $constraint;
         if ($field->constraint) {
-            $constraint = $field->constraint->constraint->type;
+            $constraint = $field->constraint->type;
         }
 
         my $label = $field->label; 
