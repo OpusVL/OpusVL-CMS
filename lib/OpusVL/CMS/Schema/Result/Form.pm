@@ -151,7 +151,11 @@ __PACKAGE__->has_many(
   "forms_fields",
   "OpusVL::CMS::Schema::Result::FormsField",
   { "foreign.form_id" => "self.id" },
-  { cascade_copy => 1, cascade_delete => 0 },
+  { 
+    cascade_copy => 1,
+    cascade_delete => 0,
+    order_by => { -asc => 'priority' }
+  },
 );
 
 =head2 forms_submit_fields
