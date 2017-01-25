@@ -26,7 +26,7 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
-__PACKAGE__->set_primary_key("hash");
+__PACKAGE__->set_primary_key("hash", "site_id");
 
 __PACKAGE__->belongs_to(
   "site",
