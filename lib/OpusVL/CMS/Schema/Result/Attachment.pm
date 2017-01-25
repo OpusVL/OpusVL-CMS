@@ -211,6 +211,7 @@ __PACKAGE__->belongs_to(
 __PACKAGE__->has_many(
     our_attributes => 'OpusVL::CMS::Schema::Result::AttachmentAttribute',
     { "foreign.attachment_id" => "self.id" },
+    { cascade_copy => 0 }
 );
 
 __PACKAGE__->has_many(
@@ -222,7 +223,8 @@ __PACKAGE__->has_many(
             "$args->{foreign_alias}.attachment_id" => { -ident => "$args->{self_alias}.id" }, 
             "$args->{foreign_alias}.code" => { '=' => \"?"},
         },
-    }
+    },
+    { cascade_copy => 0 }
 );
 
 
