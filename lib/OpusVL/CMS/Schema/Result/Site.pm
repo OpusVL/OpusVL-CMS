@@ -15,6 +15,7 @@ use strict;
 use warnings;
 
 use Moose;
+use Digest::MD5;
 extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
@@ -126,6 +127,13 @@ __PACKAGE__->has_many(
   "OpusVL::CMS::Schema::Result::Element",
   { "foreign.site" => "self.id" },
   { cascade_copy => 1, cascade_delete => 0 },
+);
+
+__PACKAGE__->has_many(
+  "tt_cache",
+  "OpusVL::CMS::Schema::Result::EntityCache",
+  { "foreign.site_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 1 },
 );
 
 =head2 master_domains
@@ -686,6 +694,31 @@ sub form {
 
     return $form;
 }
-#
-# You can replace this text with custom code or comments, and it will be preserved on regeneration
+
+sub cached_entity
+{
+    my ($self, $template) = @_;
+    # md5 and lookup.
+    my $sum = Digest::MD5::md5_hex($template);
+    my $entry = $self->tt_cache->find({ hash => $sum });
+    return $entry ? $entry->value : undef;
+}
+
+sub cache_entity
+{
+    my ($self, $template, $result) = @_;
+    my $sum = Digest::MD5::md5_hex($template);
+    $self->tt_cache->update_or_create({ 
+            hash => $sum,
+            value => $result,
+        }); 
+    # store the cache entry.
+}
+
+sub clear_cache
+{
+    my $self = shift;
+    $self->tt_cache->delete;
+}
+
 1;

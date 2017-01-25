@@ -14,6 +14,7 @@ requires 'Sort::Naturally';
 requires 'Switch::Plain';
 requires 'DBIx::Class::DeploymentHandler';
 requires 'DBIx::Class::Report';
+requires 'Digest::MD5';
 
 on 'test' => sub {
     requires 'Test::Most';
