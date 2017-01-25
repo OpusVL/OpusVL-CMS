@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+52        2017-01-25 16:26:07+00:00 Europe/London
+
+  - Fixed silly mistake with primary key preventing multiple sites 
+    having the same cached element (which it is fundamentally supposed to 
+    support).
+  - Fix cloning to not copy views and correctly copy site attribute options
+
 51        2017-01-25 15:34:36+00:00 Europe/London
 
   - Doughnut caching hooks
