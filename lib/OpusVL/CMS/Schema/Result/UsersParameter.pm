@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::UsersParameter;
-our $VERSION = '52';
+our $VERSION = '53';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
