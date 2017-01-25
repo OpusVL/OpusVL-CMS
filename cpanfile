@@ -8,7 +8,7 @@ requires 'Email::Sender::Simple';
 requires 'experimental';
 requires 'MooseX::NonMoose';
 requires 'MooseX::Role::Parameterized';
-requires 'OpusVL::AppKit::Schema::AppKitAuthDB' => 6;
+requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 requires 'Sort::Naturally';
 requires 'Switch::Plain';
