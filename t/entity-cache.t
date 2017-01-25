@@ -5,11 +5,14 @@ use Test::DBIx::Class {
 }, 'Site';
 
 ok my $site = Site->create({ name => 'test' }), "Created a site";
+ok my $site2 = Site->create({ name => 'another' }), "Created another site";
 my $template = '[% foo %]';
 is $site->cached_entity($template), undef, 'Should have no cache entry';
 my $result = 'a result';
 $site->cache_entity($template, $result);
+$site2->cache_entity($template, $result);
 is $site->cached_entity($template), $result, 'Should have a cache entry';
+is $site2->cached_entity($template), $result, 'Should have a cache entry';
 is $site->cached_entity($template), $result, 'Should have a cache entry';
 my $updated_result = 'updated'; 
 # NOTE: I'm not sure that this
