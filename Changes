@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+53        2017-01-26 11:29:55+00:00 Europe/London
+
+  - Fixed attribute copying, which was accidentally happening per page
+
 52        2017-01-25 16:26:07+00:00 Europe/London
 
   - Fixed silly mistake with primary key preventing multiple sites 
