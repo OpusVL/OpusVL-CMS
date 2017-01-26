@@ -672,16 +672,16 @@ sub clone {
                     if $child->children->count > 0;
                 }
             }
+        }
 
-            if ($self->profile) {
-                for my $object (qw/page attachment asset/) {
-                    my $object_options = $self->profile->${ \"${object}_attribute_details" }->search_related('field_values', {
-                        'field_values.site_id' => $self->id
-                    });
+        if ($self->profile) {
+            for my $object (qw/page attachment asset/) {
+                my $object_options = $self->profile->${ \"${object}_attribute_details" }->search_related('field_values', {
+                    'field_values.site_id' => $self->id
+                });
 
-                    for my $option ($object_options->all) {
-                        $option->copy({ site_id => $new_site->id });
-                    }
+                for my $option ($object_options->all) {
+                    $option->copy({ site_id => $new_site->id });
                 }
             }
         }
