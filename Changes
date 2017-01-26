@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+54        2017-01-26 18:30:41+00:00 Europe/London
+
+  - Cloning sites with forms no longer crashes trying to copy the constraints
+
 53        2017-01-26 11:29:55+00:00 Europe/London
 
   - Fixed attribute copying, which was accidentally happening per page
