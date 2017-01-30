@@ -57,25 +57,25 @@ sub _attribute_search {
     foreach my $field (@params) {
         if (exists $query->{$field}) {
             my $value = delete $query->{$field};
-            $join_count++;
+            my $specific_alias = $alias;
 
             push @{$safe_options{join}}, $alias;
 
-            if ($join_count > 1) {
-                $_ .= "_$join_count" for $alias;
+            if (@{$safe_options{join}} > 1) {
+                $_ .= "_" . @{$safe_options{join}} for $specific_alias;
             }
 
-            $query->{"$alias.site_id"} = $site->profile_site || $site->id;
-            $query->{"$alias.code"} = $field;
+            $query->{"$specific_alias.site_id"} = $site->profile_site || $site->id;
+            $query->{"$specific_alias.code"} = $field;
             push @{$query->{'-and'}}, (
-                {"$alias.value" => $value},
+                {"$specific_alias.value" => $value},
             );
             if(defined $value)
             {
                 # note that this still won't really allow for { -in => [undef, 0 ] }
                 # assuming that's a valid construct.
                 push @{$query->{'-and'}}, (
-                    {"$alias.value" => { '!=' => undef }}
+                    {"$specific_alias.value" => { '!=' => undef }}
                 );
             }
         }
