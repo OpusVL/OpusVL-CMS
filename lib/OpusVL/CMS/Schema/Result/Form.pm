@@ -380,7 +380,7 @@ sub validate {
           }
         }
         when ('minimum_length') {
-          my $length = $const->constraint->value;
+          my $length = $const->value;
           if (not $params->{$field_name} or length($params->{$field_name}) < $length) {
             push @errors,
               "${field_label} can only have a minimum length of $length characters";
