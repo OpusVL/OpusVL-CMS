@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+56        2017-01-31 14:27:05+00:00 Europe/London
+
+  - Fix submission of form builder forms
+
 55        2017-01-30 13:39:43+00:00 Europe/London
 
   - Fixed bug when requesting more than two attributes in filter
