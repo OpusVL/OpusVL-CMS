@@ -136,6 +136,9 @@ __PACKAGE__->add_columns(
 =cut
 
 __PACKAGE__->set_primary_key("id");
+__PACKAGE__->add_unique_constraint(
+    form_name_site_id => [ 'name', 'site_id' ]
+);
 
 =head1 RELATIONS
 
