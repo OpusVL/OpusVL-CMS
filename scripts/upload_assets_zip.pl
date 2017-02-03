@@ -29,7 +29,8 @@ if($zip->read($zip_file) == AZ_OK)
         unless($member->isDirectory || $filename =~ /\.DS_Store/ || $filename =~ /__MACOSX/)
         {
             print "$filename\n";
-            $filename =~ s/^release//;
+            $filename =~ s|^release|/unwrap|; # this is very specific to the giftwrap zip we are processing.
+            print $filename, "\n";
             my $contents = $member->contents;
             my ($name) = $filename =~ m|/([^/]+)$|;
             my $mime_type = $mt->mimeTypeOf($name)->type;
