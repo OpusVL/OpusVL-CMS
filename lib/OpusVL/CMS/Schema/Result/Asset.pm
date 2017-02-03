@@ -99,6 +99,11 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
     original    => { data_type => "varchar" },
   },
+  arbitrary_url => # allow an arbitrary url to access the asset from outside the usual url namespace.
+  {
+      data_type => 'varchar',
+      is_nullable => 1,
+  },
 );
 
 =head1 PRIMARY KEY
