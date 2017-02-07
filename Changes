@@ -2,14 +2,20 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+0.103     2017-02-07 11:52:37+00:00 Europe/London
+
+      * Add arbitrary urls feature to assets.
+      * Added an import assets zip script 
+        (fairly specific to touchwrap at the moment).
+
 0.102     2016-07-11 09:08:51+01:00 Europe/London
 
-        Fixed problem created by conversion to dzil.
+      * Fixed problem created by conversion to dzil.
 
 0.101     2016-07-11 09:05:54+01:00 Europe/London
 
-        Converted to dzil.
+      * Converted to dzil.
 
 0.01    Date/time
-        First version, released on an unsuspecting world.
+      * First version, released on an unsuspecting world.
 
