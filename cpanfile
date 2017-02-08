@@ -10,6 +10,7 @@ requires 'MooseX::NonMoose';
 requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 requires 'Sort::Naturally';
+requires 'Archive::Zip';
 
 on 'test' => sub {
     requires 'Test::Most';

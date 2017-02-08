@@ -1,4 +1,5 @@
-#!/usr/bin/env perl
+#!/usr/bin/perl
+# PODNAME: upload_assets_zip.pl
 
 use 5.010;
 use lib 'lib';
