@@ -24,7 +24,7 @@ sub check_asset_attribute_sanity {
         ]
     );
 
-    if ($default_attributes->fetch) {
+    if ($merged_attributes->fetch) {
         die "asset_attribute_details has conflicting data - cannot migrate"
     }
 }
