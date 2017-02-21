@@ -50,7 +50,7 @@ sub {
     my $att_attr   = $profile->attachment_attribute_details;
 
     check_asset_attribute_sanity($schema);
-    $schema->resultset('AssetAttributeDetails')->update({ site_id => $profile->id });
+    $schema->resultset('AssetAttributeDetail')->update({ site_id => $profile->id });
 
     # NOTE: we don't have the resultset any more.
     # so we create it temporarily for the migration.
