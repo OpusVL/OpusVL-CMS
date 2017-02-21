@@ -24,7 +24,7 @@ sub check_asset_attribute_sanity {
         ]
     );
 
-    if ($merged_attributes->fetch) {
+    if (my @bla = $merged_attributes->fetch) {
         die "asset_attribute_details has conflicting data - cannot migrate"
     }
 }
@@ -49,7 +49,7 @@ sub {
     my $page_attr  = $profile->page_attribute_details;
     my $att_attr   = $profile->attachment_attribute_details;
 
-    check_asset_attribute_sanity();
+    check_asset_attribute_sanity($schema);
     $schema->resultset('AssetAttributeDetails')->update({ site_id => $profile->id });
 
     # NOTE: we don't have the resultset any more.
