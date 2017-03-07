@@ -4,7 +4,7 @@ use Moose::Role;
 use Switch::Plain;
 use Data::Dump;
 
-our $VERSION = '58';
+our $VERSION = '59';
 
 sub _attribute_search {
     my ($self, $site, $query, $options) = @_;

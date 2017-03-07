@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::PageAttributeDetail;
-our $VERSION = '58';
+our $VERSION = '59';
 
 =head1 NAME
 
