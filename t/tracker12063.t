@@ -46,11 +46,11 @@ subtest 'Several asset attributes' => sub {
             {
                 value => 'Gallery Album',
                 field_id => $gallery_album->id,
-            }
+            },
             {
                 value => 'Gallery Image ID',
                 field_id => $gallery_image_id->id,
-            }
+            },
             {
                 value => 'Type',
                 field_id => $type->id,
