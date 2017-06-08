@@ -280,7 +280,7 @@ sub field {
                 
                 $build_row .= qq{
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit" name="${name}" value="${name}">${name}</button>
+                        <button class="btn btn-primary" type="submit" name="${name}" value="${name}">${label}</button>
                     </div>
                 };
             }
