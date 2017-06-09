@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+59        2017-06-09 10:39:35+01:00 Europe/London
+
+  - Added a description column to site attributes
+  - Fixed button rendering issue in forms
+
 58        2017-03-07 12:49:22+00:00 Europe/London
 
   - Fixed migrations
