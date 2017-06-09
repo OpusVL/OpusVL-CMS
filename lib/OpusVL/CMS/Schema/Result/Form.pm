@@ -398,9 +398,11 @@ sub validate {
 
 sub redirect_page {
   my $self   = shift;
-  my $submit = $self->forms_submit_fields->first;
+  my $submit = $self->submit_button;
   return $submit ? $submit->redirect : undef;
 }
+
+*redirect = \&redirect_page;
 
 sub fields {
   my $self = shift;
