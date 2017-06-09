@@ -4,7 +4,7 @@ schema:
   tables:
     aclfeature:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -27,6 +27,16 @@ schema:
           order: 2
           size:
             - 0
+        feature_description:
+          data_type: text
+          default_value: ~
+          is_nullable: 1
+          is_primary_key: 0
+          is_unique: 0
+          name: feature_description
+          order: 3
+          size:
+            - 0
         id:
           data_type: integer
           default_value: ~
@@ -44,7 +54,7 @@ schema:
       order: 1
     aclfeature_role:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - aclfeature_id
@@ -120,7 +130,7 @@ schema:
       order: 2
     aclrule:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -160,7 +170,7 @@ schema:
       order: 3
     aclrule_role:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - aclrule_id
@@ -235,10 +245,10 @@ schema:
           type: NORMAL
       name: aclrule_role
       options: []
-      order: 58
+      order: 55
     aliases:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -306,7 +316,7 @@ schema:
       order: 4
     alternate_domains:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -395,7 +405,7 @@ schema:
       order: 5
     asset_attribute_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -501,7 +511,7 @@ schema:
       order: 6
     asset_attribute_details:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -600,7 +610,7 @@ schema:
       order: 7
     asset_attribute_values:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -678,7 +688,7 @@ schema:
       order: 8
     asset_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -757,7 +767,7 @@ schema:
       order: 9
     asset_users:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -843,7 +853,7 @@ schema:
       order: 10
     assets:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -961,7 +971,7 @@ schema:
       order: 11
     attachment_attribute_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1067,7 +1077,7 @@ schema:
       order: 12
     attachment_attribute_details:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1165,7 +1175,7 @@ schema:
       order: 13
     attachment_attribute_values:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1268,10 +1278,10 @@ schema:
           type: NORMAL
       name: attachment_attribute_values
       options: []
-      order: 54
+      order: 51
     attachment_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1350,7 +1360,7 @@ schema:
       order: 14
     attachment_tags:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1436,7 +1446,7 @@ schema:
       order: 15
     attachments:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1574,157 +1584,9 @@ schema:
       name: attachments
       options: []
       order: 16
-    default_attribute_values:
-      constraints:
-        - deferrable: 0
-          expression: ''
-          fields:
-            - id
-          match_type: ''
-          name: ''
-          on_delete: ''
-          on_update: ''
-          options: []
-          reference_fields: []
-          reference_table: ''
-          type: PRIMARY KEY
-        - deferrable: 1
-          expression: ''
-          fields:
-            - field_id
-          match_type: ''
-          name: default_attribute_values_fk_field_id
-          on_delete: CASCADE
-          on_update: CASCADE
-          options: []
-          reference_fields:
-            - id
-          reference_table: default_attributes
-          type: FOREIGN KEY
-      fields:
-        field_id:
-          data_type: integer
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: field_id
-          order: 2
-          size:
-            - 0
-        id:
-          data_type: integer
-          default_value: ~
-          is_auto_increment: 1
-          is_nullable: 0
-          is_primary_key: 1
-          is_unique: 0
-          name: id
-          order: 1
-          size:
-            - 0
-        value:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: value
-          order: 3
-          size:
-            - 0
-      indices:
-        - fields:
-            - field_id
-          name: default_attribute_values_idx_field_id
-          options: []
-          type: NORMAL
-      name: default_attribute_values
-      options: []
-      order: 17
-    default_attributes:
-      constraints:
-        - deferrable: 0
-          expression: ''
-          fields:
-            - id
-          match_type: ''
-          name: ''
-          on_delete: ''
-          on_update: ''
-          options: []
-          reference_fields: []
-          reference_table: ''
-          type: PRIMARY KEY
-      fields:
-        code:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: code
-          order: 2
-          size:
-            - 0
-        field_type:
-          data_type: text
-          default_value: ~
-          is_nullable: 1
-          is_primary_key: 0
-          is_unique: 0
-          name: field_type
-          order: 6
-          size:
-            - 0
-        id:
-          data_type: integer
-          default_value: ~
-          is_auto_increment: 1
-          is_nullable: 0
-          is_primary_key: 1
-          is_unique: 0
-          name: id
-          order: 1
-          size:
-            - 0
-        name:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: name
-          order: 3
-          size:
-            - 0
-        type:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: type
-          order: 5
-          size:
-            - 0
-        value:
-          data_type: text
-          default_value: ~
-          is_nullable: 1
-          is_primary_key: 0
-          is_unique: 0
-          name: value
-          order: 4
-          size:
-            - 0
-      indices: []
-      name: default_attributes
-      options: []
-      order: 18
     element_attributes:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1789,10 +1651,10 @@ schema:
           type: NORMAL
       name: element_attributes
       options: []
-      order: 19
+      order: 17
     element_contents:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1868,10 +1730,10 @@ schema:
           type: NORMAL
       name: element_contents
       options: []
-      order: 20
+      order: 18
     element_users:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -1954,10 +1816,10 @@ schema:
           type: NORMAL
       name: element_users
       options: []
-      order: 21
+      order: 19
     elements:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2042,10 +1904,10 @@ schema:
           type: NORMAL
       name: elements
       options: []
-      order: 22
+      order: 20
     entity_cache:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - hash
@@ -2121,10 +1983,10 @@ schema:
           type: NORMAL
       name: entity_cache
       options: []
-      order: 23
+      order: 21
     forms:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2136,7 +1998,7 @@ schema:
           reference_fields: []
           reference_table: ''
           type: PRIMARY KEY
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - name
@@ -2291,10 +2153,10 @@ schema:
           type: NORMAL
       name: forms
       options: []
-      order: 24
+      order: 22
     forms_constraints:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2351,10 +2213,10 @@ schema:
       indices: []
       name: forms_constraints
       options: []
-      order: 25
+      order: 23
     forms_content:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2419,10 +2281,10 @@ schema:
           type: NORMAL
       name: forms_content
       options: []
-      order: 26
+      order: 24
     forms_field_type:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2467,10 +2329,10 @@ schema:
       indices: []
       name: forms_field_type
       options: []
-      order: 27
+      order: 25
     forms_fields:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2621,10 +2483,10 @@ schema:
           type: NORMAL
       name: forms_fields
       options: []
-      order: 55
+      order: 52
     forms_fields_constraints:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2707,10 +2569,10 @@ schema:
           type: NORMAL
       name: forms_fields_constraints
       options: []
-      order: 28
+      order: 26
     forms_submit_field:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2824,10 +2686,10 @@ schema:
           type: NORMAL
       name: forms_submit_field
       options: []
-      order: 29
+      order: 27
     master_domains:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2892,10 +2754,10 @@ schema:
           type: NORMAL
       name: master_domains
       options: []
-      order: 30
+      order: 28
     page_attribute_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -2998,10 +2860,10 @@ schema:
           type: NORMAL
       name: page_attribute_data
       options: []
-      order: 31
+      order: 29
     page_attribute_details:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3108,10 +2970,10 @@ schema:
           type: NORMAL
       name: page_attribute_details
       options: []
-      order: 32
+      order: 30
     page_attribute_values:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3204,10 +3066,10 @@ schema:
           type: NORMAL
       name: page_attribute_values
       options: []
-      order: 33
+      order: 31
     page_contents:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3321,10 +3183,10 @@ schema:
           type: NORMAL
       name: page_contents
       options: []
-      order: 34
+      order: 32
     page_drafts:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3417,10 +3279,10 @@ schema:
           type: NORMAL
       name: page_drafts
       options: []
-      order: 35
+      order: 33
     page_drafts_content:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3496,10 +3358,10 @@ schema:
           type: NORMAL
       name: page_drafts_content
       options: []
-      order: 36
+      order: 34
     page_tags:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3582,10 +3444,10 @@ schema:
           type: NORMAL
       name: page_tags
       options: []
-      order: 37
+      order: 35
     page_users:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3668,10 +3530,10 @@ schema:
           type: NORMAL
       name: page_users
       options: []
-      order: 38
+      order: 36
     pages:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -3683,7 +3545,7 @@ schema:
           reference_fields: []
           reference_table: ''
           type: PRIMARY KEY
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - url
@@ -3956,10 +3818,10 @@ schema:
           type: NORMAL
       name: pages
       options: []
-      order: 39
+      order: 37
     parameter:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4006,10 +3868,10 @@ schema:
       indices: []
       name: parameter
       options: []
-      order: 40
+      order: 38
     parameter_defaults:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4074,100 +3936,10 @@ schema:
           type: NORMAL
       name: parameter_defaults
       options: []
-      order: 56
-    plugins:
-      constraints:
-        - deferrable: 0
-          expression: ''
-          fields:
-            - id
-          match_type: ''
-          name: ''
-          on_delete: ''
-          on_update: ''
-          options: []
-          reference_fields: []
-          reference_table: ''
-          type: PRIMARY KEY
-      fields:
-        action:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: action
-          order: 3
-          size:
-            - 0
-        author:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: author
-          order: 5
-          size:
-            - 0
-        code:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: code
-          order: 4
-          size:
-            - 0
-        description:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: description
-          order: 6
-          size:
-            - 0
-        id:
-          data_type: integer
-          default_value: ~
-          is_auto_increment: 1
-          is_nullable: 0
-          is_primary_key: 1
-          is_unique: 0
-          name: id
-          order: 1
-          size:
-            - 0
-        name:
-          data_type: text
-          default_value: ~
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: name
-          order: 2
-          size:
-            - 0
-        status:
-          data_type: text
-          default_value: disabled
-          is_nullable: 0
-          is_primary_key: 0
-          is_unique: 0
-          name: status
-          order: 7
-          size:
-            - 0
-      indices: []
-      name: plugins
-      options: []
-      order: 41
+      order: 53
     redirect_domains:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4247,10 +4019,10 @@ schema:
           type: NORMAL
       name: redirect_domains
       options: []
-      order: 42
+      order: 39
     role:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4287,10 +4059,10 @@ schema:
       indices: []
       name: role
       options: []
-      order: 43
+      order: 40
     role_admin:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - role_id
@@ -4330,10 +4102,10 @@ schema:
       indices: []
       name: role_admin
       options: []
-      order: 44
+      order: 41
     roles_allowed:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - role
@@ -4406,10 +4178,10 @@ schema:
           type: NORMAL
       name: roles_allowed
       options: []
-      order: 45
+      order: 42
     site_attributes:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4515,10 +4287,10 @@ schema:
           type: NORMAL
       name: site_attributes
       options: []
-      order: 46
+      order: 43
     sites:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4604,10 +4376,10 @@ schema:
           type: NORMAL
       name: sites
       options: []
-      order: 47
+      order: 44
     sites_users:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4690,10 +4462,10 @@ schema:
           type: NORMAL
       name: sites_users
       options: []
-      order: 48
+      order: 45
     tag_groups:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4752,10 +4524,10 @@ schema:
       indices: []
       name: tag_groups
       options: []
-      order: 49
+      order: 46
     tags:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4820,10 +4592,10 @@ schema:
           type: NORMAL
       name: tags
       options: []
-      order: 50
+      order: 47
     template_contents:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4899,10 +4671,10 @@ schema:
           type: NORMAL
       name: template_contents
       options: []
-      order: 51
+      order: 48
     templates:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4914,7 +4686,7 @@ schema:
           reference_fields: []
           reference_table: ''
           type: PRIMARY KEY
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - name
@@ -4980,10 +4752,10 @@ schema:
           type: NORMAL
       name: templates
       options: []
-      order: 52
+      order: 49
     users:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -4995,7 +4767,7 @@ schema:
           reference_fields: []
           reference_table: ''
           type: PRIMARY KEY
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - username
@@ -5102,10 +4874,10 @@ schema:
       indices: []
       name: users
       options: []
-      order: 53
+      order: 50
     users_data:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - id
@@ -5180,10 +4952,10 @@ schema:
           type: NORMAL
       name: users_data
       options: []
-      order: 57
+      order: 54
     users_parameter:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - users_id
@@ -5268,10 +5040,10 @@ schema:
           type: NORMAL
       name: users_parameter
       options: []
-      order: 59
+      order: 56
     users_role:
       constraints:
-        - deferrable: 0
+        - deferrable: 1
           expression: ''
           fields:
             - users_id
@@ -5346,7 +5118,7 @@ schema:
           type: NORMAL
       name: users_role
       options: []
-      order: 60
+      order: 57
   triggers: {}
   views:
     asset_attributes:
@@ -5418,7 +5190,6 @@ translator:
       - Aclrule
       - AclruleRole
       - Alias
-      - Aliases
       - AlternateDomain
       - Asset
       - AssetAttribute
@@ -5427,26 +5198,17 @@ translator:
       - AssetAttributeValue
       - AssetData
       - AssetUser
-      - Assets
       - Attachment
       - AttachmentAttribute
       - AttachmentAttributeData
       - AttachmentAttributeDetail
-      - AttachmentAttributeDetails
       - AttachmentAttributeValue
-      - AttachmentAttributeValues
       - AttachmentData
       - AttachmentTag
-      - AttachmentTags
-      - Attachments
-      - DefaultAttribute
-      - DefaultAttributeValue
       - Element
       - ElementAttribute
       - ElementContent
-      - ElementContents
       - ElementUser
-      - Elements
       - EntityCache
       - Form
       - FormsConstraint
@@ -5460,20 +5222,14 @@ translator:
       - PageAttribute
       - PageAttributeData
       - PageAttributeDetail
-      - PageAttributeDetails
       - PageAttributeValue
-      - PageAttributeValues
       - PageContent
-      - PageContents
       - PageDraft
       - PageDraftsContent
       - PageTag
-      - PageTags
       - PageUser
-      - Pages
       - Parameter
       - ParameterDefault
-      - Plugin
       - RedirectDomain
       - Role
       - RoleAdmin
@@ -5483,12 +5239,8 @@ translator:
       - SitesUser
       - Tag
       - TagGroup
-      - TagGroups
-      - Tags
       - Template
       - TemplateContent
-      - TemplateContents
-      - Templates
       - User
       - UsersData
       - UsersParameter
