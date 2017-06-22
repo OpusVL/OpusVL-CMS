@@ -666,13 +666,9 @@ sub cascaded_attribute
               }
           }
       }
-      
-      return undef;
     }
-    else {
-      warn "Field not set in cascaded_attribute";
-      return undef;
-    }
+
+    return;
 }
 
 has _attribute_cache => (is => 'rw', default => sub { {} });
