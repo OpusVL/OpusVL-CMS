@@ -16,6 +16,7 @@ use feature 'switch';
 use experimental 'switch';
 
 use HTML::Element;
+use Switch::Plain;
 use List::Gather;
 
 extends 'DBIx::Class::Core';
@@ -418,14 +419,13 @@ sub validate {
     my $field_name  = $field->name;
     my $field_label = $field->label;
     if (my $const = $field->constraint) {
-      given ($const->type) {
-        when ('required') {
+      sswitch ($const->type) {
+        case'required': {
           if (not $params->{$field_name} or $params->{$field_name} eq '') {
-            push @errors,
-              "${field_label} must be filled in";
+            push @errors, "${field_label} must be filled in";
           }
         }
-        when ('minimum_length') {
+        case 'minimum_length': {
           my $length = $const->value;
           if (not $params->{$field_name} or length($params->{$field_name}) < $length) {
             push @errors,
