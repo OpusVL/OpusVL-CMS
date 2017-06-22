@@ -15,6 +15,9 @@ use Moose;
 use feature 'switch';
 use experimental 'switch';
 
+use HTML::Element;
+use List::Gather;
+
 extends 'DBIx::Class::Core';
 
 use Sort::Naturally;
@@ -227,64 +230,104 @@ sub field {
             $name = $field->name; 
             my $label_id = $label;
             $label_id =~ s/\W+//g;
+            my $row;
             if (/Text$/) {
-                $build_row .= q{<div class="form-group">};
-                $build_row .= qq{<label for="${label_id}">${label}</label>};
-                $build_row .= qq{<input class="form-control" id="${label_id} type="text" value="" name="${name}">};
-                $build_row .= q{</div>};
+                $row = [
+                    div => { class => 'form-group' },
+                    [ label => { for => $label_id }, $label ],
+                    [ input => {
+                        class => 'form-control',
+                        id => $label_id,
+                        type => 'text',
+                        value => '',
+                        name => $name
+                    }]
+                ];
             }
-            
             elsif (/Textarea$/) {
-                $build_row .= q{<div class="form-group">};
-                $build_row .= qq{<label for="${label_id}">${label}</label>};
-                $build_row .= qq{<textarea class="form-control" id="${label_id}" name="${name}"></textarea>};                               
-                $build_row .= q{</div>};                                                                                     
+                $row = [
+                    div => { class => 'form-group' },
+                    [ label => { for => $label_id }, $label ],
+                    [ textarea => {
+                        class => 'form-control',
+                        id => $label_id,
+                        name => $name
+                    }]
+                ];
             }
 
             elsif (/Checkbox/) {
-                $build_row .= q{<div class="checkbox">};
-                $build_row .= qq{<label>};
-                $build_row .= qq{<input type="checkbox" name="$name"> ${label}};
-                $build_row .= "</label></div>";
+                $row = [
+                    div => { class => 'form-group' },
+                    [
+                        label => { for => $label_id },
+                        [
+                            textarea => {
+                                class => 'form-control',
+                                id => $label_id,
+                                name => $name
+                            }
+                        ],
+                        $label
+                    ]
+                ];
             }
             
             elsif (/Select/) {
                 my $fields = $field->fields;
-                $build_row .= q{<div class="form-group">};
-                $build_row .= qq{<label for="${label_id}">${label}</label>};
-                $build_row .= qq{<select id="${label_id}" name="${name}" class="form-control">};
-                #my @opts    = sort { $a cmp $b } split /\*,\*/, $fields;
-                my @opts    = nsort split /\*,\*/, $fields;
-                for my $opt (@opts) {
-                    my ($name, $val) = split /\*!\*/, $opt;
-                    $build_row .= qq{<option value="$val">$name</option>};
-                }
-                $build_row .= q{</select></div>}; 
+                $row = [
+                    div => { class => 'form-group' },
+                    [ label => { for => $label_id }, $label ],
+                    [ 
+                        select => {
+                            class => 'form-control',
+                            id => $label_id,
+                            name => $name
+                        },
+                        [
+                            gather {
+                                for my $opt (nsort split /\*,\*/, $fields) {
+                                    my ($name, $val) = split /\*!\*/, $opt;
+                                    take [ option => { name => $name }, $val ];
+                                }
+                            }
+                        ]
+                    ]
+                ];
             }
 
             elsif (/Submit/) {
-                if ($self->recaptcha) {
-                    $self->recaptcha_object( Captcha::reCAPTCHA->new );
-                    if ($self->ssl) {
-                        $build_row .= $self->recaptcha_object->get_html(
-                            $self->recaptcha_public_key,
-                            undef,
-                            1,
-                            {}
-                        );
-                    }
-                    else {
-                        $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
-                    }
-                }
-                
-                $build_row .= qq{
-                    <div class="form-group">
-                        <button class="btn btn-primary" type="submit" name="${name}" value="${name}">${label}</button>
-                    </div>
-                };
+                $row = [
+                    div => { class => 'form-group' },
+                    [
+                        button => {
+                            class => 'btn btn-primary'
+                            type => 'submit',
+                            name => $name,
+                            value => $name,
+                        },
+                        $label
+                    ]
+                ];
             }
 
+            my $build_row = '';
+            if ($self->recaptcha) {
+                $self->recaptcha_object( Captcha::reCAPTCHA->new );
+                if ($self->ssl) {
+                    $build_row .= $self->recaptcha_object->get_html(
+                        $self->recaptcha_public_key,
+                        undef,
+                        1,
+                        {}
+                    );
+                }
+                else {
+                    $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
+                }
+            }
+            
+            $build_row .= HTML::Element->new_from_lol($row);
             return $build_row;
         }
     }
