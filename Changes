@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+62        2017-06-23 12:50:44+01:00 Europe/London
+
+  - We really have to prevent dzil from releasing before we do a git pull
+
 61        2017-06-23 12:47:41+01:00 Europe/London
 
   - Fixed form-builder form rendering to 
