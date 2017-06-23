@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::FormsFieldsConstraint;
-our $VERSION = '61';
+our $VERSION = '62';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
