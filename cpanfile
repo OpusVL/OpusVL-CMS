@@ -15,6 +15,8 @@ requires 'Switch::Plain';
 requires 'DBIx::Class::DeploymentHandler';
 requires 'DBIx::Class::Report';
 requires 'Digest::MD5';
+requires 'List::Gather';
+requires 'HTML::Element';
 
 on 'test' => sub {
     requires 'Test::Most';
