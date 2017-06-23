@@ -217,10 +217,10 @@ __PACKAGE__->belongs_to(
 sub field {
     my ($self, $name, $options) = @_;
     $options //= {};
-    my $build_row;
+    my $build_row = '';
     if (my $field = $self->forms_fields->search({ name => $name })->first) {
         my $name;
-        my $constraint;
+        my $constraint = '';
         if ($field->constraint) {
             $constraint = $field->constraint->type;
         }
@@ -229,9 +229,16 @@ sub field {
 
         for ($field->type->type) {
             $name = $field->name; 
-            my $label_id = $label;
-            $label_id =~ s/\W+//g;
+            my $label_id = lc $label;
+            $label_id =~ s/\W+/-/g;
             my $row;
+            my @required;
+
+            if ($constraint eq 'required') {
+                @required = (required => 'required');
+                $label .= " *";
+            }
+
             if (/Text$/) {
                 $row = [
                     div => { class => 'form-group' },
@@ -241,7 +248,8 @@ sub field {
                         id => $label_id,
                         type => 'text',
                         value => '',
-                        name => $name
+                        name => $name,
+                        @required
                     }]
                 ];
             }
@@ -252,28 +260,28 @@ sub field {
                     [ textarea => {
                         class => 'form-control',
                         id => $label_id,
-                        name => $name
+                        name => $name,
+                        @required
                     }]
                 ];
             }
-
             elsif (/Checkbox/) {
                 $row = [
-                    div => { class => 'form-group' },
+                    div => { class => 'checkbox' },
                     [
                         label => { for => $label_id },
                         [
-                            textarea => {
-                                class => 'form-control',
+                            input => {
+                                type => 'checkbox',
                                 id => $label_id,
-                                name => $name
+                                name => $name,
+                                @required
                             }
                         ],
                         $label
                     ]
                 ];
             }
-            
             elsif (/Select/) {
                 my $fields = $field->fields;
                 $row = [
@@ -283,7 +291,8 @@ sub field {
                         select => {
                             class => 'form-control',
                             id => $label_id,
-                            name => $name
+                            name => $name,
+                            @required
                         },
                         [
                             gather {
@@ -296,13 +305,26 @@ sub field {
                     ]
                 ];
             }
-
             elsif (/Submit/) {
+                if ($self->recaptcha) {
+                    $self->recaptcha_object( Captcha::reCAPTCHA->new );
+                    if ($self->ssl) {
+                        $build_row .= $self->recaptcha_object->get_html(
+                            $self->recaptcha_public_key,
+                            undef,
+                            1,
+                            {}
+                        );
+                    }
+                    else {
+                        $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
+                    }
+                }
                 $row = [
                     div => { class => 'form-group' },
                     [
                         button => {
-                            class => 'btn btn-primary'
+                            class => 'btn btn-primary',
                             type => 'submit',
                             name => $name,
                             value => $name,
@@ -311,27 +333,11 @@ sub field {
                     ]
                 ];
             }
-
-            my $build_row = '';
-            if ($self->recaptcha) {
-                $self->recaptcha_object( Captcha::reCAPTCHA->new );
-                if ($self->ssl) {
-                    $build_row .= $self->recaptcha_object->get_html(
-                        $self->recaptcha_public_key,
-                        undef,
-                        1,
-                        {}
-                    );
-                }
-                else {
-                    $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
-                }
-            }
             
-            $build_row .= HTML::Element->new_from_lol($row);
-            return $build_row;
+            $build_row .= HTML::Element->new_from_lol($row)->as_HTML;
         }
     }
+    return $build_row;
 }
 
 sub render {
