@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+61        2017-06-23 12:47:41+01:00 Europe/London
+
+  - Fixed form-builder form rendering to 
+    a) not use silly string-manipulation constructs
+    b) use HTML5 required attribute
+    c) display asterisks on required fields
+
 60        2017-06-09 11:31:23+01:00 Europe/London
 
   - Fixed migrations polluted by old code
