@@ -2,6 +2,11 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+63        2017-06-26 11:55:27+01:00 Europe/London
+
+  - Labels of required fields will now apply a class instead of forcing an
+    asterisk
+
 62        2017-06-23 12:50:44+01:00 Europe/London
 
   - We really have to prevent dzil from releasing before we do a git pull
