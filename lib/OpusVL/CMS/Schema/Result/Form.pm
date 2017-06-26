@@ -233,16 +233,17 @@ sub field {
             $label_id =~ s/\W+/-/g;
             my $row;
             my @required;
+            my %label_attr = ( for => $label_id );
 
             if ($constraint eq 'required') {
                 @required = (required => 'required');
-                $label .= " *";
+                $label_attr{class} = "required";
             }
 
             if (/Text$/) {
                 $row = [
                     div => { class => 'form-group' },
-                    [ label => { for => $label_id }, $label ],
+                    [ label => \%label_attr, $label ],
                     [ input => {
                         class => 'form-control',
                         id => $label_id,
@@ -256,7 +257,7 @@ sub field {
             elsif (/Textarea$/) {
                 $row = [
                     div => { class => 'form-group' },
-                    [ label => { for => $label_id }, $label ],
+                    [ label => \%label_attr, $label ],
                     [ textarea => {
                         class => 'form-control',
                         id => $label_id,
@@ -269,7 +270,7 @@ sub field {
                 $row = [
                     div => { class => 'checkbox' },
                     [
-                        label => { for => $label_id },
+                        label => \%label_attr,
                         [
                             input => {
                                 type => 'checkbox',
@@ -286,7 +287,7 @@ sub field {
                 my $fields = $field->fields;
                 $row = [
                     div => { class => 'form-group' },
-                    [ label => { for => $label_id }, $label ],
+                    [ label => \%label_attr, $label ],
                     [ 
                         select => {
                             class => 'form-control',
