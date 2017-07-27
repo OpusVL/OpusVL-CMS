@@ -2,7 +2,7 @@ package OpusVL::CMS::Roles::ResultSetFilter;
 
 use MooseX::Role::Parameterized;
 
-our $VERSION = '64';
+our $VERSION = '65';
 
 parameter field => (
     isa => 'Str',
