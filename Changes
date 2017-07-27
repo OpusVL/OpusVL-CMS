@@ -2,6 +2,16 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+64        2017-07-27 10:16:32+01:00 Europe/London
+
+  - Form builder rework. Forms now store the ID of the redirect page on the form
+    instead of in some arbitrary extra data. Legacy method is still supported
+    but should not be used.
+  - Form field objects now have a method to turn their label into a field name
+    in a repeatable and canonical fashion.
+  - Added a migration so that all fields in the database will have the correct
+    field name based on their label.
+
 63        2017-06-26 11:55:27+01:00 Europe/London
 
   - Labels of required fields will now apply a class instead of forcing an
