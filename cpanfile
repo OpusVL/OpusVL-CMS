@@ -12,6 +12,7 @@ requires 'OpusVL::AppKit::Schema::AppKitAuthDB';
 requires 'OpusVL::DBIC::Helper';
 requires 'Sort::Naturally';
 requires 'Switch::Plain';
+requires 'Scalar::IfDefined';
 requires 'DBIx::Class::DeploymentHandler';
 requires 'DBIx::Class::Report';
 requires 'Digest::MD5';

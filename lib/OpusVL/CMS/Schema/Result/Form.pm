@@ -18,6 +18,7 @@ use experimental 'switch';
 use HTML::Element;
 use Switch::Plain;
 use List::Gather;
+use Scalar::IfDefined qw/$ifdef/;
 
 extends 'DBIx::Class::Core';
 
@@ -127,6 +128,10 @@ __PACKAGE__->add_columns(
     data_type => "boolean",
     is_nullable => 1,
   },
+  redirect_id => {
+    data_type => 'integer',
+    is_nullable => 1,
+  }
 );
 
 =head1 PRIMARY KEY
@@ -208,6 +213,16 @@ __PACKAGE__->belongs_to(
   "OpusVL::CMS::Schema::Result::Site",
   { id => "site_id" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+);
+
+=head2 redirect
+
+A L<OpusVL::CMS::Schema::Result::Page> the form should redirect to.
+
+=cut
+
+__PACKAGE__->belongs_to(
+    redirect_page => 'OpusVL::CMS::Schema::Result::Page', 'redirect_id'
 );
 
 
@@ -446,13 +461,33 @@ sub validate {
   return @errors;
 }
 
-sub redirect_page {
-  my $self   = shift;
-  my $submit = $self->submit_button;
-  return $submit ? $submit->redirect : undef;
-}
+# Hacky. We want to support the legacy way of defining redirect pages, which is
+# to give the form a submit button (see FormsSubmitField) and put the redirect
+# page on that. That's silly, so now the form has its own redirect_id and
+# redirect_page, but if we've not saved the form recently, we fall back.
 
-*redirect = \&redirect_page;
+around redirect_page => sub {
+    my $orig = shift;
+    my $self = shift;
+
+    my $result = $self->$orig(@_);
+
+    return $result if $result;
+
+    return $self->legacy_submit_field->$ifdef('redirect');
+};
+
+# Hacky. This allows the form builder form to read the value of redirect out of
+# the legacy submit button stuff, but to write it to the new redirect_id that
+# the form object has.
+sub redirect {
+    my $self = shift;
+    if (my $newval = shift) {
+        return $self->set_column( redirect_id => $newval );
+    }
+
+    return $self->redirect_page->$ifdef('id');
+}
 
 sub fields {
   my $self = shift;
@@ -461,6 +496,18 @@ sub fields {
 }
 
 sub submit_button {
+    my $self = shift;
+    return $self->forms_fields->search(
+        {
+            'type.type' => 'Submit'
+        },
+        {
+            join => 'type'
+        })
+        ->first;
+}
+
+sub legacy_submit_field {
   my $self = shift;
   return $self->forms_submit_fields->first;
 }

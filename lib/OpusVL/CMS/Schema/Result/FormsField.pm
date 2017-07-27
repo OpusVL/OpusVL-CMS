@@ -228,4 +228,20 @@ sub options {
     return grep /\S/, @options;
 }
 
+=head2 generated_name
+
+Generates a field name from the label and returns it. You can assume this name
+is the one stored in the database.
+
+This probably deprecates the very idea of storing the name in the database, but
+we still do, and we still pull it out of the database.
+
+=cut
+
+sub generated_name {
+    my $self = shift;
+
+    lc($self->label =~ s/\s+/_/gr) 
+}
+
 1;
