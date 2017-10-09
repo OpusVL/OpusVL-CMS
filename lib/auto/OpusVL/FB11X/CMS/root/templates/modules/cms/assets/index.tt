@@ -1,0 +1,78 @@
+[% INCLUDE modules/cms/header.tt %]
+<style type="text/css">
+    .content_block input[type="text"] {
+        width: 100px !important;
+    }
+</style>
+
+<div class="fb11-card">
+  <h1>Assets</h1>
+  <div class="content_block">
+    <a name="top" class="btn btn-primary"
+      href="[%
+        c.uri_for(c.controller.action_for('new_asset'), [ site.id ])
+      %]"
+    >
+      <i class="fa fa-plus-circle"></i>
+      New asset
+    </a>
+
+    [% IF assets.size > 0 %]
+    <table class="table table-striped datatable" id="asset-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-priority="1">Name</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th data-priority="2">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      [% FOREACH asset IN assets %]
+      <tr>
+        <td>[% asset.id %]</td>
+        <td>[% asset.filename %]</td>
+        <td>[% asset.description %]</td>
+        <td>[% asset.mime_type %]</td>
+        <td>
+          <div class="btn-group" role="group" aria-label="Actions">
+            <a href="[% c.uri_for(c.controller.action_for('edit'), [site.id, asset.id]) %]"
+              title="Edit"
+              class="btn btn-primary"
+            >
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a href="[% c.uri_for(c.controller('Modules::CMS::Pages').action_for('_asset'), site.id, asset.id, asset.filename) %]"
+              target="__blank"
+              title="View"
+              class="btn btn-default"
+            >
+              <i class="fa fa-eye"></i>
+            </a>
+            <a href="[% c.uri_for(c.controller.action_for('delete_asset'), [ site.id, asset.id ]) %]"
+              title="Delete"
+              class="btn btn-danger"
+            >
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </td>
+      </tr>
+      [% END %]
+      </tbody>
+    </table>
+    [% ELSE %]
+    <p>No assets have been uploaded</p>
+    [% END %]
+  </div>
+
+  <a name="bottom" class="btn btn-primary"
+    href="[%
+      c.uri_for(c.controller.action_for('new_asset'), [ site.id ])
+    %]"
+  >
+    <i class="fa fa-plus-circle"></i>
+    New asset
+  </a>
+</div>

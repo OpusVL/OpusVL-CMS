@@ -1,0 +1,81 @@
+[% INCLUDE modules/cms/header.tt %]
+[% PROCESS modules/cms/preprocess.tt %]
+
+[% USE date %]
+
+<div class="fb11-card">
+  <h1>Edit element</h1>
+
+  [% form.render | none %]
+
+  [% IF c.can_access(c.controller('Modules::CMS::UserAccess').action_for('element_user_list')) %]
+    <a href="[%
+        c.uri_for(c.controller('Modules::CMS::UserAccess').action_for('element_user_list'), site.id, element.id)
+      %]"
+      class="btn btn-secondary"
+    >
+      <i class="fa fa-hand-stop-o"></i>
+      Element Permissions
+    </a>
+  [% END %]
+
+</div>
+<div class="fb11-card">
+  <h1>Element Attributes</h1>
+  <div id="element-attributes" class="content_block">
+    <form action="" method="post">
+      [% IF attributes.size < 1 %]
+        <p>You have no attributes set up for this element</p>
+      [% ELSE %]
+        <table class="table table-striped datatable">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          [% FOREACH attr IN attributes %]
+            <tr>
+              <td>[% attr.code %]</td>
+              <td><a href="[% c.uri_for(c.controller.action_for('delete_element_attribute'), [ site.id, element.id ]) %]/[% attr.id %]">Remove attribute</a></td>
+            </tr>
+          [% END %]
+          </tbody>
+        </table>
+      [% END %]
+      <div class="form-group">
+        <label>New attribute name</label>
+        <input class="form-control" type="text" name="attr_name" value="">
+      </div>
+
+      <input type="submit" class="btn btn-primary" value="Add Attribute">
+    </form>
+  </div>
+</div>
+
+<div class="fb11-card">
+  <h1>History</h1>
+
+  <table class="table table-striped datatable"
+    data-order="[[0, &quot;desc&quot;]]">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th data-orderable="false">Revert</th>
+      </tr>
+    </thead>
+    [% FOREACH entry IN element.history %]
+      <tr>
+        <td data-order="[% entry.created.epoch %]">
+          [% date.format(entry.created, "%d-%m-%Y %H:%M:%S") %]
+          [% IF loop.first %](current)[% END %]
+        </td>
+        <td>
+          <a href="[% c.uri_for( c.controller.action_for('revert_content'), 
+            [ site.id, element.id, entry.id ] ) %]">Revert</a>
+        </td>
+      </tr>
+    [% END %]
+  </table>
+</div>

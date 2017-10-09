@@ -1,0 +1,11 @@
+[% USE date(format = '%d/%m/%Y %H:%M:%S') %]
+
+[% IF status %]
+<p>[% status %]</p>
+<p>Last submitted at [% date.format %]</p>
+[% END %]
+
+[% UNLESS error_msg %]
+  <h1>Press the button to clear the frontend cache</h1>
+  [% form.render | none %]
+[% END %]

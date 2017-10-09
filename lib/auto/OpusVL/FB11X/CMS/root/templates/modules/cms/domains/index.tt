@@ -1,0 +1,56 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>Manage Domains for [% site.name %]</h1>
+  <div class="content_block">
+    <fieldset>
+      <legend>Master Domains</legend>
+      [% IF master_domains %]
+        <div class="form-group">
+          <table class="table table-striped datatable">
+            <thead>
+              <tr>
+                <th data-priority="1">Domain</th>
+                <th>Alternates</th>
+                <th>Redirects to</th>
+                <th data-priority="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            [% FOREACH domain IN master_domains %]
+              <tr>
+                <td>
+                  <a href="[% c.uri_for(c.controller.action_for('edit'), [ site.id, domain.id ]) %]">
+                    [% domain.domain %]
+                  </a>
+                </td>
+                <td>[% domain.alternates.count %]</td>
+                <td>[% IF domain.redirect.domain %] [% domain.redirect.domain %] [% ELSE %] None [% END %]</td>
+                <td>
+                  <a href="[% c.uri_for(c.controller.action_for('delete_domain'), [ site.id, domain.id ]) %]">Delete</a>
+                </td>
+              </tr>
+            [% END %]
+            </tbody>
+          </table>
+        </div>
+      [% ELSE %]
+        <p>
+          There's no master domain setup for this site.
+          <strong>
+            <a href="[% c.uri_for(c.controller.action_for('add_master'), [ site.id ]) %]">Add one now</a>
+          </strong>
+        </p>
+      [% END %]
+    </fieldset>
+  </div>
+
+  <a class="btn btn-primary"
+    href="[%
+      c.uri_for(c.controller.action_for('add_master'), [ site.id ])
+    %]"
+  >
+    <i class="fa fa-plus-circle"></i>
+    Add New Master Domain
+  </a>
+</div>

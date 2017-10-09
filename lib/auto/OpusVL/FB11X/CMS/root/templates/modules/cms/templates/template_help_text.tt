@@ -1,0 +1,7 @@
+<div class="fb11-card">
+  <h1>Note</h1>
+    <div class="content_block">
+      [%# HTML entities otherwise TT parses it %]
+      <p>To output the page's content use <code>&#x5B;&#x25;&#x20;&#x50;&#x52;&#x4F;&#x43;&#x45;&#x53;&#x53;&#x20;&#x63;&#x6F;&#x6E;&#x74;&#x65;&#x6E;&#x74;&#x20;&#x7C;&#x20;&#x6E;&#x6F;&#x6E;&#x65;&#x20;&#x25;&#x5D;</code>.</p>
+    </div>
+</div>

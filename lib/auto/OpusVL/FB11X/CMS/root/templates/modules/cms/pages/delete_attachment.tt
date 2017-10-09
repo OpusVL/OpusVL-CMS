@@ -1,0 +1,5 @@
+<div class="fb11-card">
+<h1>Delete attachment '[% attachment.filename %]'</h1>
+
+[% form.render | none %]
+</div>

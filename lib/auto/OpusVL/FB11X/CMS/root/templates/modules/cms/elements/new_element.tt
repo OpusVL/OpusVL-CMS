@@ -1,0 +1,7 @@
+[% INCLUDE modules/cms/header.tt %]
+[% PROCESS modules/cms/preprocess.tt %]
+
+<div class="fb11-card">
+  <h1>New Element</h1> 
+  [% form.render | none %]
+</div>

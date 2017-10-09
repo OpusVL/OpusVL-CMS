@@ -1,0 +1,61 @@
+---
+indicator: submit_btn
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+
+elements:
+  - type: Block
+    id: controls
+    attributes:
+      class: "content_block"
+    elements:
+      - type: Fieldset
+        name: asset_details
+        legend: Asset details
+        elements:
+          - type: File
+            name: file
+            label: Replace file
+
+          - type: Text
+            name: slug
+            container_attributes:
+              class: form-group
+            label: Slug
+            attributes:
+              class: form-control
+
+          - type: Text
+            name: priority
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Priority
+            constraints:
+              type: Required
+        
+          - type: Text
+            name: description
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Description
+
+      - type: Fieldset
+        legend: Attributes
+        name: global_fields
+        elements:
+
+          - type: Block
+            tag: p
+            name: no_fields
+            content: No fields defined.
+
+  - type: Submit
+    container_tag:
+    name: submit_btn
+    value: Save
+    attributes:
+      class: "btn btn-primary"

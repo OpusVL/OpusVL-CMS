@@ -1,0 +1,50 @@
+---
+indicator: add_attribute
+auto_fieldset: 0
+#form_error_message: Oops, looks like there was a problem - please check below and try again.
+auto_constraint_class: constraint_%t
+
+elements:
+  - type: Block
+    id: controls
+    attributes:
+      class: "content_block"
+    elements:
+      - type: Fieldset 
+        elements:
+          - type: Text
+            name: attr_name
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+              placeholder: Attribute name (e.g. font size)
+            label: Name
+            constraints:
+              - type: Required
+
+          - type: Text
+            name: attr_descr
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+              placeholder: What the field is for, where is it used, etc...
+            label: Description
+            constraints:
+              - type: Required
+
+          - type: Text
+            name: attr_value
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+              placeholder: Default value - may be empty.
+            label: Value
+
+  - type: Submit
+    name: add_attribute
+    value: Add attribute
+    attributes:
+      class: "btn btn-primary"

@@ -1,0 +1,130 @@
+
+<link rel="stylesheet" href="/static/css/editor.css" type="text/css">
+
+<table class="table insert-element hidden pages">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody data-insert-text="cms.page_by_url('$slug')">
+        [% FOREACH p IN pages %]
+            <tr>
+                <td>[% p.id %]</td>
+                <td><a rel="[% p.url %]" href="javascript:void(0);"
+                    title="[% p.title %]"
+                    class="insert-element">[% p.title.truncate(20, '…') %]</a></td>
+                <td>[% p.description %]</td>
+            </tr>
+        [% END %]
+    </tbody>
+</table>
+
+<table class="table insert-element hidden assets">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody data-insert-text="cms.asset('$slug')">
+        [% FOREACH a IN assets %]
+            <tr>
+                <td>[% a.id %]</td>
+                <td>
+                  <a rel="[% a.slug %]" href="javascript:void(0);"
+                    title="[% a.filename %]"
+                    class="insert-element">[% a.filename.truncate(20, '…') 
+                  %]</a>
+                </td>
+                <td>[% a.description %]</td>
+            </tr>
+        [% END %]
+    </tbody>
+</table>
+
+<table class="table insert-element hidden attachments">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody data-insert-text="cms.attachment('$slug')">
+        [% FOREACH a IN attachments %]
+            <tr>
+                <td>[% a.id %]</td>
+                <td>
+                  <a rel="[% a.slug %]" href="javascript:void(0);"
+                    title="[% a.filename %]"
+                    class="insert-element">[% a.filename.truncate(20, '…') 
+                    %]</a>
+                </td>
+                <td>[% a.description %]</td>
+            </tr>
+        [% END %]
+    </tbody>
+</table>
+
+<table class="table insert-element hidden elements">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Slug</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody data-insert-text="cms.element('$slug', $data) | eval">
+        [% FOREACH e IN elements %]
+            <tr>
+                <td>[% e.id %]</td>
+                <td>[% e.slug %]</td>
+                <td><a rel="[% e.slug %]" href="javascript:void(0);"
+                    title="[% e.name %]"
+                    class="insert-element">[% e.name.truncate(20, '…') %]</a>
+                [% IF e.tt_get_attributes.size > 0 %]
+                 (<a rel=".attribute-options-[% e.id %]" class="collapse-element-attributes link" href="javascript:void(0);">Show attributes</a>)
+                <div class="attribute-options-[% e.id %]" style="display:none">
+                    <br />
+                    <form>
+                    [% FOREACH el_attr IN e.tt_get_attributes %]
+                            <div class="form-group">
+                                <label>[% el_attr.code %]</label>
+                                <input type="text" class="form-control element-attribute element-attribute-[% e.id %]" rel="[% el_attr.code %]" value="">
+                            </div>
+                    [% END %]
+                    </form>
+                </div>
+            [% END %]
+                </td>
+            </tr>
+        [% END %]
+    </tbody>
+</table>
+
+<table class="table insert-element hidden attributes">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody data-insert-text="cms.site_attr('$slug')">
+        [% FOREACH att IN site_attributes %]
+            <tr>
+                <td>[% att.id %]</td>
+                <td><a rel="[% att.code %]" href="javascript:void(0);"
+                    title="[% att.name %]"
+                    class="insert-element">[% att.name.truncate(20, '…')%]</a></td>
+                <td>[% att.value %]</td>
+            </tr>
+        [% END %]
+    </tbody>
+</table>
+
+<script type="text/javascript" src="/static/js/editor.js"></script>

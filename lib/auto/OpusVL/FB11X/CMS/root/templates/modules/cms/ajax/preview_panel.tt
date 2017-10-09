@@ -1,0 +1,45 @@
+<style type="text/css">
+  #cms-admin-preview-panel {
+    z-index: 2147483647;
+    background-color: #000;
+    color: #fff;
+    font-family: Verdana, "Bitstream Vera Sans", "DejaVu Sans", Tahoma, Geneva, Arial, Sans-serif;
+    font-size:12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+
+  #cms-admin-preview-panel a {
+    text-decoration:none !important;
+    font-weight: bold !important;
+    color: #fff;
+  }
+
+  #cms-admin-preview-panel a:hover {
+    text-decoration: overline underline;
+    font-weight:bold !important;
+    color: #82FA58;
+  }
+</style>
+
+<div id="cms-admin-preview-panel">
+  [[% me.url %] preview options] 
+  <a id="preview-save" href="javascript:void(0);">Publish</a> | 
+  <a id="preview-cancel" href="javascript:void(0);">Cancel</a>
+</div>
+
+<script type="text/javascript" src="[% c.uri_for('/static/js/jquery.js') %]"></script>
+<script type="text/javascript">
+  $(function() {
+    $('#preview-save').click(function() {
+      window.top.location.replace("[% c.uri_for(c.controller('Modules::CMS::Pages').action_for('save_preview'), [ site.id, page.id]) %]?content=[% c.req.param('content') %]");
+    });
+
+    $('#preview-cancel').click(function() {
+      javascript:history.go(-1);
+    });
+  });
+</script>

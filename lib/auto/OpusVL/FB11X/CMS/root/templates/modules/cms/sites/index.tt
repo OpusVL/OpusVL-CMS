@@ -1,0 +1,194 @@
+<div class="fb11-card">
+    <h1>Site Profiles</h1>
+    <table class="table table-striped datatable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th data-priority="1">Profile Name</th>
+          <th data-priority="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        [% FOREACH profile IN profiles %]
+          <tr class="site_[% profile.id %]">
+            <td class="field field-id data-number">
+              [% profile.id %]
+            </td>
+            <td class="field field-name data-text data-link">
+              <a href="[% c.uri_for(c.controller.action_for('edit'), [
+                profile.id ]) %]">[% profile.name %]</a>
+            </td>
+            <td class="actions">
+              <div class="btn-group" role="group" aria-label="Actions">
+                <a 
+                  href="[% c.uri_for(c.controller.action_for('edit'), [ profile.id ]) %]"
+                  title="Edit"
+                  class="btn btn-primary"
+                >
+                  <i class="fa fa-pencil"></i> Edit
+                </a>
+                <a 
+                  href="[%
+                    c.uri_for(c.controller('Modules::CMS::Templates').action_for('index'),
+                  [ profile.id ]) %]"
+                  title="View Templates"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-code"></i> Templates
+                </a>
+                <a href="[%
+                  c.uri_for(c.controller('Modules::CMS::Pages').action_for('index'),
+                  [ profile.id ]) %]"
+                  title="View Pages"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-file-o"></i> Pages
+                </a>
+                <a href="[%
+                  c.uri_for(c.controller('Modules::CMS::Elements').action_for('index'),
+                  [ profile.id ]) %]"
+                  title="View Elements"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-object-group"></i> Elements
+                </a>
+                <a href="[%
+                  c.uri_for(c.controller('Modules::CMS::Assets').action_for('index'),
+                  [ profile.id ]) %]"
+                  title="View Assets"
+                  class="btn btn-default"
+                >
+                  <i class="fa fa-picture-o"></i> Assets
+                </a>
+                <a
+                  href="[% c.uri_for(c.controller.action_for('delete_site'), [ profile.id ]) %]"
+                  title="Delete"
+                  class="btn btn-danger"
+                >
+                  <i class="fa fa-trash"></i> Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+        [% END %]
+      </tbody>
+    </table>
+    <a class="btn btn-primary" href="[%
+      c.uri_for(c.controller.action_for('add_profile')) %]">New Profile</a>
+</div>
+
+<div class="fb11-card">
+  <h1>Sites</h1>
+  <table class="table table-striped datatable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th data-priority="1">Site Name</th>
+        <th>Master Domain</th>
+        <th>Profile</th>
+        <th data-priority="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      [% FOREACH site IN sites %]
+        [% IF site.status != 'active'; NEXT; END %]
+
+        <tr class="site_[% site.id %]">
+          <td>
+            [% site.id %]
+          </td>
+          <td>
+            <a href="[% c.uri_for(c.controller.action_for('edit'), [ site.id ]) %]">[% site.name %]</a>
+          </td>
+          <td>
+            [% IF site.master_domain %]
+              <a href="[%
+                c.uri_for(c.controller('Modules::CMS::Domains').action_for('edit'), [ site.id, site.master_domain.id ]) %]">[% site.master_domain.domain %]</a>
+            [% END %]
+          </td>
+          <td>
+            [% IF site.profile_site %]
+              [% site.profile.name %]
+            [% ELSE %]
+              &nbsp;
+            [% END %]
+          </td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Actions">
+              <a 
+                href="[% c.uri_for(c.controller.action_for('edit'), [ site.id ]) %]"
+                title="Edit"
+                class="btn btn-primary"
+              >
+                <i class="fa fa-pencil"></i> Edit
+              </a>
+              <a 
+                href="[%
+                  c.uri_for(c.controller('Modules::CMS::Templates').action_for('index'),
+                [ site.id ]) %]"
+                title="View Templates"
+                class="btn btn-default"
+              >
+                <i class="fa fa-code"></i> Templates
+              </a>
+              <a href="[%
+                c.uri_for(c.controller('Modules::CMS::Pages').action_for('index'),
+                [ site.id ]) %]"
+                title="View Pages"
+                class="btn btn-default"
+              >
+                <i class="fa fa-file-o"></i> Pages
+              </a>
+              <a href="[%
+                c.uri_for(c.controller('Modules::CMS::Elements').action_for('index'),
+                [ site.id ]) %]"
+                title="View Elements"
+                class="btn btn-default"
+              >
+                <i class="fa fa-object-group"></i> Elements
+              </a>
+              <a href="[%
+                c.uri_for(c.controller('Modules::CMS::Assets').action_for('index'),
+                [ site.id ]) %]"
+                title="View Assets"
+                class="btn btn-default"
+              >
+                <i class="fa fa-picture-o"></i> Assets
+              </a>
+              <a
+                href="[% c.uri_for(c.controller.action_for('delete_site'), [ site.id ]) %]"
+                title="Delete"
+                class="btn btn-danger"
+              >
+                <i class="fa fa-trash"></i> Delete
+              </a>
+            </div>
+          </td>
+        </tr>
+      [% END %]
+    </tbody>
+  </table>
+  <a class="btn btn-primary" href="[%
+    c.uri_for(c.controller.action_for('add_site')) %]">New Site</a>
+</div>
+
+<script type="text/javascript">
+function delete_site(site_id, site_name) {
+  var ans = confirm("Do you really want to delete " + site_name + "?");
+	if (ans === true) {
+		var posting = $.post("[% c.uri_for(c.controller.action_for('delete_site')) %]/" + site_id);
+        posting.done(function(data) {
+            console.log(data);
+            // remove the site.
+            if(data.match(/Successfully removed/))
+            {
+                $('tr.site_' + site_id).remove();
+            }
+            else
+            {
+                // FIXME: display an error.
+            }
+        });
+	}
+}
+</script>

@@ -1,0 +1,8 @@
+<div class="fb11-card">
+  <h1>Really delete attribute <strong>[% attribute.name %]</strong>?</h1>
+  <p>[% attribute.description %]</p>
+  <form method="post">
+    <a class="btn btn-primary" href="[% c.uri_for(c.controller.action_for('manage_attributes'), [ site.id ]) %]">Cancel</a>
+    <button class="btn btn-danger">Delete</button>
+  </form>
+</div>

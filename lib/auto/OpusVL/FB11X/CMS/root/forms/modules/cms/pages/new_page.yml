@@ -1,0 +1,144 @@
+---
+#indicator: submit
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+
+elements:
+  - type: Block
+    id: controls
+    attributes:
+      class: "content_block"
+    elements:
+      - type: Fieldset
+        legend: Page details
+        elements:
+          - type: Text
+            name: title
+            container_attributes:
+              class: form-group
+            label: Title *
+            attributes:
+              class: form-control
+              id: page_title
+            constraints:
+              - type: Required
+          
+          - type: Hidden
+            name: site
+
+          - type: Text
+            name: url
+            container_attributes:
+              class: form-group
+            label: URL *
+            attributes:
+              class: form-control
+              id: page_url
+            constraints:
+              - type: Required
+              - type: Callback
+                message: "URL already exists"
+          
+          - type: Select
+            name: parent
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Parent
+            empty_first: true
+
+          - type: Select
+            name: template
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Template
+          
+          - type: Select
+            name: markup_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Markup Type
+            
+          - type: Text
+            name: breadcrumb
+            container_attributes:
+              class: form-group
+            label: Breadcrumb *
+            attributes:
+              class: form-control
+              id: page_breadcrumb
+            constraints:
+              - type: Required
+          
+          - type: Text
+            name: content_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Content type *
+            constraints:
+              - type: Required        
+
+          - type: Text
+            name: h1
+            container_attributes:
+              class: form-group
+            label: H1 Heading
+            attributes:
+              class: form-control
+              id: page_heading
+          
+          - type: Text
+            name: priority
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Priority *
+            default: 50
+            constraints:
+              - type: Required
+          
+          - type: Text
+            name: description
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Description
+
+          - type: Block
+            attributes:
+                id: "editor-controls"
+
+          - type: Textarea
+            label: Page content
+            name: content
+            container_attributes:
+              class: form-group
+            attributes:
+              rows: 50
+              class: form-control
+              id: wysiwyg
+              style: "width: 584px;"
+            constraints:
+              - type: Required
+
+  - type: Submit
+    name: submit_page
+    value: Create page
+    attributes:
+      class: "btn btn-primary"
+
+  - type: Submit
+    container_tag:
+    name: preview
+    value: Preview
+    attributes:
+      class: "btn btn-success"

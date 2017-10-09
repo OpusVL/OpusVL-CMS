@@ -1,0 +1,7 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>New asset</h1>
+  [% form.render | none %]
+</div>
+

@@ -1,0 +1,42 @@
+---
+indicator: submit_btn
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+
+elements:
+  - type: Block
+    id: controls
+    attributes:
+      class: "content_block"
+    elements:
+      - type: Fieldset
+        legend: Template details
+        elements:
+          - type: Text
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            name: name
+            label: Name *
+            constraints:
+              - type: Required
+
+          - type: Block
+            attributes:
+                id: "editor-controls"
+
+          - type: Textarea
+            name: content
+            container_attributes:
+              class: form-group
+            attributes:
+              id: wysiwyg
+              class: form-control code
+
+  - type: Submit
+    container_tag:
+    name: submit_btn
+    value: Create template
+    attributes:
+      class: "btn btn-primary"

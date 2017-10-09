@@ -1,0 +1,29 @@
+[% INCLUDE modules/cms/header.tt %]
+[% PROCESS modules/cms/preprocess.tt %]
+<script>
+  $(function() {
+      var preview = $('#dz-preview-template');
+      preview.remove();
+      preview.removeAttr('id');
+
+      Dropzone.options.newAssetUpload = {
+        previewTemplate: $('<div/>').append(preview).html()
+      };
+  });
+</script>
+
+<div class="js-tabs">
+  <div class="fb11-card js-tab">
+    <h1>Upload Assets</h1>
+    [% 
+      INCLUDE 'fb11/widgets/uploadify.tt' 
+      action=c.uri_for(c.controller.action_for('upload_assets'), [site.id]) 
+    %]
+    <a class="btn btn-primary" href="[%
+    c.uri_for(c.controller.action_for('index'), [site.id]) %]">« Back to Assets</a>
+  </div>
+  <div class="fb11-card js-tab">
+    <h1>Create Asset</h1>
+    [% form.render | none %]
+  </div>
+</div>

@@ -1,0 +1,408 @@
+---
+indicator: submit
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+attributes:
+  class: form-horizontal
+
+elements:
+  - type: Block
+    attributes:
+      class: "content_block"
+    elements:
+      - type: Fieldset
+        legend: "Existing attributes"
+        name: current_page_attributes
+        elements:
+          - type: Hidden
+            name: page_element_count
+
+          - type: Repeatable
+            name: page_rep
+            counter_name: page_element_count
+            attributes: 
+              class: rep
+            elements:
+              
+              - type: Multi
+                container_attributes:
+                  class: filter form-group
+                elements:
+                  - type: Hidden
+                    name: page_id
+              
+                  - type: Text
+                    name: page_name
+                    attributes:
+                      class: form-control
+                    label: Name
+                    constraints:
+                      - type: Required
+                    attributes:
+                      title: ""
+
+                  - type: Select
+                    name: page_type
+                    attributes:
+                      class: form-control
+                    label: Type
+                    force_default: 1
+                    attributes:
+                      readonly: readonly
+                      disabled: disabled
+                      class: type_selection
+                    options: 
+                     - [ 'text', 'Text' ]
+                     - [ 'html', 'HTML' ]
+                     - [ 'number', 'Number' ]
+                     - [ 'boolean', 'Boolean' ]
+                     - [ 'date', 'Date' ]
+                     - [ 'select', 'Select' ]
+                     - [ 'integer', 'Integer' ]
+
+                  - type: Checkbox
+                    name: page_cascade
+                    label: Cascade
+                    container_attributes:
+                      class: checkbox
+                    layout:
+                     - label:
+                         - field
+                         - label_text
+                     - comment
+                     - errors
+                     - javascript
+
+                  - type: Checkbox
+                    name: page_delete
+                    label: Delete
+                    container_attributes:
+                      class: checkbox
+                    layout:
+                     - label:
+                         - field
+                         - label_text
+                     - comment
+                     - errors
+                     - javascript
+
+                  - type: Label
+                    tag: a
+                    value: Edit values
+                    name: page_link
+                    attributes:
+                      href: ""
+
+      - type: Fieldset
+        legend: "New attribute"
+        name: new_page_attribute
+        elements:
+              
+          - type: Hidden
+            name: page_active
+            value: 1
+
+          - type: Text
+            name: page_code
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Code *
+            constraints:
+              - type: Regex
+                regex: '^[\w_]+$'
+                message: Code can only contain letters, numbers and underscores. 
+              - type: DBIC::Unique
+                model: CMS
+                resultset: PageAttributeDetail
+                column: code
+                message: This code is already in use
+                others: site_id
+
+          - type: Text
+            name: page_name
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Name *
+
+          - type: Select
+            name: page_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Type
+            options: 
+             - [ 'text', 'Text' ]
+             - [ 'html', 'HTML' ]
+             - [ 'number', 'Number' ]
+             - [ 'boolean', 'Boolean' ]
+             - [ 'date', 'Date' ]
+             - [ 'select', 'Select' ]
+             - [ 'integer', 'Integer' ]
+
+          - type: Checkbox
+            name: page_cascade
+            label: Cascade to child pages?
+            container_attributes:
+              class: checkbox
+            layout:
+             - label:
+                 - field
+                 - label_text
+             - comment
+             - errors
+             - javascript
+
+      - type: Fieldset
+        legend: "Existing attributes"
+        name: current_attachment_attributes
+        elements:
+          - type: Hidden
+            name: attachment_element_count
+
+          - type: Repeatable
+            name: attachment_rep
+            counter_name: attachment_element_count
+            attributes: 
+              class: rep
+            elements:
+              
+              - type: Multi
+                container_attributes:
+                  class: filter
+                elements:
+                  - type: Hidden
+                    name: attachment_id
+              
+                  - type: Text
+                    name: attachment_name
+                    container_attributes:
+                      class: form-group
+                    attributes:
+                      class: form-control
+                    label: Name
+                    constraints:
+                      - type: Required
+                    attributes:
+                      title: ""
+
+                  - type: Select
+                    name: attachment_type
+                    container_attributes:
+                      class: form-group
+                    attributes:
+                      class: form-control
+                    label: Type
+                    force_default: 1
+                    attributes:
+                      readonly: readonly
+                      disabled: disabled
+                      class: type_selection
+                    options: 
+                     - [ 'text', 'Text' ]
+                     - [ 'html', 'HTML' ]
+                     - [ 'number', 'Number' ]
+                     - [ 'boolean', 'Boolean' ]
+                     - [ 'date', 'Date' ]
+                     - [ 'select', 'Select' ]
+                     - [ 'integer', 'Integer' ]
+
+                  - type: Checkbox
+                    name: attachment_delete
+                    label: Delete
+                    container_attributes:
+                      class: checkbox
+                    layout:
+                     - label:
+                         - field
+                         - label_text
+                     - comment
+                     - errors
+                     - javascript
+
+                  - type: Label
+                    tag: a
+                    value: Edit values
+                    name: attachment_link
+                    attributes:
+                      href: ""
+
+      - type: Fieldset
+        legend: "New attribute"
+        name: new_attachment_attribute
+        elements:
+              
+          - type: Hidden
+            name: attachment_active
+            value: 1
+
+          - type: Hidden
+            name: site_id
+
+          - type: Text
+            name: attachment_code
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Code *
+            constraints:
+              - type: Regex
+                regex: '^[\w_]+$'
+                message: Code can only contain letters, numbers and underscores. 
+              - type: DBIC::Unique
+                model: CMS
+                resultset: AttachmentAttributeDetail
+                column: code
+                message: This code is already in use
+                others: site_id
+
+          - type: Text
+            name: attachment_name
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Name *
+
+          - type: Select
+            name: attachment_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Type
+            options: 
+             - [ 'text', 'Text' ]
+             - [ 'html', 'HTML' ]
+             - [ 'number', 'Number' ]
+             - [ 'boolean', 'Boolean' ]
+             - [ 'date', 'Date' ]
+             - [ 'select', 'Select' ]
+             - [ 'integer', 'Integer' ]
+
+      - type: Fieldset
+        legend: "Existing attributes"
+        name: current_asset_attributes
+        elements:
+          - type: Hidden
+            name: asset_element_count
+
+          - type: Repeatable
+            name: asset_rep
+            counter_name: asset_element_count
+            attributes: 
+              class: rep
+            elements:
+              
+              - type: Multi
+                container_attributes:
+                  class: filter
+                elements:
+                  - type: Hidden
+                    name: asset_id
+              
+                  - type: Text
+                    name: asset_name
+                    container_attributes:
+                      class: form-group
+                    attributes:
+                      class: form-control
+                    label: Name
+                    constraints:
+                      - type: Required
+                    attributes:
+                      title: ""
+
+                  - type: Select
+                    name: asset_type
+                    container_attributes:
+                      class: form-group
+                    attributes:
+                      class: form-control
+                    label: Type
+                    force_default: 1
+                    attributes:
+                      readonly: readonly
+                      disabled: disabled
+                      class: type_selection
+                    options: 
+                     - [ 'text', 'Text' ]
+                     - [ 'html', 'HTML' ]
+                     - [ 'number', 'Number' ]
+                     - [ 'boolean', 'Boolean' ]
+                     - [ 'date', 'Date' ]
+                     - [ 'select', 'Select' ]
+                     - [ 'integer', 'Integer' ]
+
+                  - type: Checkbox
+                    name: asset_delete
+                    label: Delete
+
+                  - type: Label
+                    tag: a
+                    value: Edit values
+                    name: asset_link
+                    attributes:
+                      href: ""
+
+      - type: Fieldset
+        legend: "New attribute"
+        name: new_asset_attribute
+        elements:
+              
+          - type: Hidden
+            name: asset_active
+            value: 1
+
+          - type: Text
+            name: asset_code
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Code *
+            #constraints:
+              #- type: Regex
+              #  regex: '^[\w_]+$'
+              #  message: Code can only contain letters, numbers and underscores. 
+              #- type: DBIC::Unique
+              # model: CMS
+              # resultset: AssetAttributeDetails
+              # column: code
+              # message: This code is already in use
+
+          - type: Text
+            name: asset_name
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Name *
+
+          - type: Select
+            name: asset_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Type
+            options: 
+             - [ 'text', 'Text' ]
+             - [ 'html', 'HTML' ]
+             - [ 'number', 'Number' ]
+             - [ 'boolean', 'Boolean' ]
+             - [ 'date', 'Date' ]
+             - [ 'select', 'Select' ]
+             - [ 'integer', 'Integer' ]
+
+  - type: Submit
+    container_tag:
+    name: submit
+    value: Save changes
+    attributes:
+      class: "btn btn-primary"

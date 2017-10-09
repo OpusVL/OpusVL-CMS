@@ -1,0 +1,30 @@
+[% INCLUDE modules/cms/header.tt title="Element Allow List for $user.username" %]
+
+<div class="fb11-card">
+  <h1>Element Allow List for [% user.username %]</h1>
+  <form action="" method="post">
+    <div class="content_block">
+      <fieldset>
+        <legend>Elements</legend>
+        <table class="table table-striped datatable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Allow</th>
+            </tr>
+          </thead>
+          <tbody>
+          [% FOREACH element IN elements %]
+          <tr>
+            <td>[% element.name %]</td>
+            <td><input type="checkbox" name="allow_element" value="[% element.id %]" [% IF element.allows_user(user.id) %]checked="checked"[% END %] /></td>
+          </tr>
+          [% END %]
+          </tbody>
+        </table>
+      </fieldset>
+    </div>
+
+    <input type="submit" class="submit submit_ok" name="submit" value="Update Permissions">
+  </form>
+</div>

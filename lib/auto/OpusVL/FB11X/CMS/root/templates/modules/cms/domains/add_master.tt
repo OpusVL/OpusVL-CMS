@@ -1,0 +1,5 @@
+[% INCLUDE modules/cms/header.tt %]
+<div class="fb11-card">
+  <h1>Add Master Domain for [% site.name %]</h1>
+  [% form.render | none %]
+</div>

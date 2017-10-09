@@ -1,0 +1,37 @@
+[% INCLUDE modules/cms/header.tt title="Manage Users" %]
+
+<div class="fb11-card">
+  <h1>Manage Users</h1>
+  <div class="content_block">
+    <fieldset>
+      <legend>Users</legend>
+      <table class="table table-striped datatable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          [% FOREACH site_user IN users %]
+            [% SET user = site_user.user %]
+            <tr>
+              <td>[% user.name %]</td>
+              <td>[% user.username %]</td>
+              <td>
+                [% IF c.can_access(c.controller('Modules::CMS::UserAccess').action_for('page_allow_list')) %]
+                  <a href="[% c.uri_for(c.controller('Modules::CMS::UserAccess').action_for('page_allow_list_multi'), site.id, user.id) %]">Allow Pages</a>
+                [% END %]
+
+                [% IF c.can_access(c.controller('Modules::CMS::UserAccess').action_for('element_allow_list')) %]
+                  | <a href="[% c.uri_for(c.controller('Modules::CMS::UserAccess').action_for('element_allow_list_multi'), site.id, user.id) %]">Allow Elements</a>
+                [% END %]
+              </td>
+            </tr>
+          [% END %]
+        </tbody>
+      </table>
+    </fieldset>	
+  </div>
+</div>

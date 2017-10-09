@@ -1,0 +1,53 @@
+[% IF c.req.param('type') == 'blog' %]
+	[% SET type = 'Blog' %]
+[% ELSE %]
+	[% SET type = 'Page' %]
+[% END %]
+
+[% IF is_a_post %][% SET type = 'Post' %][% END %]
+
+[% PROCESS modules/cms/preprocess.tt %]
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>New [% type %]</h1>
+  [% IF type == 'Blog' OR type == 'Post' %]
+    <a href="[% c.uri_for(c.controller.action_for('blogs'), [ site.id ]) %]"
+      class="btn btn-default"
+    >
+      <i class="fa fa-backward"></i>
+      Back to blogs
+    </a>
+  [% ELSE %]
+    <a href="[% c.uri_for(c.controller.action_for('index'), [ site.id ]) %]"
+      class="btn btn-default"
+    >
+      <i class="fa fa-backward"></i>
+      Back to pages
+    </a>
+  [% END %]
+
+  <div style="height:10px" class="clear"></div>
+  [% form.render | none %]
+</div>
+
+<script type="text/javascript">
+	$(function() {
+		var orig_page = $('#page_url').val();
+		if (orig_page.charAt(orig_page.length-1) == '/') {
+			orig_page = orig_page.slice(0, -1);
+		}
+    var url_change = function() {
+  		var str = $(this).val();
+  		$('#page_heading').val( str );
+  		$('#page_breadcrumb').val( str );
+
+  		str = str.replace(/[^\w\s]|-/g, "")
+         		.replace(/\s+/g, "_");
+      $('#page_url').val(orig_page + "/" + str.toLowerCase() );
+		};
+		$('#page_title').keyup(url_change).change(url_change);
+	});
+</script>
+
+[% INCLUDE modules/cms/pages/page_help_text.tt %]

@@ -1,0 +1,204 @@
+[% IF page.blog OR page.parent.blog %]
+  [% SET type = 'Blog' %]
+[% ELSE %]
+  [% SET type = 'Page' %]
+[% END %]
+
+[% PROCESS modules/cms/preprocess.tt %]
+[% INCLUDE modules/cms/header.tt %]
+
+[% form.start | none %]
+
+<div class="fb11-card">
+  <h1>Edit [% type %] <strong>[% page.title %]</strong></h1>
+  
+  <div class="row">
+    <div class="col-md-9 col-sm-12">
+      [% form.get_all_element('title').render | none %]</td>
+      [% form.get_all_element('url').render | none %]</td>
+      [% form.get_all_element('breadcrumb').render | none %]</td>
+    </div>
+
+    <div class="col-md-3 col-sm-12">
+      <a href="[%
+          c.uri_for(c.controller.action_for('new_page'), [ site.id ]) %]?parent_id=[% page.id %]"
+        class="btn btn-primary btn-block"
+      >
+        <i class="fa fa-plus"></i><i class="fa fa-file-o superpose"></i>
+        Create [% IF page.blog %]post[% ELSE %]child[% END %]
+      </a>
+
+      <a
+        href="[%
+        c.uri_for(c.controller.action_for('clone_page'), [ site.id, page.id ])
+        %]"
+        class="btn btn-primary btn-block"
+      >
+        <i class="fa fa-copy"></i>
+        Clone this page
+      </a>
+
+      [% IF (parent = page.parent) %]
+        <a href="[%
+            c.uri_for(c.controller.action_for('edit_page'), [ site.id, parent.id ])
+          %]"
+          class="btn btn-primary btn-block"
+          title="[% parent.blog ? parent.title : parent.breadcrumb %]"
+        >
+          <i class="fa fa-level-up"></i>
+          [% IF parent.blog %]
+            Go to blog
+          [% ELSE %]
+            Go to parent
+          [% END %]
+        </a>
+      [% END %]
+
+      [% IF page.blog OR page.parent.blog %]
+        <a href="[%
+          c.uri_for(c.controller.action_for('blogs'), [ site.id ])
+          %]"
+          class="btn btn-default btn-block"
+        >
+          <i class="fa fa-backward"></i>
+          Back to blogs
+        </a>
+      [% ELSE %]
+        <a href="[%
+          c.uri_for(c.controller.action_for('index'), [ site.id ])
+          %]"
+          class="btn btn-default btn-block"
+        >
+          <i class="fa fa-backward"></i>
+          Back to page list
+        </a>
+      [% END %]
+    </div>
+  </div>
+</div>
+
+<div class="js-tabs">
+  <div class="js-tab fb11-card">
+    <h1>Content</h1>
+    [% form.get_all_element( 'name' => 'page_content' ).render | none %]
+    <p><a href="javascript:void(0);" id="slide-change-note">Leave a reason for update?</a></p>
+    [% form.get_all_element( 'name' => 'note_changes_' ).render | none %]
+  </div>
+
+  <div class="js-tab fb11-card">
+    <h1>Metadata</h1>
+    [% form.get_all_element( 'name' => 'page_details' ).render | none %]
+    [% form.get_all_element('global_fields').render | none %]
+  </div>
+
+  <div class="js-tab fb11-card">
+    <h1>Attachments</h1>
+    <fieldset>
+      <legend>Existing attachments</legend>
+      [% IF page.get_attachments.size %]
+        <table class="table table-striped datatable">
+          <thead>
+            <tr>
+              <th data-priority="1">Filename</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Type</th>
+              <th>Tags</th>
+              <th data-priority="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          [% FOREACH attachment IN page.get_attachments %]
+            <tr>
+              <td>[% attachment.filename %]</td>
+              <td>[% attachment.description %]</td>
+              <td>[% attachment.priority %]</td>
+              <td>[% attachment.mime_type %]</td>
+              <td></td>
+              <td>
+                <a target="__blank" href="[% IF c.config.cms_base_url %][% c.config.cms_base_url %]/_attachment/[% attachment.id %]/[% attachment.filename %][% ELSE %][% c.uri_for(c.controller('Modules::CMS::Pages').action_for('_attachment'), site.id, attachment.id, attachment.filename) %][% END %]">View</a>
+                <a href="[% c.uri_for(c.controller.action_for('edit_attachment'), attachment.id) %]">Edit</a>
+                <a href="[% c.uri_for(c.controller.action_for('delete_attachment'), attachment.id) %]">Delete</a>
+              </td>
+            </tr>
+          [% END %]
+          </tbody>
+        </table>
+      [% ELSE %]
+        <p>This page has no attachments</p>
+      [% END %]
+    </fieldset>
+
+    [% form.get_all_element( 'name' => 'page_attachments' ).render | none %]
+  </div>
+
+  <div class="js-tab fb11-card">
+    <h1>Redirects</h1>
+    [% form.get_all_element( 'name' => 'page_aliases' ).render | none %]
+    [% form.get_all_element( 'name' => 'new_page_alias' ).render | none %]
+    <p class="help-text">Enter the absolute URL (with the leading slash) you wish to redirect to this page - if the leading slash is omitted it'll be prepended automatically.</p>
+  </div>
+
+  [% IF c.can_access(c.controller('Modules::CMS::UserAccess').action_for('page_allow_list')) %]
+    <div class="js-tab fb11-card">
+      <h1>Users</h1>
+      <fieldset>
+        <legend>Users allowed to modify [% page.title %]</legend>
+        [% IF page_users.size > 0 %]
+          <table class="table table-striped datatable">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            [% FOREACH puser IN page_users %]
+              <tr>
+                <td>[% puser.user.username %]</td>
+                <td>[% puser.user.name %]</td>
+                <td>
+                  <a href="[%
+                      c.uri_for(c.controller('Modules::CMS::UserAccess').action_for('page_revoke_permission'), site.id, page.id, puser.user.id)
+                    %]"
+                  >
+                    Revoke Permission
+                  </a>
+                </td>
+              </tr>
+            [% END %]
+            </tbody>
+          </table>
+        [% ELSE %]
+          <p>No users are allowed to modify this page</p>
+        [% END %]
+      </fieldset>
+
+      <fieldset>
+        <legend>Add users</legend>
+        <div class="form-group">
+          <label>Select users</label>
+          <select multiple="multiple" name="allow_users" class="form-control">
+            [% FOREACH site_user IN site_users %]
+              <option value="[% site_user.user.id %]">
+                [% site_user.user.username %] ([% site_user.user.name %])
+              </option>
+            [% END %]
+          </select>
+        </div>
+      </fieldset>
+    </div>
+  [% END %]
+</div>
+
+<div class="fb11-card-ancillary">
+  <div class="fb11-card">
+    [% form.get_all_element( 'name' => 'submit_page' ).render | none %]
+    [% form.get_all_element( 'name' => 'preview' ).render | none %]
+  </div>
+</div>
+
+[% form.end | none %]
+
+[% INCLUDE modules/cms/pages/page_help_text.tt %]

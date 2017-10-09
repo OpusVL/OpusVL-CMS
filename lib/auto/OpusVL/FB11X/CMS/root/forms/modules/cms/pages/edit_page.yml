@@ -1,0 +1,229 @@
+---
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+elements:
+  - type: Block
+    id: controls
+    attributes:
+      class: "content_block controls"
+    elements:
+      - type: Text
+        label: Title
+        name: title
+        container_attributes:
+          class: form-group
+        attributes:
+          class: form-control
+        constraints:
+          - type: Required
+      
+      - type: Text
+        label: Breadcrumb
+        name: breadcrumb
+        container_attributes:
+          class: form-group
+        attributes:
+          class: form-control
+        constraints:
+          - type: Required
+      
+      - type: Hidden
+        name: site
+
+      - type: Text
+        label: URL
+        name: url
+        container_attributes:
+          class: form-group
+        attributes:
+          class: form-control
+        constraints:
+          - type: Required
+          
+      - type: Fieldset
+        legend: Page details
+        name: page_details
+        elements:
+          - type: Select
+            name: parent
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Parent
+            empty_first: true
+
+          - type: Select
+            name: template
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Template
+          
+          - type: Select
+            name: markup_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Markup Type
+
+          - type: Text
+            name: priority
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Priority *
+            default: 50
+            constraints:
+              - type: Required
+
+          - type: Text
+            name: content_type
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Content type *
+            constraints:
+              - type: Required
+          
+          - type: Text
+            name: description
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Description
+
+      - type: Fieldset
+        legend: Update notes
+        name: note_changes_
+        attributes:
+          id: note_changes
+          style: "display:none;"
+        elements:
+          - type: Textarea
+            name: note_changes
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Description
+
+      - type: Fieldset
+        legend: Attributes
+        name: global_fields
+        elements:
+
+          - type: Block
+            tag: p
+            name: no_fields
+            content: No fields defined.
+
+      - type: Fieldset
+        legend: Page content
+        name: page_content
+        elements:
+          - type: Text
+            name: h1
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: H1 Heading
+          
+          - type: Block
+            elements:
+              - type: Block
+                attributes:
+                  id: "editor-controls"
+
+              - type: Textarea
+                name: content
+                container_attributes:
+                  class: form-group
+                cols: 71
+                attributes:
+                  class: form-control
+                  id: wysiwyg
+                constraints:
+                  - type: Required
+
+      - type: Fieldset
+        legend: New attachment
+        name: page_attachments
+        elements:
+          - type: File
+            name: new_att_file
+            label: Select file
+         
+          - type: Hidden
+            name: id
+
+          - type: Text
+            name: slug
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Slug
+            constraints:
+              - type: DBIC::Unique
+                model: CMS
+                resultset: Attachment
+                column: slug
+                id_field: id
+                message: Slug already in use
+ 
+          - type: Text
+            name: new_att_desc
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Description
+          
+          - type: Text
+            name: new_att_priority
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: Priority *
+            default: 50
+            constraints:
+              - type: Required
+              - type: Integer
+
+      - type: Fieldset
+        legend: Existing redirects
+        name: page_aliases
+
+      - type: Fieldset
+        legend: New redirect
+        name: new_page_alias
+        elements:
+          - type: Text
+            name: new_alias_url
+            container_attributes:
+              class: form-group
+            attributes:
+              class: form-control
+            label: URL *
+
+  - type: Submit
+    container_tag:
+    name: submit_page
+    value: Save
+    attributes:
+      class: "btn btn-primary"
+
+  - type: Submit
+    container_tag:
+    name: preview
+    value: Preview
+    attributes:
+      class: "btn btn-success"

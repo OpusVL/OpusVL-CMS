@@ -1,0 +1,69 @@
+---
+indicator: submit_btn
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+
+elements:
+  - type: Text
+    name: filename
+    container_attributes:
+      class: form-group
+    attributes:
+      class: form-control
+    label: Filename *
+    constraints:
+      - type: Required
+
+  - type: Select
+    name: mime_type
+    container_attributes:
+      class: form-group
+    label: MIME type *
+    attributes:
+      class: asset-mime-type form-control
+    options:
+      - ['text/css','text/css']
+      - ['text/javascript','text/javascript']
+      - ['text/plain','text/plain']
+      - ['text/html','text/html']
+
+  - type: Hidden
+    name: id
+
+  - type: Text
+    name: slug
+    container_attributes:
+      class: form-group
+    attributes:
+      class: form-control
+    label: Slug
+    constraints:
+      - type: DBIC::Unique
+        model: CMS
+        resultset: Asset
+        column: slug
+        id_field: id
+        message: Slug already in use
+
+  - type: Text
+    name: description
+    container_attributes:
+      class: form-group
+    attributes:
+      class: form-control
+    label: Description
+
+  - type: Textarea
+    name: content
+    container_attributes:
+      class: form-group
+    attributes:
+      id: wysiwyg
+      class: form-control code
+
+  - type: Submit
+    container_tag:
+    name: submit_btn
+    value: Create asset
+    attributes:
+      class: "btn btn-primary"

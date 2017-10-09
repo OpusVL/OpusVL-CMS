@@ -1,0 +1,25 @@
+[% USE date %]
+
+<div class="fb11-card">
+  <h1>Asset <strong>[% asset.filename %]</h1>
+    
+  <p>
+    Contents will be reverted to 
+    [% date.format(historical_content.created, "%d-%m-%Y %H:%M:%S") %]
+  </p>
+
+  [% form.render | none %]
+
+  [%# try to render the asset inline %]
+  [%# TRY %]
+    [% asset.as_html(
+      c.uri_for(
+        c.controller('Modules::CMS::Pages').action_for('_asset'),
+        site.id, asset.id, asset.filename
+      ),
+      1
+    ).as_HTML | none %]
+  [%# CATCH %
+    (No preview)
+  [% END %]
+</div>

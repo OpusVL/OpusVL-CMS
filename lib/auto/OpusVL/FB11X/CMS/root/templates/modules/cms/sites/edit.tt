@@ -1,0 +1,11 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1><strong>[% site.name %]</strong> Site Details</h1>
+  [% form.render | none %]
+</div>
+
+<form method="post" action="">
+  <button name="site_clone" value="yes" class="btn btn-large"><i class="icon icon-random"></i> Clone Site</button>
+  <button name="site_cache_clear" value="yes" class="btn btn-large"><i class="icon icon-random"></i> Clear Doughnut Cache</button>
+</form>

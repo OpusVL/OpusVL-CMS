@@ -1,0 +1,63 @@
+---
+indicator: submit
+auto_fieldset: 0
+form_error_message: Oops, looks like there was a problem - please check below and try again.
+
+elements:
+  - type: Fieldset
+    legend: Update file
+    name: content
+    elements:
+      - type: File
+        name: file
+        label: Select file
+
+  - type: Fieldset
+    legend: Metadata
+    name: metadata
+    
+    elements:
+      - type: Text
+        name: slug
+        container_attributes:
+          class: form-group
+        label: Slug
+        attributes:
+          class: form-control
+          disabled: disabled
+
+      - type: Text
+        name: description
+        container_attributes:
+          class: form-group
+        attributes:
+          class: form-control
+        label: Description
+      
+      - type: Text
+        name: priority
+        container_attributes:
+          class: form-group
+        attributes:
+          class: form-control
+        label: Priority *
+        constraints:
+          - type: Required
+          - type: Integer
+        
+  - type: Fieldset
+    legend: Attributes
+    name: global_fields
+    elements:
+
+      - type: Block
+        tag: p
+        name: no_fields
+        content: No fields defined.
+
+  - type: Submit
+    container_tag:
+    name: submit
+    value: Save
+    attributes:
+      class: "btn btn-primary"

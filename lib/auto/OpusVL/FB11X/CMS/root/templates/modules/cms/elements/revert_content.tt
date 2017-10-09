@@ -1,0 +1,16 @@
+[% USE date %]
+
+<div class="fb11-card">
+  <h1>Asset <strong>[% asset.name %]</h1>
+    
+  <p>
+    Contents will be reverted to 
+    [% date.format(historical_content.created, "%d-%m-%Y %H:%M:%S") %]
+  </p>
+
+  [% form.render | none %]
+
+  <pre>
+    [% historical_content.data | html %]
+  </pre>
+</div>

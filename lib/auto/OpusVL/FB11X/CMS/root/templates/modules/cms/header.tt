@@ -1,0 +1,70 @@
+[% BLOCK menu_option %]
+  [% SET c_action = c.controller(controller).action_for(action) %]
+  [% IF c.can_access(c_action) %]
+    [% IF not_chained %]
+    <li><a href="[% c.uri_for(c_action, site.id) %]">[% text %]</a></li>
+    [% ELSE %]
+    <li><a href="[% c.uri_for(c_action, [site.id]) %]">[% text %]</a></li>
+    [% END %]
+  [% END %]
+[% END %]
+
+[% site_or_profile = site.template ? 'Profile' : 'Site' %]
+
+<nav class="navbar navbar-static">
+  <ul class="nav [% IF site.template %]profile[% END %]">
+    <li class="brand dropdown">
+      <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+        [% site.name %]<b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="[%
+            c.uri_for(c.controller('Modules::CMS::Sites').action_for('edit'), [
+          site.id ]) %]">Edit [% site_or_profile %]</a>
+        </li>
+        <li>
+          <a class="change-site"
+            href="[% c.uri_for(c.controller('Modules::CMS::Sites').action_for('index')) %]">
+            <span>Change [% site_or_profile %]</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="brand inline">
+      <a href="[%
+        c.uri_for(c.controller('Modules::CMS::Sites').action_for('index')) %]">
+        <i class="fa fa-eject" title="Change site"></i>
+      </a>
+      <a href="[%
+        c.uri_for(c.controller('Modules::CMS::Sites').action_for('edit'), [
+      site.id ]) %]">[% site.name %]</a>
+    </li> 
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-black icon-edit"></i> Manage Content <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Templates').action_for('index'), [ site.id ]) %]">Templates</a></li>
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Pages').action_for('index'), [ site.id ]) %]">Pages</a></li>
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Elements').action_for('index'), [ site.id ]) %]">Elements</a></li>
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Assets').action_for('index'), [ site.id ]) %]">Assets</a></li>
+          <li class="divider"></li>
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Pages').action_for('blogs'), [ site.id ]) %]">Blogs</a></li>
+          <li><a href="[% c.uri_for(c.controller('Modules::CMS::Pages').action_for('orphan_pages'), [ site.id ]) %]">Orphan Pages</a></li>
+      </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+          class="icon-black icon-cog"></i>
+        [% site_or_profile %] Configuration <b class="caret"></b>
+      </a>
+      <ul class="dropdown-menu">
+          [% PROCESS menu_option controller='Modules::CMS::Domains' action='index' text='Domains' %]
+          [% PROCESS menu_option controller='Modules::CMS::Sites' action='manage_attributes' text=site_or_profile _ ' Attributes' %]
+          [% PROCESS menu_option controller='Modules::CMS::PageAttributes' action='index' text='Page/Attachment/Asset Attributes' %]
+          [% PROCESS menu_option controller='Modules::CMS::UserAccess' action='manage_users' text='Users' not_chained=1 %]
+          [% PROCESS menu_option controller='Modules::CMS::FormBuilder' action='index' text='Form Builder' not_chained=0 %]
+      </ul>
+    </li>
+  </ul>
+</nav>

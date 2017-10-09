@@ -1,0 +1,38 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>Elements</h1>
+
+  [% IF elements.size > 0 %]
+      <table class="table table-striped datatable">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th data-priority="1">Name</th>
+                  <th>Slug</th>
+                  <th data-priority="2">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              [% FOREACH element IN elements %]
+                  <tr>
+                      <td>[% element.id %]</td>
+                      <td>[% element.name %]</td>
+                      <td>[% element.slug %]</td>
+                      <td>
+                          <a href="[% c.uri_for(c.controller.action_for('edit_element'), [ site.id, element.id ]) %]">Edit</a>
+                          <a href="[% c.uri_for(c.controller.action_for('delete_element'), [ site.id, element.id ]) %]">Delete</a>
+                      </td>
+                  </tr>
+              [% END %]
+          </tbody>
+      </table>
+  [% ELSE %]
+      <p>No elements have been created</p>
+  [% END %]
+
+  <a class="btn btn-primary" href="[% c.uri_for(c.controller.action_for('new_element'), [ site.id ]) %]">
+    <i class="fa fa-plus-circle"></i>
+    New element
+  </a>
+</div>

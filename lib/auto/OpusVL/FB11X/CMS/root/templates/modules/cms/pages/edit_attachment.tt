@@ -1,0 +1,54 @@
+[% PROCESS modules/cms/preprocess.tt %]
+<div class="fb11-card">
+<h1>Edit attachment</h1>
+
+<a href="[% c.uri_for(c.controller.action_for('edit_page'), [ site.id,
+    attachment.page_id ]) %]"
+  class="btn btn-default"
+>
+  <i class="fa fa-level-up"></i>
+  Back to page
+</a>
+<div class="clear" style="height:10px"></div>
+[% form.start | none %]
+
+<div class="content_block tab_header">
+    <div class="column">
+        <table class="vertical_list">
+            <tr>
+                <th>Filename</th>
+                <td>[% attachment.filename %]</td>
+            </tr>
+            <tr>
+                <th>MIME type</th>
+                <td>[% attachment.mime_type %]</td>
+            </tr>
+        </table>
+    </div>
+    <div class="column">
+        <table class="vertical_list">
+            <tr>
+                <td colspan="2"><a href="[% IF c.config.cms_base_url %][% c.config.cms_base_url %]/_attachment/[% attachment.id %]/[% attachment.filename %][% ELSE %][% c.uri_for(c.controller('Root').action_for('_attachment'), site.id, attachment.id, attachment.filename) %][% END %]">View attachment</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="js-tabs">
+    
+    <div class="js-tab">
+        <h1>Content</h1>
+        [% form.get_all_element( 'name' => 'content' ).render | none %]
+    </div>
+
+    <div class="js-tab">
+        <h1>Metadata</h1>
+        [% form.get_all_element( 'name' => 'metadata' ).render | none %]
+        [% form.get_all_element( 'name' => 'global_fields' ).render | none %]
+    </div>
+</div>
+
+[% form.get_all_element( 'name' => 'submit' ).render | none %]
+[% form.get_all_element( 'name' => 'cancel' ).render | none %]
+[% form.end | none %]
+</div>

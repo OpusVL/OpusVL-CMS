@@ -1,0 +1,128 @@
+nav .nav>li.brand.dropdown {
+    display: block;
+}
+nav .nav>li.brand.inline {
+    display: none;
+}
+
+nav .nav.profile>li.brand {
+    background: #c7ffe0;
+}
+
+    nav .nav.profile>li.brand a {
+        color: #009240;
+    }
+
+@media (min-width: 550px) {
+    nav .nav>li.brand.dropdown {
+        display: none;
+    }
+    nav .nav>li.brand.inline {
+        display: inline-block;
+    }
+    nav .nav>li.brand.inline a {
+        display: inline-block;
+        box-shadow: 3px 0px 1px rgba(0,0,0,0.07);
+    }
+}
+nav .nav>li.change-site {
+    box-shadow: 0px 0px 3px rgba(0,0,0,0.14);
+}
+
+/************************ Pages ****************************/
+table:not(.dt-filtered):not(.dt-ordered) .record-page .field-url {
+    font-weight: bold;
+}
+table:not(.dt-filtered):not(.dt-ordered) .record-page {
+    display: none;
+}
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-1 {
+    display: table-row; /* not sure why 'initial' isn't working here */
+}
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-2,
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-3,
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-4
+{
+    border: none;
+}
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-1 {
+    background-color: #f3f3f3;
+}
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-2 td,
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-3 td,
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-4 td,
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-5 td
+{
+    border-top: 1px dashed #eee
+}
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-2 td:first-child {
+    padding-left: 16px;
+}
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page.level-3 td:first-child {
+    padding-left: 24px;
+}
+
+
+table:not(.dt-filtered):not(.dt-ordered) .record-page[data-parent] + .record-page.level-1
+{
+    border-top: 2px solid #ddd;
+}
+
+table.dt-ordered .record-page:nth-of-type(odd),
+table.dt-filtered .record-page:nth-of-type(odd) {
+    background-color: #f3f3f3;
+}
+
+table.dt-ordered .record-page .js-show-children,
+table.dt-filtered .record-page .js-show-children {
+    display: none;
+}
+
+table.dt-ordered .record-page .js-revision-history,
+table.dt-filtered .record-page .js-revision-history {
+    /* can't use @extends here because these actually *remove* border-radius
+     * instead of adding them */
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+}
+
+/* prevent weird button wrapping */
+table.records-pages td.actions {
+    min-width: 18em;
+}
+
+td > p.name, td> p.id {
+    margin: 0 0 0px;
+}
+
+td > p.id {
+    color: grey;
+    font-size: 75%;
+}
+
+td > input {
+    width: 100%
+}
+
+.constraint_required > label::after {
+    content: " required";
+    color: gray;
+    font-weight: initial;
+    font-style: italic;
+    padding-left: 5px;
+}
+
+/* TODO: Delete it from main style.css */
+
+.btn.btn, .form-control.form-control {
+    line-height:unset;
+}
+
+.btn.btn {
+    margin-right: 10px;
+}

@@ -1,0 +1,102 @@
+[% INCLUDE modules/cms/header.tt %]
+
+[% BLOCK page_row %]
+  <tr 
+    [% IF parent %]
+      rel="page-[% parent.id %]"
+      data-parent="[% parent.id %]"
+    [% END %]
+    class="record record-page level-[% level %]"
+    data-id="[% page.id %]"
+    data-level="[% level %]"
+  >
+    <td class="field field-url data-url">[% page.url %]</td>
+    <td class="field field-title data-text">[% page.title %]</td>
+    <td class="field field-priority data-number">[% page.priority %]</td>
+    <td class="actions">
+      <div class="btn-group" role="group" aria-label="Actions">
+        <a
+          href="[% c.uri_for(c.controller.action_for('edit_page'), [ site.id, page.id ]) %]"
+          title="Edit"
+          class="btn btn-default"
+        >
+          <i class="fa fa-pencil"></i>
+        </a>
+        <a 
+          href="[% c.uri_for(c.controller.action_for('delete_page'), [ site.id, page.id ]) %]"
+          title="Delete"
+          class="btn btn-default"
+        >
+          <i class="fa fa-trash"></i>
+        </a>
+        <a 
+          href="[% c.uri_for(c.controller.action_for('preview'), [ site.id, page.id ]) %]"
+          target="__blank"
+          title="Preview"
+          class="btn btn-default"
+        >
+          <i class="fa fa-eye"></i>
+        </a>
+        <a 
+          href="[% c.uri_for(c.controller.action_for('new_page'), [ site.id ]) %]?parent_id=[% page.id %]"
+          title="Create child"
+          class="btn btn-default"
+        >
+          <i class="fa fa-plus"></i><i class="fa fa-file-o superpose"></i>
+        </a>
+        <a 
+          href="[% c.uri_for(c.controller.action_for('revisions'), [ site.id, page.id ]) %]"
+          title="Revision History"
+          class="btn btn-default js-revision-history"
+        >
+          <i class="fa fa-clock-o"></i>
+        </a>
+        [% IF page.children.size > 0 %]
+          <a href="[% c.uri_for(c.controller.action_for('page_list'), [ site.id, page.id ]) %]"
+            title="View children"
+            class="btn btn-default js-show-children"
+          >
+            <i class="fa fa-level-down"></i>
+          </a>
+        [% END %]
+      </div>
+    </td>
+  </tr>
+  [% IF page.children.size %]
+    [% FOREACH child IN page.children %]
+      [% INCLUDE page_row parent=page page=child level=level+1 %]
+    [% END %]
+  [% END %]
+[% END %]
+
+<div class="fb11-card">
+  <h1>Pages</h1>
+  <div class="content_block">
+    [% IF pages.size > 0 %]
+      <table
+        class="table datatable records records-pages"
+        data-paging="false"
+        data-order="[]"
+      >
+        <thead>
+          <tr>
+            <th data-priority="1">URL</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th data-priority="2">Action</th>
+          </tr>
+        </thead>
+        [% FOREACH page IN pages %]
+          [% PROCESS page_row page=page level=1 %]
+        [% END %]
+      </table>
+    [% ELSE %]
+      <p>No pages have been created</p>
+    [% END %]
+  </div>
+
+  <a class="btn btn-primary" href="[% c.uri_for(c.controller.action_for('new_page'), [ site.id ]) %]">
+    <i class="fa fa-plus-circle"></i>
+    New page
+  </a>
+</div>

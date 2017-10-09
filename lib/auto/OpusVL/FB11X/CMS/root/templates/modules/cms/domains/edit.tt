@@ -1,0 +1,6 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>Managing domain [% domain.domain %]</h1>
+  [% form.render | none %]
+</div>

@@ -1,0 +1,16 @@
+<div class="fb11-card">
+  <h1>Note</h1>
+    <div class="content_block">
+      [%# HTML entities otherwise TT parses it %]
+      <p>To display a form use <code>&#x5B;&#x25;&#x20;&#x63;&#x6D;&#x73;&#x2E;&#x66;&#x6F;&#x72;&#x6D;&#x28;&#x22;&#x66;&#x6F;&#x72;&#x6D;&#x20;&#x6E;&#x61;&#x6D;&#x65;&#x22;&#x29;&#x2E;&#x72;&#x65;&#x6E;&#x64;&#x65;&#x72;&#x20;&#x7C;&#x20;&#x6E;&#x6F;&#x6E;&#x65;&#x20;&#x25;&#x5D;</code>, replacing <code>form name</code> with the name defined in the
+
+      [%# display as link if user has permissions for the form builder, otherwise just display as text %]
+      [% SET action = c.controller('Modules::CMS::FormBuilder').action_for('index') %]
+      [% IF c.can_access(action) %]
+        <a href="[% c.uri_for(action, [site.id]) %]">form builder</a>.
+      [% ELSE %]
+        form builder.
+      [% END %]
+      </p>
+    </div>
+</div>

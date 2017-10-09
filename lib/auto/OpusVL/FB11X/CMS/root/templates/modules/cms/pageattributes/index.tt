@@ -1,0 +1,43 @@
+[% INCLUDE modules/cms/header.tt %]
+
+[% form.start | none %]
+
+<div class="js-tabs">
+
+  <div class="js-tab fb11-card">
+    <h1>Pages</h1>
+    [% form.get_all_element( 'name' => 'current_page_attributes' ).render | none %]
+    [% form.get_all_element( 'name' => 'new_page_attribute' ).render | none %]
+  </div>
+
+  <div class="js-tab fb11-card">
+    <h1>Attachments</h1>
+    [% form.get_all_element( 'name' => 'current_attachment_attributes' ).render | none %]
+    [% form.get_all_element( 'name' => 'new_attachment_attribute' ).render | none %]
+  </div>
+
+  <div class="js-tab fb11-card">
+    <h1>Assets</h1>
+    [% form.get_all_element( 'name' => 'current_asset_attributes' ).render | none %]
+    [% form.get_all_element( 'name' => 'new_asset_attribute' ).render | none %]
+  </div>
+</div>
+
+
+
+<div class="fb11-card-ancillary">
+  <div class="fb11-card">
+    [% form.get_all_element( 'name' => 'submit' ).render | none %]
+    [% form.get_all_element( 'name' => 'cancel' ).render | none %]
+  </div>
+</div>
+[% form.end | none %]
+
+<a class="btn btn-default" 
+  href="[% 
+    c.uri_for(c.controller('Modules::CMS::Pages').action_for('index'), [ site.id ]) 
+  %]"
+>
+  <i class="fa fa-backward"></i>
+  Back to pages
+</a>

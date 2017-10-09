@@ -1,0 +1,36 @@
+[% INCLUDE modules/cms/header.tt %]
+
+<div class="fb11-card">
+  <h1>Templates</h1>
+  <div class="content_block">
+    [% IF templates.size > 0 %]
+    <table class="table table-striped datatable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      [% FOREACH template IN templates %]
+      <tr>
+        <td>[% template.name %]</td>
+        <td><a href="[% c.uri_for(c.controller('Modules::CMS::Templates').action_for('edit_template'), [ site.id, template.id ]) %]">Edit</a></td>
+      </tr>
+      [% END %]
+      </tbody>
+    </table>
+    [% ELSE %]
+    <p>No templates have been created</p>
+    [% END %]
+  </div>
+
+  <a class="btn btn-primary" 
+    href="[%
+      c.uri_for(c.controller.action_for('new_template'), [ site.id ])
+    %]"
+  >
+    <i class="fa fa-plus-circle"></i>
+    New template
+  </a>
+</div>
