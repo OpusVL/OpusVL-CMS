@@ -1,3 +1,5 @@
+# This tests that when you set a cached entity, you get that back. It's not
+# clear whether you're supposed to look for the cached entity explicitly.
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',

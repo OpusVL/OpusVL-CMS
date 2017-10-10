@@ -1,3 +1,5 @@
+# This tests that the priority field of child pages actually has an effect.
+# There is probably scope for testing more stuff than that.
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',

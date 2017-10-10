@@ -1,3 +1,5 @@
+# This tests that site, page, etc. attributes are correctly discovered when set
+# on the site or the profile, and are correctly overridden
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',

@@ -1,3 +1,4 @@
+# This tests that cascade deleting is set up correctly
 use Test::Requires qw/Test::PostgreSQL/;
 use Test::Most;
 use Test::DBIx::Class {

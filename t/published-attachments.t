@@ -1,3 +1,5 @@
+# This tests that deleted attachments don't get pulled back
+# This causes a lot of problems in reality. We should just delete stuff.
 use Test::Most;
 use Test::DBIx::Class {
     schema_class => 'OpusVL::CMS::Schema',
