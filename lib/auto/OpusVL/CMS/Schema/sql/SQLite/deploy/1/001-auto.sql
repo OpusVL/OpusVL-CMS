@@ -497,14 +497,6 @@ CREATE INDEX pages_idx_site ON pages (site);
 CREATE INDEX pages_idx_template_id ON pages (template_id);
 CREATE UNIQUE INDEX pages_url_site ON pages (url, site);
 --
--- Table: parameter
---
-CREATE TABLE parameter (
-  id INTEGER PRIMARY KEY NOT NULL,
-  data_type text NOT NULL,
-  parameter text NOT NULL
-);
---
 -- Table: plugins
 --
 CREATE TABLE plugins (
@@ -656,16 +648,6 @@ CREATE TABLE attachment_attribute_values (
 );
 CREATE INDEX attachment_attribute_values_idx_field_id ON attachment_attribute_values (field_id);
 --
--- Table: parameter_defaults
---
-CREATE TABLE parameter_defaults (
-  id INTEGER PRIMARY KEY NOT NULL,
-  parameter_id integer NOT NULL,
-  data text,
-  FOREIGN KEY (parameter_id) REFERENCES parameter(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX parameter_defaults_idx_parameter_id ON parameter_defaults (parameter_id);
---
 -- Table: users_data
 --
 CREATE TABLE users_data (
@@ -688,19 +670,6 @@ CREATE TABLE aclrule_role (
 );
 CREATE INDEX aclrule_role_idx_aclrule_id ON aclrule_role (aclrule_id);
 CREATE INDEX aclrule_role_idx_role_id ON aclrule_role (role_id);
---
--- Table: users_parameter
---
-CREATE TABLE users_parameter (
-  users_id integer NOT NULL,
-  parameter_id integer NOT NULL,
-  value text NOT NULL,
-  PRIMARY KEY (users_id, parameter_id),
-  FOREIGN KEY (parameter_id) REFERENCES parameter(id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-CREATE INDEX users_parameter_idx_parameter_id ON users_parameter (parameter_id);
-CREATE INDEX users_parameter_idx_users_id ON users_parameter (users_id);
 --
 -- Table: users_role
 --

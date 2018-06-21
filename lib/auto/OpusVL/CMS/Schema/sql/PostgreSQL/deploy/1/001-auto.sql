@@ -525,17 +525,6 @@ CREATE INDEX "pages_idx_template_id" on "pages" ("template_id");
 
 ;
 --
--- Table: parameter
---
-CREATE TABLE "parameter" (
-  "id" serial NOT NULL,
-  "data_type" text NOT NULL,
-  "parameter" text NOT NULL,
-  PRIMARY KEY ("id")
-);
-
-;
---
 -- Table: plugins
 --
 CREATE TABLE "plugins" (
