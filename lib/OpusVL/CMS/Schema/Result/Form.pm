@@ -23,13 +23,17 @@ use Scalar::IfDefined qw/$ifdef/;
 extends 'DBIx::Class::Core';
 
 use Sort::Naturally;
-use Captcha::reCAPTCHA;
+use Captcha::noCAPTCHA;
 use Email::MIME;
 use Email::Sender::Simple qw(sendmail);
 
 has 'recaptcha_object' => (
     is      => 'rw',
-    default => sub { Captcha::reCAPTCHA->new }
+    lazy    => 1,
+    default => sub { Captcha::noCAPTCHA->new(
+        site_key => $_[0]->recaptcha_public_key,
+        secret_key => $_[0]->recaptcha_private_key,
+    )}
 );
 
 =head1 COMPONENTS LOADED
@@ -113,12 +117,14 @@ __PACKAGE__->add_columns(
   { data_type => "boolean", default_value => \"false", is_nullable => 0 },
   "recaptcha_public_key",
   {
+    label => "ReCAPTCHA site key",
     data_type   => "text",
     is_nullable => 1,
     original    => { data_type => "varchar" },
   },
   "recaptcha_private_key",
   {
+    label => "ReCAPTCHA secret key",
     data_type   => "text",
     is_nullable => 1,
     original    => { data_type => "varchar" },
@@ -323,18 +329,7 @@ sub field {
             }
             elsif (/Submit/) {
                 if ($self->recaptcha) {
-                    $self->recaptcha_object( Captcha::reCAPTCHA->new );
-                    if ($self->ssl) {
-                        $build_row .= $self->recaptcha_object->get_html(
-                            $self->recaptcha_public_key,
-                            undef,
-                            1,
-                            {}
-                        );
-                    }
-                    else {
-                        $build_row .= $self->recaptcha_object->get_html( $self->recaptcha_public_key );
-                    }
+                    $build_row .= $self->recaptcha_object->html;
                 }
                 $row = [
                     div => { class => 'form-group' },
@@ -419,22 +414,12 @@ sub validate {
   my ($self, $params, $remote_addr) = @_;
   my @errors;
   if ($self->recaptcha) {
-    $self->recaptcha_object( Captcha::reCAPTCHA->new );
-    my $result = $self->recaptcha_object->check_answer(
-     $self->recaptcha_private_key, $remote_addr,
-      $params->{recaptcha_challenge_field}, $params->{recaptcha_response_field}
+    my $result = $self->recaptcha_object->verify(
+      $params->{'g-recaptcha-response'}, $c->req->address
     );
-   
-    if ($result->{error} and $result->{error} eq "invalid-site-private-key") {
-      push @errors,
-        "The private key sent was invalid";
-    }
-    else {
-      if (not $result->{is_valid}) {
-        push @errors,
-          "You did not enter the words in the reCAPTCHA correctly";
-      }
-    }
+
+    push @errors, "Invalid CAPTCHA. Please try again"
+      unless $result;
   }
  
   for my $field ($self->forms_fields->all) {

@@ -1,4 +1,4 @@
-requires 'Captcha::reCAPTCHA';
+requires 'Captcha::noCAPTCHA';
 requires 'DateTime::Format::Pg';
 requires 'DBIx::Class::Helpers';
 requires 'DBIx::Class::TimeStamp';
