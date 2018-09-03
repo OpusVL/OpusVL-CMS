@@ -1,6 +1,6 @@
 use utf8;
 package OpusVL::CMS::Schema::Result::RedirectDomain;
-our $VERSION = '65';
+our $VERSION = '66';
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE

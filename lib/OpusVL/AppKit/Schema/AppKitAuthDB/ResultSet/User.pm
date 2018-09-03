@@ -1,5 +1,5 @@
 package OpusVL::AppKit::Schema::AppKitAuthDB::ResultSet::User;
-our $VERSION = '65';
+our $VERSION = '66';
 
 use Moose;
 extends 'DBIx::Class::ResultSet';
