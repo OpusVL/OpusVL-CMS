@@ -415,7 +415,7 @@ sub validate {
   my @errors;
   if ($self->recaptcha) {
     my $result = $self->recaptcha_object->verify(
-      $params->{'g-recaptcha-response'}, $c->req->address
+      $params->{'g-recaptcha-response'}, $remote_addr
     );
 
     push @errors, "Invalid CAPTCHA. Please try again"
