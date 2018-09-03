@@ -2,6 +2,10 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+66        2018-09-03 18:36:43+01:00 Europe/London
+
+  - Fixed compiler error and maybe it's enough
+
 65        2018-09-03 17:25:34+01:00 Europe/London
 
   - Removed all FB11 tables from the schema, but munged the migrations so they
