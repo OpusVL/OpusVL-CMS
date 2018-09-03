@@ -2,6 +2,13 @@ Revision history for OpusVL-CMS
 
 {{ $NEXT }}
 
+65        2018-09-03 17:25:34+01:00 Europe/London
+
+  - Removed all FB11 tables from the schema, but munged the migrations so they
+    don't get removed when you upgrade
+  - Form builder now uses Captcha::noCAPTCHA instead of the discontinued
+    reCAPTCHA
+
 64        2017-07-27 10:16:32+01:00 Europe/London
 
   - Form builder rework. Forms now store the ID of the redirect page on the form
