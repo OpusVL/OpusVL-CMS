@@ -15,6 +15,7 @@ use Moose;
 use feature 'switch';
 use experimental 'switch';
 
+use Try::Tiny;
 use HTML::Element;
 use Switch::Plain;
 use List::Gather;
@@ -30,10 +31,10 @@ use Email::Sender::Simple qw(sendmail);
 has 'recaptcha_object' => (
     is      => 'rw',
     lazy    => 1,
-    default => sub { Captcha::noCAPTCHA->new(
+    default => sub { Captcha::noCAPTCHA->new({
         site_key => $_[0]->recaptcha_public_key,
         secret_key => $_[0]->recaptcha_private_key,
-    )}
+    })}
 );
 
 =head1 COMPONENTS LOADED
@@ -329,7 +330,12 @@ sub field {
             }
             elsif (/Submit/) {
                 if ($self->recaptcha) {
-                    $build_row .= $self->recaptcha_object->html;
+                    try {
+                        $build_row .= $self->recaptcha_object->html;
+                    }
+                    catch {
+                        warn $_;
+                    }
                 }
                 $row = [
                     div => { class => 'form-group' },
